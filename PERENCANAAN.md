@@ -30,7 +30,7 @@ Main Menu :
 		3. Hapus Buku
 		4. Cari Buku
   		
-    	3. [Submenu Peminjam]
+    3. [Submenu Peminjam]
 		1. Tambah Data Peminjam (nama, NIK, alamat)
 		2. Update Data Peminjam
   		3. Hapus Peminjam
