@@ -6,38 +6,44 @@ Login Screen :
 	Selamat Datang Di CLI Perpus
 		  Silahkan Login
 
-Username :
-Password :
+Username : fauzan
+Password : mulet
 
 [MAIN MENU]
 
 Main Menu :
 
-	1. Kelola Buku
-	2. Kelola Peminjaman
-	3. Data Peminjam
-	3. Kelola Genre
-	4. Pengaturan Admin
-
-	[Submenu Kelola Buku]
-		1. Tambah Buku
-		2. Edit Buku 
-		3. Hapus Buku
-		4. Cari Buku
-
-	[Submenu Peminjaman]
-		1. Urutkan Berdasarkan Peminjam
-		2. Tambah Peminjaman
-		3. Update Peminjaman
-		4. Hapus Peminjaman
+	1. kelola Genre
+ 	2. Kelola Buku
+	3. Kelola Peminjaman
+	4. Data Peminjam
+	5. Pengaturan Admin
 
 	[Submenu Kelola Genre]
 		1. Tambah Genre
 		2. Edit Genre 
 		3. Hapus Genre
+ 	
+ 	[Submenu Kelola Buku]
+		1. Tambah Buku (judul, penulis, penerbit, join genre)
+		2. Edit Buku 
+		3. Hapus Buku
+		4. Cari Buku
+  		
+    	[Submenu Peminjam]
+		1. Tambah Data Peminjam (nama, NIK, alamat)
+		2. Update Data Peminjam
+  		3. Hapus Peminjam
+
+	[Submenu Peminjaman]
+		1. Tambah Peminjaman (join buku, join peminjam)
+		2. Update Peminjaman
+		3. Hapus Peminjaman
+  		4. Tanggal Pinjam
+    		5. Tanggal Kembali
 
 	[Submenu Pengaturan Admin]
-		1. Pengaturan User
+		1. Pengaturan (ganti pass, hapus akun)
 		2. Tambah Admin
 
 		
@@ -46,9 +52,10 @@ Main Menu :
 	[DATABASE]
 
 		[Admin] 		: id, username, Password
+  		[genre] 		: id, nama_genre
 		[buku]  		: id, id_genre, judul, penulis, penerbit
-		[genre] 		: id, nama_genre
-		[peminjaman]	: id, id_buku, id_admin , tanggal_peminjamantanggal_pengembalian, status_peminjaman , denda_terlambat 
+  		[peminjam] 		: id, nama_peminjam, nik_peminjam, update_peminjam, hapus_peminjam
+		[peminjaman]		: id, id_buku, id_admin , tanggal_peminjaman, tanggal_pengembalian, status_peminjaman, denda_terlambat 
 
 
 
