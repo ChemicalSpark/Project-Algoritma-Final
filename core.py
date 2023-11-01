@@ -1,4 +1,3 @@
-#perubahan
 
 def perbarui_csv(nama_file, data, indeks_baris, baris_baru):
     if 0 <= indeks_baris < len(data):
