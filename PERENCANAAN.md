@@ -32,7 +32,7 @@
    	3. Hapus Akun Admin
 
 
-**[Database Format]**
+**[DATABASE FORMAT]**
 - Admin		: Username, Password
 - Kategori	: ID, Nama kategori
 - Buku		: ID, Genre, Judul, Penulis
