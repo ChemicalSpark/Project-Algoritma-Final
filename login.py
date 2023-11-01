@@ -1,11 +1,9 @@
-import csv
+import pandas as pd
 
 def ceklogin(user,pswd):
-    with open('task_end1/users.csv', 'r') as file:
-        read = csv.DictReader(file)
-        for row in read:
-            if row['username'] == user and row['password'] == pswd:
-                return True
+    df = pd.read_csv('task_end1/users.csv')
+    if not df.empty and (df['username'] == user).any() and (df['password'] == pswd).any():
+        return True
     return False
 
 def getuser():
