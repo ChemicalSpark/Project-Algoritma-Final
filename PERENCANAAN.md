@@ -33,10 +33,10 @@
 
 
 **[DATABASE FORMAT]**
-- Admin		: Username, Password
-- Kategori	: ID, Nama kategori
-- Buku		: ID, Genre, Judul, Penulis
-- Peminjam	: ID, Nama, NIK/NIM, No.Telp, Status
-- Peminjaman	: ID, Date, Nama Peminjam, Nama Buku, Deadline, Denda
+- Admin\t: Username, Password
+- Kategori\t: ID, Nama kategori
+- Buku\t: ID, Genre, Judul, Penulis
+- Peminjam\t: ID, Nama, NIK/NIM, No.Telp, Status
+- Peminjaman\t: ID, Date, Nama Peminjam, Nama Buku, Deadline, Denda
 
 **[]**
