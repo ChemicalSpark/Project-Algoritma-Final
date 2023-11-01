@@ -49,19 +49,45 @@ Main Menu :
 		
 
 
-	[DATABASE]
+[DATABASE]
 
-		[Admin] 		: id, username, Password
-  		[genre] 		: id, nama_genre
-		[buku]  		: id, id_genre, judul, penulis, penerbit
-  		[peminjam] 		: id, nama_peminjam, nik_peminjam, update_peminjam, hapus_peminjam
-		[peminjaman]		: id, id_buku, id_admin , tanggal_peminjaman, tanggal_pengembalian, status_peminjaman, denda_terlambat 
+[Admin]:
+- id 
+- username
+- password
+
+[Buku]:
+- id 
+- id_kategori
+- judul
+- penulis
+- penerbit
+
+[Kategori]:
+- id 
+- nama_kategori
+
+[Peminjam]
+- nik
+- nama 
+- alamat
+
+[Peminjaman]:
+- id 
+- id_buku
+- tanggal_peminjaman
+- tanggal_pengembalian
+- status_peminjaman (Misalnya: 'Dipinjam', 'Dikembalikan')
+- denda_terlambat
 
 
 
 
 
 
+
+
+[TAMPILAN_KELOLA_BUKU]
 
 	+-----+--------------------------+------------+-----------------+------------+
 	| No. |         Judul            |   Penulis  |    Penerbit     |   Genre    |
