@@ -1,7 +1,9 @@
 import csv
 
 def list_kategori():
-    pass
+    with open('database/kategori.csv', 'r') as db_kategori:
+        read = db_kategori.read()
+        print(read)
 
 def tambah_kategori():
     pass
@@ -9,3 +11,4 @@ def tambah_kategori():
 def hapus_kategori():
     pass
 
+list_kategori()

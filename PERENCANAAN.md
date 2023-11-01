@@ -35,8 +35,8 @@
 **[DATABASE FORMAT]**
 - Admin		: Username, Password
 - Kategori	: ID, Nama kategori
-- Buku		: ID, Genre, Judul, Penulis
+- Buku		: ID, Kategori, Judul, Penulis, Penerbit, isbn
 - Peminjam	: ID, Nama, NIK/NIM, No.Telp, Status
-- Peminjaman	: ID, Date, Nama Peminjam, Nama Buku, Deadline, Denda
+- Peminjaman: ID, Date, Nama Peminjam, Nama Buku, Deadline, Denda
 
 **[]**
