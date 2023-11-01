@@ -1,4 +1,4 @@
-**[lOGIN]**
+**[LOGIN]**
 - Username
 - Passsword
 
