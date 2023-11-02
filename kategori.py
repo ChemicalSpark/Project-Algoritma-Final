@@ -6,7 +6,8 @@ def list_kategori():
         print(read)
 
 def tambah_kategori():
-    pass
+    print("Tambahkan Kategori!")
+    add_kategori = input("Masukkan kategori: ")
 
 def hapus_kategori():
     pass
