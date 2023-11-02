@@ -1,4 +1,5 @@
 import csv
+import pandas
 
 def list_kategori():
     with open('database/kategori.csv', 'r') as db_kategori:
@@ -6,8 +7,8 @@ def list_kategori():
         print(read)
 
 def tambah_kategori():
-    # print("Tambahkan Kategori!")
-    # add_kategori = input("Masukkan kategori: ")
+    print("Tambahkan Kategori!")
+    add_kategori = input("Masukkan kategori: ")
     pass
 
 def hapus_kategori():
