@@ -1,17 +1,16 @@
 import csv
-import pandas
+import pandas as pd
 
 def list_kategori():
-    with open('Project-Algoritma-Final/database/kategori.csv', 'r') as db_kategori:
-        read = db_kategori.read()
-        print(read)
+    df = pd.read_csv('database/kategori.csv')
+    print(df)
 
 def tambah_kategori():
     id_kategori = 1
     print("Tambahkan Kategori!")
     add_kategori = input("Masukkan kategori: ")
-    with open('Project-Algoritma-Final/database/kategori.csv', 'a') as write_kategori:
-        write_kategori.write(add_kategori)
+    
+    
         
 
 def hapus_kategori():
