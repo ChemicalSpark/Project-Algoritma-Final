@@ -1,4 +1,3 @@
-import core
 import os
 
 user_file = 'Project-Algoritma-Final/database/user.csv'
@@ -43,13 +42,13 @@ def tambah_csv(user,pswd):
         return "password tidak sesuai kriteria!."
 
 def register():
+    user = input("Masukkan username: ")
     print('''
 masukkan password yang berisi:
 huruf kecil
 huruf besar
 angka
       ''')
-    user = input("Masukkan username: ")
     pswd = input("Masukkan password dengan 8 minimum digit: ")
     final = tambah_csv(user,pswd)
     print(final)
