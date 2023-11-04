@@ -21,6 +21,7 @@ def tambah_csv(user,pswd):
     lower = False
     upper = False
     number = False
+    
     for i in range(len(pswd) - 1):
         if 'a' <= pswd[i] <= 'z':
             lower = True
