@@ -1,39 +1,48 @@
+import csv
 import os
 
 filepath = 'Project-Algoritma-Final/database/data_peminjam.csv'
-if os.path.exists(filepath):
-    with open (filepath, 'r') as file:
-        data = [line.strip().split(',') for line in file.readlines()]
-else:
-    data = []
-
-def tambah_csv(nama, no, telp, status):
-    new_id = len(data) + 1
-    new_rec = f"{new_id},{nama},{no},{telp},{status}"
-    data.append(new_rec)
-
-    with open(filepath, 'a') as file:
-        file.write(new_rec+'\n')
-
 def baca_csv():
+    if os.path.exists(filepath):
+        with open (filepath, 'r') as file:
+            baca = csv.reader(file)
+            data = list(baca)
+    else:
+        data = []
+    return data
+
+def tulis_csv(data):
+    with open(filepath, 'w', newline='') as file:
+        tulis = csv.writer(file)
+        tulis.writerows(data)
+
+def tambah_rec(nama, nim, telp, status):
+    data = baca_csv()
+    new_id = len(data) + 1
+    new_rec = [new_id, nama, nim, telp, status]
+    data.append(new_rec)
+    tulis_csv(data)
+
+def baca_rec():
+    data = baca_csv()
     for rec in data:
         print(rec)
 
-def perbarui_csv(id, nama, no, telp, status):
-    for i,rec in enumerate(data):
-        rec_id, _, _ = rec.split(',')
-        if int(rec_id) == id:
-            up_rec = f"{id},{nama}, {no}, {telp}, {status}"
-            data[i] = up_rec
+def perbarui_rec(id, nama, nim, telp, status):
+    data = baca_csv()
+    for rec in data:
+        if int(rec[0]) == id:
+            rec[1] = nama
+            rec[2] = nim
+            rec[3] = telp
+            rec[4] = status
+            break
+    tulis_csv(data)
 
-    with open(filepath, 'w') as file:
-        file.write('\n'.join(data))
-
-def hapus_csv(id):
-    data[:] = [record for record in data if int(record.split(',')[0]) != id]
-
-    with open(filepath, 'w') as file:
-        file.write('\n'.join(data))
+def hapus_rec(id):
+    data = baca_csv()
+    data = [rec for rec in data if int(rec[0]) != id]
+    baca_csv(data)
 
 while True:
     print("Pilih operasi:")
@@ -49,22 +58,22 @@ while True:
         no = input("Masukkan NIM: ")
         telp = input("Masukkan Nomor Telepon: ")
         status = input("Masukkan Status: ")
-        tambah_csv(nama, no, telp, status)
+        tambah_rec(nama, no, telp, status)
         print("Data telah ditambahkan.")
     elif pilih == 2:
         print("Data saat ini:")
-        baca_csv()
+        baca_rec()
     elif pilih == 3:
         id = int(input("Masukkan ID data yang akan diperbarui: "))
         nama = input("Masukkan Nama yang baru: ")
         no = input("Masukkan NIM yang baru: ")
         telp = input("Masukkan Nomor Telepon yang baru: ")
         status = input("Masukkan Status yang baru: ")
-        perbarui_csv(id, nama, no, telp, status)
+        perbarui_rec(id, nama, no, telp, status)
         print("Data telah diperbarui.")
     elif pilih == 4:
         id = int(input("Masukkan ID data yang akan dihapus: "))
-        hapus_csv(id)
+        hapus_rec(id)
         print("Data telah dihapus.")
     elif pilih == 5:
         print("Terima kasih! Keluar dari program.")
