@@ -1,9 +1,12 @@
-import pandas as pd
+import core
+
+user_file = ('Project-Algoritma-Final/database/user.csv')
+data = core.baca_csv_sebagai_dict(user_file)
 
 def ceklogin(user,pswd):
-    df = pd.read_csv('task_end1/users.csv')
-    if not df.empty and (df['username'] == user).any() and (df['password'] == pswd).any():
-        return True
+    for login in data:
+        if login['username'] == user and login['password'] == pswd:
+            return True
     return False
 
 def getuser():
@@ -25,6 +28,7 @@ def main():
 
         if attemp == 0:
             print('Percobaan Login Sudah Habis'+'\n')
+
 
 if __name__ == '__main__':
     main()
