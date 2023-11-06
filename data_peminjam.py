@@ -1,15 +1,8 @@
 import csv
 import os
+import core
 
 filepath = 'Project-Algoritma-Final/database/data_peminjam.csv'
-def baca_csv():
-    if os.path.exists(filepath):
-        with open (filepath, 'r') as file:
-            baca = csv.reader(file)
-            data = list(baca)
-    else:
-        data = []
-    return data
 
 def tulis_csv(data):
     with open(filepath, 'w', newline='') as file:
@@ -17,21 +10,21 @@ def tulis_csv(data):
         tulis.writerows(data)
 
 def tambah_rec(nama, nim, telp, status):
-    data = baca_csv()
+    data = core.baca_csv()
     new_id = len(data) + 1
     new_rec = [new_id, nama, nim, telp, status]
     data.append(new_rec)
     tulis_csv(data)
 
 def baca_rec():
-    data = baca_csv()
+    data = core.baca_csv()
     for rec in data:
         print(rec)
 
 def perbarui_rec(id, nama, nim, telp, status):
-    data = baca_csv()
+    data = core.baca_csv()
     for rec in data:
-        if int(rec[0]) == id:
+        if  rec[0] == id:
             rec[1] = nama
             rec[2] = nim
             rec[3] = telp
@@ -40,9 +33,9 @@ def perbarui_rec(id, nama, nim, telp, status):
     tulis_csv(data)
 
 def hapus_rec(id):
-    data = baca_csv()
+    data = core.baca_csv()
     data = [rec for rec in data if int(rec[0]) != id]
-    baca_csv(data)
+    core.baca_csv(data)
 
 while True:
     print("Pilih operasi:")
@@ -64,15 +57,23 @@ while True:
         print("Data saat ini:")
         baca_rec()
     elif pilih == 3:
-        id = int(input("Masukkan ID data yang akan diperbarui: "))
-        nama = input("Masukkan Nama yang baru: ")
-        no = input("Masukkan NIM yang baru: ")
-        telp = input("Masukkan Nomor Telepon yang baru: ")
-        status = input("Masukkan Status yang baru: ")
-        perbarui_rec(id, nama, no, telp, status)
-        print("Data telah diperbarui.")
+        id = input("Masukkan ID data yang akan diperbarui: ")
+
+        data = core.cari_id_list(core.baca_csv(), id)
+        if data == False:
+            print("Data Tidak ada")
+        else:
+            print("Nama Lama :", data[1])
+            nama = input("Masukkan Nama yang baru: ")
+            no = input("Masukkan NIM yang baru: ")
+            telp = input("Masukkan Nomor Telepon yang baru: ")
+            status = input("Masukkan Status yang baru: ")
+            perbarui_rec(id, nama, no, telp, status)
+            print("Data telah diperbarui.")
+
     elif pilih == 4:
         id = int(input("Masukkan ID data yang akan dihapus: "))
+
         hapus_rec(id)
         print("Data telah dihapus.")
     elif pilih == 5:
