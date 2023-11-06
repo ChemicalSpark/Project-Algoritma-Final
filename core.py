@@ -1,10 +1,6 @@
 import csv
 
-<<<<<<< HEAD
 def baca_csv(nama_file):
-=======
-def baca_csv(nama_file, dengan_kolom):
->>>>>>> ac17927823bbb76ef9396002257dab85071396f8
     data = []
     with open(nama_file, mode='r', newline='') as file_csv:
         csv_reader = csv.reader(file_csv)
