@@ -1,6 +1,10 @@
 import csv
 
+<<<<<<< HEAD
 def baca_csv(nama_file):
+=======
+def baca_csv(nama_file, dengan_kolom):
+>>>>>>> ac17927823bbb76ef9396002257dab85071396f8
     data = []
     with open(nama_file, mode='r', newline='') as file_csv:
         csv_reader = csv.reader(file_csv)
@@ -41,6 +45,7 @@ def hapus_baris_csv(nama_file, data, indeks_baris):
         return True
     else:
         return False
+<<<<<<< HEAD
 
 def perbarui_baris_csv_berdasarkan_nilai_kolom(nama_file, data, nama_kolom, nilai, baris_baru):
     header = data[0]
@@ -62,3 +67,5 @@ def hapus_baris_csv_berdasarkan_nilai_kolom(nama_file, data, nama_kolom, nilai):
             data_terbaru.append(baris)
 
     tulis_csv(nama_file, data_terbaru)
+=======
+>>>>>>> ac17927823bbb76ef9396002257dab85071396f8

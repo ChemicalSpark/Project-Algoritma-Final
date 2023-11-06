@@ -1,4 +1,5 @@
 id,username,password
+<<<<<<< HEAD
 1,admin,admin
 2,rangg,emyu
 3,fauzan,mulet
@@ -6,3 +7,10 @@ id,username,password
 5,thobiq,kopling
 6,zaki,chelsi8,aku,akuUNEJ123
 8,aku,akuITB123
+=======
+1,rangg,emyu
+2,fauzan,mulet
+3,ozi,samudera
+4,thobiq,kopling
+5,zaki,chelsi
+>>>>>>> ac17927823bbb76ef9396002257dab85071396f8

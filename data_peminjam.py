@@ -53,7 +53,6 @@ while True:
     print("5. Keluar")
 
     pilih = int(input("Masukkan pilihan (1/2/3/4/5): "))
-
     if pilih == 1:
         nama = input("Masukkan Nama: ")
         no = input("Masukkan NIM: ")

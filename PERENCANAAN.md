@@ -40,3 +40,7 @@
 - Peminjaman: ID, Date, Nama Peminjam, Nama Buku, Deadline, Denda
 
 **[]**
+
+
+
+
