@@ -1,6 +1,6 @@
 import csv
 
-def baca_csv(nama_file):
+def baca_csv(nama_file, dengan_kolom):
     data = []
     with open(nama_file, mode='r', newline='') as file_csv:
         csv_reader = csv.reader(file_csv)
