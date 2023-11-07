@@ -34,10 +34,27 @@ def perbarui_baris_csv(nama_file, data, indeks_baris, baris_baru):
     else:
         return False
 
-def hapus_baris_csv(nama_file, data, indeks_baris):
+def hapus_baris_csv(nama_file, indeks_baris):
+    data = baca_csv(nama_file)
     if 0 <= indeks_baris < len(data):
         del data[indeks_baris]
         tulis_csv(nama_file, data)
         return True
     else:
         return False
+
+
+def cari_id_list(data, nilai_id):
+    hasil = False
+    for i in data:
+        if (type(i) == type(nilai_id)):
+            print("Warning : Perbandingan memiliki tipe data yang berbeda\n")
+        if (nilai_id == i[0]):
+            hasil = i
+            break
+    return hasil
+
+
+def dd(data):
+    print(data)
+    exit()
