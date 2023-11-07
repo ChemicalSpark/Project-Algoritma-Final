@@ -2,4 +2,4 @@
 |No.|Nama Peminjam         | ID Buku | Start    | End      | Status     | Telat|
 |---+----------------------+---------+----------+----------+------------+------|
 |1. |Ahmad Muzaky          |10231    |23/10/2023|30/10/2023|Dipinjam    |   -  |
-|2. |Otong Surotong        |20023    |25/10/2023|01/11/2023|Dikembalikan|   -  | 
+|2. |Otong Surotong        |20023    |25/10/2023|01/11/2023|Dikembalikan|   -  |
