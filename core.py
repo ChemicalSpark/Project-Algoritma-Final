@@ -34,7 +34,8 @@ def perbarui_baris_csv(nama_file, data, indeks_baris, baris_baru):
     else:
         return False
 
-def hapus_baris_csv(nama_file, data, indeks_baris):
+def hapus_baris_csv(nama_file, indeks_baris):
+    data = baca_csv(nama_file)
     if 0 <= indeks_baris < len(data):
         del data[indeks_baris]
         tulis_csv(nama_file, data)
