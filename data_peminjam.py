@@ -84,7 +84,7 @@ while True:
         hapus_rec(id)
         print("Data telah dihapus."+'\n')
     elif pilih == 5:
-        print("Terima kasih! Keluar dari program.")
+        print("Keluar dari program.")
         break
     else:
         print("Pilihan tidak valid! Pilihlah sesuai nomor yang ada."+'\n')
