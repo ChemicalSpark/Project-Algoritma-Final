@@ -33,7 +33,7 @@
 
 
 **[DATABASE FORMAT]**
-- Admin		: Username, Password
+- Admin		: ID, Username, Password
 - Kategori	: ID, Nama kategori
 - Buku		: ID, Kategori, Judul, Penulis, Penerbit, isbn
 - Peminjam	: ID, Nama, NIK/NIM, No.Telp, Status
@@ -92,6 +92,7 @@ operasi :
 
 # Mockup Versi Asistensi
 
+
 # Mockup Fitur Peminjaman
 
 
@@ -117,11 +118,9 @@ Identitas Peminjam
 +-------------------------------------------------------------+
 | Nama 		: John Doe										  |
 | NIM  		: 456789123										  |
-| No Telp	: 0826877222									  |
 +-------------------------------------------------------------+
 
 Detail buku yang dipinjam
-
 +-------------------------------------------------------------+
 | Judul 				: Harry Potter and the Sorcerer's 	  |
 | Kategori 				: Fantasy 							  |
