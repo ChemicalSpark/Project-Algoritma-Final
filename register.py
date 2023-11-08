@@ -1,7 +1,4 @@
-<<<<<<< HEAD
 import core
-=======
->>>>>>> ac17927823bbb76ef9396002257dab85071396f8
 import os
 
 user_file = 'Project-Algoritma-Final/database/user.csv'
@@ -25,10 +22,6 @@ def tambah_csv(user,pswd):
     lower = False
     upper = False
     number = False
-<<<<<<< HEAD
-=======
-    
->>>>>>> ac17927823bbb76ef9396002257dab85071396f8
     for i in range(len(pswd) - 1):
         if 'a' <= pswd[i] <= 'z':
             lower = True
@@ -50,20 +43,13 @@ def tambah_csv(user,pswd):
         return "password tidak sesuai kriteria!."
 
 def register():
-<<<<<<< HEAD
-=======
-    user = input("Masukkan username: ")
->>>>>>> ac17927823bbb76ef9396002257dab85071396f8
     print('''
 masukkan password yang berisi:
 huruf kecil
 huruf besar
 angka
       ''')
-<<<<<<< HEAD
     user = input("Masukkan username: ")
-=======
->>>>>>> ac17927823bbb76ef9396002257dab85071396f8
     pswd = input("Masukkan password dengan 8 minimum digit: ")
     final = tambah_csv(user,pswd)
     print(final)
@@ -71,8 +57,4 @@ angka
 if register() == True:
     print('Berhasil membuat akun!')
 else: 
-<<<<<<< HEAD
     print('Gagal membuat akun')
-=======
-    print('Gagal membuat akun')
->>>>>>> ac17927823bbb76ef9396002257dab85071396f8
