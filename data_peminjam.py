@@ -47,10 +47,10 @@ def hapus_rec(id):
 
 while True:
     print("Pilih operasi:")
-    print("1. Tambah Data")
-    print("2. Tampilkan Data")
-    print("3. Perbarui Data")
-    print("4. Hapus Data")
+    print("1. Tambah Data Peminjam")
+    print("2. Tampilkan Data peminjam")
+    print("3. Perbarui Data Peminjam")
+    print("4. Hapus Data Peminjam")
     print("5. Keluar")
 
     pilih = int(input("Masukkan pilihan (1/2/3/4/5): "))
@@ -63,6 +63,7 @@ while True:
     elif pilih == 2:
         print("Data saat ini:")
         baca_rec()
+        print("\n")
     elif pilih == 3:
         id = input("Masukkan ID data yang akan diperbarui: ")
         data = core.cari_id_list(core.baca_csv(nama_file), id)
@@ -70,11 +71,11 @@ while True:
             print("Data Tidak ada"+'\n')
         else:
             print("Nama lama :", data[1])
-            nama = input("Masukkan Nama yang baru: ")
+            nama = input("Masukkan Nama yang baru : ")
             print("NIM lama :", data[2])
-            no = input("Masukkan NIM yang baru: ")
+            no = input("Masukkan NIM yang baru : ")
             print("Nomor Telepon lama :", data[3])
-            telp = input("Masukkan Nomor Telepon yang baru: ")
+            telp = input("Masukkan Nomor Telepon yang baru : ")
             perbarui_rec(id, nama, no, telp)
             print("Data telah diperbarui."+'\n')
 
