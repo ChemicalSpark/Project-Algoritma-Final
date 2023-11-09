@@ -1,34 +1,30 @@
-import core
+import csv
 
-user_file = ('database/user.csv')
-data = core.baca_csv_sebagai_dict(user_file)
+def login():
+    data_admin = []
 
-def ceklogin(user,pswd):
-    for login in data:
-        if login['username'] == user and login['password'] == pswd:
-            return True
-    return False
+    with open('data_admin.csv', 'r') as data:
+        csvr = csv.reader(data, delimiter=',')
 
-def getuser():
-    user = input('Username : ')
-    pswd = input("password : ")
-    return user,pswd
+        for row in csvr:
+            data_admin.append({"id": row[0], "username": row[1], "password": row[2]})
 
-def main():
+    attempts = 0
+
     print('='*51+'\n','Selamat Datang di Aplikasi Manajemen Perpustakaan'+'\n'+'='*51+'\n')
-    attemp = 3
-    while attemp > 0:
-        user, pswd = getuser()  
-        if ceklogin(user, pswd):  
-            print('Login Berhasil'+'\n')
-            break
-        else:
-            print('Login Gagal'+'\n')
-            attemp -= 1
+    while attempts < 3:
+        username = input("Username: ")
+        password = input("Password: ")
 
-        if attemp == 0:
-            print('Percobaan Login Sudah Habis'+'\n')
+        for user in data_admin:
+            if username == user['username'] and password == user['password']:
+                print('Login berhasil'+'\n')
+                return
 
+        print('Login Gagal'+'\n')
+        attempts += 1
 
-if __name__ == '__main__':
-    main()
+    print("Anda telah melebihi batas percobaan login.")
+
+if __name__ == "__main__":
+    login()
