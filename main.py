@@ -1,6 +1,7 @@
-import csv
-import core
 import pandas as pd
+import login
+
+login.main()
 
 def mainmenu():
     with open('Project-Algoritma-Final/ui/title.txt','r') as title:
@@ -10,7 +11,6 @@ def mainmenu():
         match user:
             case 1:
                 import kategori
-            
             case 2:
                 import kelola_buku
             case 3:
@@ -29,7 +29,7 @@ def mainmenu():
             case 4:
                 pass
             case 5:
-                pass
+                print("Keluar dari program.")
             case _:
                 mainmenu()
         
