@@ -34,30 +34,9 @@ def hapus_kategori(delete):
                         write.writerows(data)
             index_hapus += 1
 
-        
-while True:
-    print("[KATEGORI]")
-    print("Menu: ")
-    print("""1. List Kategori
-2. Tambah Kategori
-3. Hapus Kategori
-4. Keluar
-    """)
-    user = int(input("Pilihan: "))
-    match user:
-        case 1:
-            list_kategori()
-            print('\n')
-        case 2:
-            print("Masukkan kategori baru!")
-            user = input("Kategori: ")
-            tambah_kategori(user)
-            print('\n')
-        case 3:
-            list_kategori()
-            user = input("Pilih data yang akan dihapus: ")
-            hapus_kategori(user)
-            print('\n')
-        case 4:
-            print("Keluar dari program."+'\n')
-            break
+             
+
+if __name__ == "__main__":
+    list_kategori()
+    tambah_kategori()
+    hapus_kategori()

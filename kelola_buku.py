@@ -5,7 +5,7 @@ os.system('cls')
 
 def list_buku():
     '''fungsi menampilkan buku'''
-    with open('database/data.csv', mode='r', encoding='cp1252') as list_data:
+    with open('database/buku.csv', mode='r', encoding='cp1252') as list_data:
         baca_buku = list(csv.reader(list_data))
         # for_id = len(baca_buku)
         # nomor = 0
@@ -47,7 +47,7 @@ def tambah_buku():
         else :
             id_bk = len(baca_buku) + 1
         id_number = f"{list_kategori[input_kategori-1][0]}0{id_bk}"
-        with open('database/data.csv', mode='a', encoding='cp1252', newline='') as tambah_data:
+        with open('database/buku.csv', mode='a', encoding='cp1252', newline='') as tambah_data:
             write = csv.writer(tambah_data)
             write.writerow([id_number,list_kategori[input_kategori-1][1],input_judul,input_penulis,input_penerbit,input_isbn,input_jumlah])
         ulangi = input('ada tambahan(y/n) ? : ')
@@ -56,7 +56,7 @@ def tambah_buku():
 def hapus_buku():
     '''fungsi hapus buku'''
     input_judul = input('masukkan judul : ')
-    with open('database/data.csv', mode='r', encoding='cp1252') as hapus_data :
+    with open('database/buku.csv', mode='r', encoding='cp1252') as hapus_data :
         list_data = list(csv.reader(hapus_data))
         index_hapus = 0
         for i in list_data:
@@ -67,7 +67,7 @@ def hapus_buku():
                 confirm = input('yakin ingin menghapus(y/n)? : ')
                 if confirm == 'y':
                     list_data.pop(index_hapus)
-                    with open('database/data.csv', mode='w', newline='', encoding='cp1252') as data_kembali:
+                    with open('database/buku.csv', mode='w', newline='', encoding='cp1252') as data_kembali:
                         masukkan_data = csv.writer(data_kembali)
                         masukkan_data.writerows(list_data)
                         print('data telah dihapus')
@@ -76,22 +76,13 @@ def hapus_buku():
                 
             index_hapus += 1
 
-print('-- kelola buku --')
-print('1. list buku')
-print('2. tambah buku')
-print('3. hapus buku')
-pilihan = input("masukkan pilihan : ")
-baca_buku = list_buku()
-nomor = 0
-match pilihan:
-    case '1':
-        for i in baca_buku:
-            nomor += 1
-            print(f'{nomor} {i}')
-    case '2':
-        tambah_buku()
-    case '3':
-        hapus_buku()
+
+
+if __name__ == "__main__":
+    list_buku()
+    kategori_buku()
+    tambah_buku()
+    hapus_buku()
 
 
 

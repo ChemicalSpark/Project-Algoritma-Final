@@ -82,3 +82,13 @@ while True:
         break
     else:
         print("Pilihan tidak valid! Pilihlah sesuai nomor yang ada."+'\n')
+
+if __name__ == "__main__":
+    baca_baris()
+    hapus_baris()
+    perbarui_baris()
+    tambah_peminjaman()
+    tampilkan_peminjaman()
+    perbarui_peminjaman()
+    hapus_peminjaman()
+    

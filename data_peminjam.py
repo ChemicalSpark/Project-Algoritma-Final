@@ -46,46 +46,10 @@ def hapus_baris(id):
         core.hapus_baris_csv(nama_file,index_baris)
 
 
-while True:
-    print("Pilih operasi:")
-    print("1. Tambah Data Peminjam")
-    print("2. Tampilkan Data peminjam")
-    print("3. Perbarui Data Peminjam")
-    print("4. Hapus Data Peminjam")
-    print("5. Keluar")
 
-    pilih = int(input("Masukkan pilihan (1/2/3/4/5): "))
-    if pilih == 1:
-        nama = input("Masukkan Nama: ")
-        no = input("Masukkan NIM: ")
-        telp = input("Masukkan Nomor Telepon: ")
-        tambah_baris(nama, no, telp)
-        print("Data telah ditambahkan."+'\n')
-    elif pilih == 2:
-        print("Data saat ini:")
-        baca_baris()
-        print("\n")
-    elif pilih == 3:
-        id = input("Masukkan ID data yang akan diperbarui: ")
-        data = core.cari_id_list(core.baca_csv(nama_file), id)
-        if data == False:
-            print("Data Tidak ada"+'\n')
-        else:
-            print("Nama lama :", data[1])
-            nama = input("Masukkan Nama yang baru : ")
-            print("NIM lama :", data[2])
-            no = input("Masukkan NIM yang baru : ")
-            print("Nomor Telepon lama :", data[3])
-            telp = input("Masukkan Nomor Telepon yang baru : ")
-            perbarui_baris(id, nama, no, telp)
-            print("Data telah diperbarui."+'\n')
-
-    elif pilih == 4:
-        id = input("Masukkan ID data yang akan dihapus: ")
-        hapus_baris(id)
-        print("Data telah dihapus."+'\n')
-    elif pilih == 5:
-        print("Keluar dari program.")
-        break
-    else:
-        print("Pilihan tidak valid! Pilihlah sesuai nomor yang ada."+'\n')
+if __name__ == "__main__":
+    tulis_csv()
+    tambah_baris()
+    baca_baris()
+    perbarui_baris()
+    hapus_baris()
