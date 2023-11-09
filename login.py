@@ -1,6 +1,6 @@
 import core
 
-user_file = ('Project-Algoritma-Final/database/user.csv')
+user_file = ('database/user.csv')
 data = core.baca_csv_sebagai_dict(user_file)
 
 def ceklogin(user,pswd):

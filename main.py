@@ -4,7 +4,7 @@ import login
 login.main()
 
 def mainmenu():
-    with open('Project-Algoritma-Final/ui/title.txt','r') as title:
+    with open('ui/title.txt','r') as title:
         display = title.read()
         print(display)
         user = int(input("| > Menu: "))

@@ -1,9 +1,9 @@
 import core
 import csv
 
-file1 = 'Project-Algoritma-Final/database/data_peminjam.csv'
-file2 = 'Project-Algoritma-Final/database/peminjaman.csv'
-file3 = 'Project-Algoritma-Final/database/buku.csv'
+file1 = 'database/data_peminjam.csv'
+file2 = 'database/peminjaman.csv'
+file3 = 'database/buku.csv'
 #function here
 
 

@@ -1,7 +1,7 @@
 import csv
 import core
 
-nama_file = 'Project-Algoritma-Final/database/data_peminjam.csv'
+nama_file = 'database/data_peminjam.csv'
 
 def tulis_csv(data):
     with open(nama_file, 'w', newline='') as file:

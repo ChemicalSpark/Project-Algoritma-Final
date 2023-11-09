@@ -2,11 +2,11 @@ import csv
 import pandas as pd
 
 def list_kategori():
-    df = pd.read_csv('Project-Algoritma-Final/database/kategori.csv')
+    df = pd.read_csv('database/kategori.csv')
     print(df)
 
 def tambah_kategori(new_kategori):
-    with open('Project-Algoritma-Final/database/kategori.csv','r') as file:
+    with open('database/kategori.csv','r') as file:
         data = [row.strip().split(',') for row in file.readlines()]
         if len(data) <= 1:
             length = 1
@@ -15,11 +15,11 @@ def tambah_kategori(new_kategori):
             length = int(data[len(data) - 1][0]) + 1
             data_temp = f"{length},{new_kategori}\n"
 
-    with open('Project-Algoritma-Final/database/kategori.csv','a') as add_kategori:
+    with open('database/kategori.csv','a') as add_kategori:
         add_kategori.write(data_temp)
         
 def hapus_kategori(delete):
-    with open('Project-Algoritma-Final/database/kategori.csv','r') as file:
+    with open('database/kategori.csv','r') as file:
         data = list(csv.reader(file))
         index_hapus = 0
         for array in data:
@@ -29,7 +29,7 @@ def hapus_kategori(delete):
                 user = input('Apakah anda ingin menghapus data diatas?(y/n) ')
                 if user == 'y':
                     data.pop(index_hapus)
-                    with open('Project-Algoritma-Final/database/kategori.csv','w',newline="") as new_data:
+                    with open('database/kategori.csv','w',newline="") as new_data:
                         write = csv.writer(new_data)
                         write.writerows(data)
             index_hapus += 1
