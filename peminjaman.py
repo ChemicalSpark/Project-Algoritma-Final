@@ -1,18 +1,22 @@
 import core
 
-file1 = 'database/data_peminjam.csv'
-file2 = 'database/peminjaman.csv'
-file3 = 'database/buku.csv'
+db_peminjam   = 'database/data_peminjam.csv'
+db_peminjaman = 'database/peminjaman.csv'
+db_buku       = 'database/buku.csv'
 
-def baca_rec():
-    data = core.baca_csv(file1)
-    for rec in data:
-        print(rec)
+def baca_baris(nama_file_csv):
+    data = core.baca_csv(nama_file_csv)
+    for baris in data:
+        print(baris)
+
+def hapus_baris(nama_file_csv,id):
+    data = core.baca_csv(nama_file_csv)
+    index_baris = core.cari_index_dengan_id_list(data, id)
+    core.hapus_baris_csv(nama_file_csv, index_baris)
 
 
-
-
-
+def perbarui_baris():
+    exit()
 
 
 # Fungsi Fungsi setelah Memilih Fitur
@@ -27,12 +31,12 @@ def tambah_peminjaman():
 
 def tampilkan_peminjaman():
     print("Data saat ini:")
-    baca_rec()
+    baca_baris(db_peminjaman)
     print("\n")
 
 def perbarui_peminjaman():
     id = input("Masukkan ID Peminjaman yang akan diperbarui: ")
-    data = core.cari_id_list(core.baca_csv(nama_file), id)
+    data = core.cari_id_list(core.baca_csv(db_peminjam), id)
     if data == False:
         print("Data Tidak ada"+'\n')
     else:
@@ -46,13 +50,14 @@ def perbarui_peminjaman():
         telp = input("Masukkan Tanggal Kembali yang baru : ")
         print("Status lama :", data[5])
         telp = input("Masukkan Status yang baru : ")
-        perbarui_rec(id, nama, no, telp)
+        perbarui_baris(id, nama, no, telp)
         print("Data telah diperbarui."+'\n')
 
 def hapus_peminjaman():
     id = input("Masukkan ID data yang akan dihapus: ")
-    hapus_rec(id)
+    hapus_baris(db_peminjaman,id)
     print("Data telah dihapus."+'\n')
+    
 
 while True:
     print("Pilih operasi:")
