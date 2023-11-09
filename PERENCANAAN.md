@@ -57,6 +57,8 @@
 |  3  |  Robert Johnson   | 456789123  | Dikembalikan         |
 +-----+-------------------+------------+----------------------+
 
+
+
 page 1 of 1
 
 a ("Pilih Peminjam") , s ("Cari Peminjam") ,  d ("mode kelola pemijam") , z ("pindah halaman ke kiri") , x ("Pindah Halaman ke kanan")
@@ -90,26 +92,6 @@ a ("buat peminjaman baru"), s ("ubah Peminjaman") z ("pindah halaman ke kiri") ,
 Silahkan Pilih Operasi
 operasi :
 
-# Mockup Versi Asistensi
-
-
-# Mockup Fitur Peminjaman
-
-
-+-----+------------------------------------------------------------------+------------+----------------+--------------+-------------------------------------+--------------+
-| No. |      Nama Peminjam            |                Judul             |  Kategori  |     ISBN       | Tgl Dipinjam | Deadline    | Status                | Telat Hari   |
-+-----+------------------------------------------------------------------+------------+----------------+--------------+-------------------------------------+--------------+
-|  1  |     John Doe                  |  Harry Potter and the Sorcerer's |  Fantasy   |  978-0439554933|  2023-01-15  |  2023-02-15 |   Belum Dikembalikan  |     0        |
-|  2  |                               |  To Kill a Mockingbird           |  Fiction   |  978-0061120084|  2023-02-10  |  2023-03-10 |   Belum Lunas         |     4        |
-|  3  |                               |  The Great Gatsby                |  Fiction   |  978-0743273565|  2023-03-05  |  2023-04-05 |   Sudah Dikembalikan  |     0        |
-+-----+------------------------------------------------------------------+------------+----------------+--------------+-------------+---------+-------------+--------------+
-
-
-page 1 of 3
-
-a ("buat peminjaman baru"), s ("ubah Peminjaman") , d ("detail peminjaman") z ("pindah halaman ke kiri") , x ("Pindah Halaman ke kanan")
-Silahkan Pilih Operasi
-operasi :
 
 
 # Mockup tampilan Detail peminjaman
