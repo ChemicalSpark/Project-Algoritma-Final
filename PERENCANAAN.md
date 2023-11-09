@@ -61,7 +61,7 @@
 
 page 1 of 1
 
-a ("Pilih Peminjam") , s ("Cari Peminjam") ,  d ("mode kelola pemijam") , z ("pindah halaman ke kiri") , x ("Pindah Halaman ke kanan")
+a ("Pilih Peminjam") , s ("Cari Peminjam") ,  d ("mode kelola peminjam") , z ("pindah halaman ke kiri") , x ("Pindah Halaman ke kanan")
 Silahkan Pilih Operasi
 operasi : 
 

@@ -1,8 +1,9 @@
                                    _______________                                   
 ._________________________________/ KATEGORI BUKU \_________________________________.
-|/                               [1] list Kategori                                 \|
-|                                [2] Tambah Kategori                                |
-|                                [3] Hapus Kategori                                 |
+|/                               [1] Daftar Kategori Buku                          \|
+|                                [2] Tambah Kategori Baru                           |
+|                                [3] Perbarui Data                                  |
+|                                [4] Hapus Data                                     |
 |                                [9] Kembali                                        |
 |\                               [0] Keluar                                        /|
 +-----------------------------------------------------------------------------------+
