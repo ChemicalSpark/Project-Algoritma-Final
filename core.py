@@ -1,4 +1,5 @@
 import csv
+import os
 
 # membaca csv dengacn format list perbaris csv
 def baca_csv(nama_file):
@@ -98,3 +99,11 @@ def convert_ke_associative_dict(data):
 def dd(data):
     print(data)
     exit()
+    
+def clear():
+    if os.name == 'posix':
+        os.system('clear')
+    elif os.name == 'nt':
+        os.system('cls')
+    else:
+        print("Sistem operasi tidak didukung.")

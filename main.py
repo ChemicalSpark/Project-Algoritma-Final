@@ -24,12 +24,6 @@ def mainmenu():
                     print(display)
                     kelola_buku.aksi_buku()
             case 3:
-#                 print("[PEMINJAMAN]")
-#                 print("Menu: ") 
-#                 print("""
-# 1. Data Peminjam
-# 2. Daftar Peminjaman
-#                  """)
                 with open('ui/data_peminjaman.txt','r') as title:
                     display = title.read()
                     print(display)

@@ -1,10 +1,9 @@
                                   _________________                                   
-.________________________________/ DATA PEMINJAMAN \________________________________.
+.________________________________/   PEMINJAMAN    \________________________________.
 |/                               [1] Daftar Peminjaman                             \|
 |                                [2] Tambah Peminjaman Baru                         |
-|                                [3] Data Peminjam                                  |
-|                                [4] Perbarui Data                                  |
-|                                [5] Hapus Data                                     |
+|                                [4] Perbarui Peminjaman                            |
+|                                [5] Hapus Peminjaman                               |
 |                                [9] Kembali                                        |
 |\                               [0] Keluar                                        /|
 +-----------------------------------------------------------------------------------+
