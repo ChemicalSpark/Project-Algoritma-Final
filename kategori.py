@@ -1,5 +1,11 @@
 import csv
 import pandas as pd
+import core
+
+def tulis_csv(data):
+    with open('database/kategori.csv', 'w', newline='') as file:
+        tulis = csv.writer(file)
+        tulis.writerows(data)
 
 def list_kategori():
     df = pd.read_csv('database/kategori.csv')
@@ -17,6 +23,14 @@ def tambah_kategori(new_kategori):
 
     with open('database/kategori.csv','a') as add_kategori:
         add_kategori.write(data_temp)
+
+def perbarui_baris_kategori(id, kategori):
+    data = core.baca_csv('database/kategori.csv')
+    for baris in data:
+        if  baris[0] == id:
+            baris[1] = kategori
+            break
+    tulis_csv(data)
         
 def hapus_kategori(delete):
     with open('database/kategori.csv','r') as file:
@@ -54,6 +68,16 @@ def aksi_kategori():
                     user = input("Kategori: ")
                     tambah_kategori(user)
                     print('\n')
+                case 3:
+                    id = input("Masukkan ID data yang akan diperbarui: ")
+                    data = core.cari_id_list(core.baca_csv('database/kategori.csv'), id)
+                    if data == False:
+                        print("Data Tidak ada"+'\n')
+                    else:
+                        print("Kategori lama :", data[1])
+                        kategori = input("Masukkan Kategori yang baru : ")
+                        perbarui_baris_kategori(id, kategori)
+                        print("Data telah diperbarui."+'\n')
                 case 4:
                     list_kategori()
                     user = input("Pilih data yang akan dihapus: ")
@@ -68,5 +92,6 @@ def aksi_kategori():
 if __name__ == "__main__":
     list_kategori()
     tambah_kategori()
+    perbarui_baris_kategori()
     hapus_kategori()
     aksi_kategori()
