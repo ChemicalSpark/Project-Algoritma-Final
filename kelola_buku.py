@@ -76,13 +76,36 @@ def hapus_buku():
                 
             index_hapus += 1
 
-
+def aksi_buku():
+        while True:
+#                 print('-- kelola buku --')
+#                 print(''''
+# 1. list buku
+# 2. tambah buku
+# 3. hapus buku
+#                       ''')
+                pilihan = input("Pilihan : ")
+                baca_buku = list_buku()
+                nomor = 0
+                match pilihan:
+                    case '1':
+                        for i in baca_buku:
+                            nomor += 1
+                            print(f'{nomor} {i}')
+                    case '2':
+                        tambah_buku()
+                    case '4':
+                        hapus_buku()
+                    case '0':
+                        print("Keluar dari program."+'\n')
+                        break
 
 if __name__ == "__main__":
     list_buku()
     kategori_buku()
     tambah_buku()
     hapus_buku()
+    aksi_buku()
 
 
 
