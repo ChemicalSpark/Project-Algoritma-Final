@@ -96,6 +96,8 @@ def aksi_buku():
                         tambah_buku()
                     case '4':
                         hapus_buku()
+                    case '9':
+                        pass
                     case '0':
                         print("Keluar dari program."+'\n')
                         break

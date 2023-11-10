@@ -52,7 +52,7 @@ def aksi_peminjam():
         print("2. Daftar Peminjam")
         print("3. Perbarui Data")
         print("4. Hapus Data")
-        print("5. Keluar")
+        print("5. Kembali")
 
         pilih = int(input("Pilihan: "))
         if pilih == 1:
