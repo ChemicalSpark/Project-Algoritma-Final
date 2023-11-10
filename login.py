@@ -1,4 +1,5 @@
 import csv
+import sys
 
 def login():
     data_admin = []
@@ -25,6 +26,7 @@ def login():
         attempts += 1
 
     print("Anda telah melebihi batas percobaan login.")
+    sys.exit()
 
 if __name__ == "__main__":
     login()
