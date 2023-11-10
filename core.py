@@ -1,4 +1,5 @@
 import csv
+import os
 
 # membaca csv dengacn format list perbaris csv
 def baca_csv(nama_file):
