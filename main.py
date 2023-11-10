@@ -14,12 +14,12 @@ def mainmenu():
         user = int(input("| > Menu: "))
         match user:
             case 1:
-                with open('ui/kategori_menu.txt','r') as title:
+                with open('ui/kategori.txt','r') as title:
                     display = title.read()
                     print(display)
                     kategori.aksi_kategori()
             case 2:
-               with open('ui/kelolabuku_menu.txt','r') as title:
+               with open('ui/kelola_buku.txt','r') as title:
                     display = title.read()
                     print(display)
                     kelola_buku.aksi_buku()
@@ -55,6 +55,5 @@ def mainmenu():
                 print("Keluar dari program.")
             case _:
                 mainmenu()
-        
-    
-mainmenu()
+if __name__ == "__main__":
+    mainmenu()

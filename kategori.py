@@ -59,6 +59,8 @@ def aksi_kategori():
                     user = input("Pilih data yang akan dihapus: ")
                     hapus_kategori(user)
                     print('\n')
+                case 9:
+                    pass
                 case 0:
                     print("Keluar dari program."+'\n')
                     break
