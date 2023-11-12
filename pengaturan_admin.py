@@ -41,8 +41,7 @@ def tambah_csv(username, password):
 def kriteria_password(password):
     if len(password) < 8:
         return 'pasword minimal 8 karakter!'
-        
-    
+         
     lower = False
     upper = False
     number = False
@@ -62,15 +61,13 @@ def kriteria_password(password):
 
 def register():
     username = input('Masukkan username baru: ')
-
     print('''
-    Masukkan password yang berisi:
-    - Minimal 8 karakter
-    - Setidaknya satu huruf kecil
-    - Setidaknya satu huruf besar
-    - Setidaknya satu angka
+Masukkan password yang berisi:
+- Minimal 8 karakter
+- Setidaknya satu huruf kecil
+- Setidaknya satu huruf besar
+- Setidaknya satu angka
         ''')
-
     password = input('Masukkan password baru: ')
 
     pengecekan = kriteria_password(password)
@@ -124,31 +121,40 @@ def hapus_akun(id_to_delete):
 
     
 def Pengaturan_Admin():
-    print('''
+    while True:
+        print('''
 Pilihan:
 1. Register
 2. List Admin
 3. Hapus Akun Admin
-4. Keluar
-    ''')
+9. Kembali
+0. Keluar
+        ''')
 
-    pilihan = input('Masukkan pilihan: ')
+        pilihan = input('Masukkan pilihan: ')
 
-    if pilihan == '1':
-        register()
-    elif pilihan == '2':
-        list_data()
-    elif pilihan == '3':
-        id_to_delete = input('Masukkan ID admin yang akan dihapus: ')
-        hapus_akun(id_to_delete)
-    elif pilihan == '4':
-        return
-    else:
-        print('Pilihan tidak valid. Silakan coba lagi.')
+        if pilihan == '1':
+            register()
+        elif pilihan == '2':
+            list_data()
+        elif pilihan == '3':
+            id_to_delete = input('Masukkan ID admin yang akan dihapus: ')
+            hapus_akun(id_to_delete)
+        elif pilihan == '9':
+            pass
+        elif pilihan == '0':
+            return
+        else:
+            print('Pilihan tidak valid. Silakan coba lagi.')
     
 
-    Pengaturan_Admin()
-
 if __name__ == "__main__":
+    load_data()
+    save_data()
+    tambah_csv()
+    kriteria_password()
+    register()
+    list_data()
+    hapus_akun()
     Pengaturan_Admin()
 
