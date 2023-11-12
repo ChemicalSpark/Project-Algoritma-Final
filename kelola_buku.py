@@ -97,12 +97,6 @@ def hapus_buku():
 
 def aksi_buku():
         while True:
-#                 print('-- kelola buku --')
-#                 print(''''
-# 1. list buku
-# 2. tambah buku
-# 3. hapus buku
-#                       ''')
                 pilihan = input("Pilihan : ")
                 baca_buku = list_buku()
                 nomor = 0

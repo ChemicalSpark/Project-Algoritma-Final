@@ -1,9 +1,8 @@
-import pandas as pd
 import login
-import core
 import kategori
 import kelola_buku
 import data_peminjam
+import pengaturan_admin
 
 login.login()
 
@@ -34,7 +33,7 @@ def mainmenu():
                         case 2:
                             pass
                         case 3:
-                            data_peminjam.aksi_peminjam()
+                            pass
                         case 4:
                             pass
                         case 5:
@@ -44,9 +43,12 @@ def mainmenu():
                         case 0:
                             print("Keluar dari program.")
             case 4:
-                pass
+                data_peminjam.aksi_peminjam()
             case 5:
+                pengaturan_admin.Pengaturan_Admin()
+            case 6:
                 print("Keluar dari program.")
+                exit()
             case _:
                 mainmenu()
 if __name__ == "__main__":

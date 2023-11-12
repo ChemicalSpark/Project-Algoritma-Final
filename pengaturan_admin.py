@@ -1,7 +1,7 @@
 import csv
 import pandas as pd
 
-user_file = "data_admin.csv"
+user_file = "database/data_admin.csv"
 
 def load_data():
     data = []
@@ -80,7 +80,7 @@ def register():
 
     data_admin = []
 
-    with open("data_admin.csv", "r") as data:
+    with open("database/data_admin.csv", "r") as data:
         csvr = csv.reader(data, delimiter=",")
         for i in csvr:
             data_admin.append({"id": i[0], "username": i[1], "password": i[2]})
@@ -125,11 +125,11 @@ def hapus_akun(id_to_delete):
     
 def Pengaturan_Admin():
     print('''
-    Pilihan:
-    1. Register
-    2. List Admin
-    3. Hapus Akun Admin
-    4. Keluar
+Pilihan:
+1. Register
+2. List Admin
+3. Hapus Akun Admin
+4. Keluar
     ''')
 
     pilihan = input('Masukkan pilihan: ')
