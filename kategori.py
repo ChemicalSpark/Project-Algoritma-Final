@@ -89,6 +89,8 @@ def aksi_kategori():
                     print("Keluar dari program."+'\n')
                     core.clear()
                     break
+                case _:
+                    aksi_kategori()
 
 if __name__ == "__main__":
     list_kategori()
