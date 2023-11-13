@@ -27,7 +27,8 @@ def mainmenu():
                 with open('ui/data_peminjaman.txt','r') as title:
                     display = title.read()
                     print(display)
-                    peminjaman.aksi_peminjaman()
+                    peminjaman.aksi_peminjaman
+
             case 4:
                 with open('ui/data_peminjam.txt','r') as title:
                     display = title.read()
