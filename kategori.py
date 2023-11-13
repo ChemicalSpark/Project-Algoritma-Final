@@ -62,6 +62,7 @@ def aksi_kategori():
                     print('\n')
                     core.clear()
                 case 2:
+                    core.clear()
                     list_kategori()
                     print('\n')
                 case 3:
@@ -88,6 +89,8 @@ def aksi_kategori():
                     print("Keluar dari program."+'\n')
                     core.clear()
                     break
+                case _:
+                    aksi_kategori()
 
 if __name__ == "__main__":
     list_kategori()
