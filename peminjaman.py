@@ -65,7 +65,8 @@ while True:
     print("2. Tampilkan Peminjaman")
     print("3. Perbarui Peminjaman")
     print("4. Hapus Peminjaman")
-    print("5. Keluar")
+    print("9. Kembali")
+    print("0. Keluar")
 
     pilih = int(input("Masukkan pilihan (1/2/3/4/5): "))
     
@@ -77,7 +78,9 @@ while True:
         perbarui_peminjaman()
     elif pilih == 4:
         hapus_peminjaman()
-    elif pilih == 5:
+    elif pilih == 9:
+         print("kembali")
+    elif pilih == 0:
         print("Terima kasih! Keluar dari program.")
         break
     else:
