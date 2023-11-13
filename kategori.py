@@ -60,10 +60,10 @@ def aksi_kategori():
 #             """)
             user = int(input("Pilihan: "))
             match user:
-                case 1:
+                case 2:
                     list_kategori()
                     print('\n')
-                case 2:
+                case 1:
                     print("Masukkan kategori baru!")
                     user = input("Kategori: ")
                     tambah_kategori(user)

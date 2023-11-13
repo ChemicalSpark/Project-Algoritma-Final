@@ -52,7 +52,7 @@ def aksi_peminjam():
         print("2. Daftar Peminjam")
         print("3. Perbarui Data")
         print("4. Hapus Data")
-        print("5. Kembali")
+        print("0. Kembali")
 
         pilih = int(input("Pilihan: "))
         if pilih == 1:
@@ -88,7 +88,9 @@ def aksi_peminjam():
                 print("Data telah dihapus."+'\n')
             elif confirm == 'n':
                 print('Data batal dihapus'+'\n')
-        elif pilih == 5:
+        elif pilih == 9:
+            print("Kembali")
+        elif pilih == 0:
             print("Keluar dari program.")
             break
         else:
