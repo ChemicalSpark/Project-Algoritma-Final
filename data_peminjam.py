@@ -47,12 +47,12 @@ def hapus_baris_peminjam(id):
 
 def aksi_peminjam():
     while True:
-        print("Data Peminjam:")
-        print("1. Tambah Data")
-        print("2. Daftar Peminjam")
-        print("3. Perbarui Data")
-        print("4. Hapus Data")
-        print("0. Kembali")
+        # print("Data Peminjam:")
+        # print("1. Tambah Data")
+        # print("2. Daftar Peminjam")
+        # print("3. Perbarui Data")
+        # print("4. Hapus Data")
+        # print("0. Kembali")
 
         pilih = int(input("Pilihan: "))
         if pilih == 1:

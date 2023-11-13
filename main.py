@@ -43,7 +43,10 @@ def mainmenu():
                         case 0:
                             print("Keluar dari program.")
             case 4:
-                data_peminjam.aksi_peminjam()
+                with open('ui/data_peminjam.txt','r') as title:
+                    display = title.read()
+                    print(display)
+                    data_peminjam.aksi_peminjam()
             case 5:
                 pengaturan_admin.Pengaturan_Admin()
             case 6:
