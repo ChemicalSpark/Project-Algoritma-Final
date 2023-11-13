@@ -53,11 +53,11 @@ def aksi_kategori():
             with open('ui/kategori.txt','r') as kategori:
                 display = kategori.read()
                 print(display)
-            user = int(input("Pilihan: "))
+            user = int(input("| Pilihan: "))
             match user:
                 case 1:
                     print("Masukkan kategori baru!")
-                    user = input("Kategori: ")
+                    user = input("| Kategori: ")
                     tambah_kategori(user)
                     print('\n')
                     core.clear()
