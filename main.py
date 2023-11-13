@@ -11,19 +11,19 @@ def mainmenu():
     with open('ui/mainmenu.txt','r') as title:
         display = title.read()
         print(display)
-        user = int(input("| > Menu: "))
+        user = input("| > Menu: ")
         match user:
-            case 1:
+            case '1':
                 kategori.aksi_kategori()
-            case 2:
+            case '2':
                 kelola_buku.aksi_buku()
-            case 3:
+            case '3':
                 peminjaman.aksi_peminjaman()
-            case 4:
+            case '4':
                 data_peminjam.aksi_peminjam()
-            case 5:
+            case '5':
                 pengaturan_admin.Pengaturan_Admin()
-            case 6:
+            case '6':
                 print("Keluar dari program.")
                 exit()
             case _:
