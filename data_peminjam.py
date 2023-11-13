@@ -54,10 +54,10 @@ def aksi_peminjam():
             print("Data telah ditambahkan."+'\n')
             core.clear()
         elif pilih == 2:
+            core.clear()
             print("Data saat ini:")
             baca_baris_peminjam()
             print("\n")
-            core.clear()
         elif pilih == 3:
             id = input("Masukkan ID data yang akan diperbarui: ")
             data = core.cari_id_list(core.baca_csv(nama_file), id)
