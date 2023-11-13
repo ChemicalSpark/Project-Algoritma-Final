@@ -1,7 +1,7 @@
                                   _________________                                   
 .________________________________/   PEMINJAMAN    \________________________________.
-|/                               [1] Daftar Peminjaman                             \|
-|                                [2] Tambah Peminjaman Baru                         |
+|/                               [1] Tambah Peminjaman Baru                        \|
+|                                [2] Daftar Peminjaman                              |
 |                                [4] Perbarui Peminjaman                            |
 |                                [5] Hapus Peminjaman                               |
 |                                [9] Kembali                                        |
