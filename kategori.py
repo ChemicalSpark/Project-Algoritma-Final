@@ -55,16 +55,15 @@ def aksi_kategori():
                 print(display)
             user = int(input("Pilihan: "))
             match user:
-                case 2:
-                    list_kategori()
-                    print('\n')
-                    core.clear()
                 case 1:
                     print("Masukkan kategori baru!")
                     user = input("Kategori: ")
                     tambah_kategori(user)
                     print('\n')
                     core.clear()
+                case 2:
+                    list_kategori()
+                    print('\n')
                 case 3:
                     id = input("Masukkan ID data yang akan diperbarui: ")
                     data = core.cari_id_list(core.baca_csv('database/kategori.csv'), id)
