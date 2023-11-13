@@ -4,6 +4,7 @@ import kelola_buku
 import peminjaman
 import data_peminjam
 import pengaturan_admin
+import core
 
 login.login()
 
@@ -27,6 +28,7 @@ def mainmenu():
                 print("Keluar dari program.")
                 exit()
             case _:
+                core.clear()
                 mainmenu()
 if __name__ == "__main__":
     mainmenu()

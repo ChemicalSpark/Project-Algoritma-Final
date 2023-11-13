@@ -1,4 +1,5 @@
 import csv
+import core
 
 def login():
     data_admin = []
@@ -24,6 +25,7 @@ def login():
             if username == user['username'] and password == user['password']:
                 print('Login berhasil'+'\n')
                 login_session = True
+                core.clear()
                 break
         if not login_session:
             print('Login Gagal'+'\n')
