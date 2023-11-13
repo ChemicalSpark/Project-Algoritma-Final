@@ -58,33 +58,33 @@ def hapus_peminjaman():
     hapus_baris(db_peminjaman,id)
     print("Data telah dihapus."+'\n')
     
+def aksi_peminjaman():
+    while True:
+        # print("Pilih operasi:")
+        # print("1. Tambah Peminjaman")
+        # print("2. Tampilkan Peminjaman")
+        # print("3. Perbarui Peminjaman")
+        # print("4. Hapus Peminjaman")
+        # print("9. Kembali")
+        # print("0. Keluar")
 
-while True:
-    print("Pilih operasi:")
-    print("1. Tambah Peminjaman")
-    print("2. Tampilkan Peminjaman")
-    print("3. Perbarui Peminjaman")
-    print("4. Hapus Peminjaman")
-    print("9. Kembali")
-    print("0. Keluar")
-
-    pilih = int(input("Masukkan pilihan (1/2/3/4/5): "))
-    
-    if pilih == 1:
-        tambah_peminjaman()
-    elif pilih == 2:
-        tampilkan_peminjaman()
-    elif pilih == 3:
-        perbarui_peminjaman()
-    elif pilih == 4:
-        hapus_peminjaman()
-    elif pilih == 9:
-         print("kembali")
-    elif pilih == 0:
-        print("Terima kasih! Keluar dari program.")
-        break
-    else:
-        print("Pilihan tidak valid! Pilihlah sesuai nomor yang ada."+'\n')
+        pilih = int(input("Pilihan: "))
+        
+        if pilih == 1:
+            tambah_peminjaman()
+        elif pilih == 2:
+            tampilkan_peminjaman()
+        elif pilih == 3:
+            perbarui_peminjaman()
+        elif pilih == 4:
+            hapus_peminjaman()
+        elif pilih == 9:
+            print("kembali")
+        elif pilih == 0:
+            print("Terima kasih! Keluar dari program.")
+            break
+        else:
+            print("Pilihan tidak valid! Pilihlah sesuai nomor yang ada."+'\n')
 
 if __name__ == "__main__":
     baca_baris()
@@ -94,4 +94,4 @@ if __name__ == "__main__":
     tampilkan_peminjaman()
     perbarui_peminjaman()
     hapus_peminjaman()
-    
+    aksi_peminjaman()

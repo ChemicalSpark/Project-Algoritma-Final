@@ -1,6 +1,7 @@
 import login
 import kategori
 import kelola_buku
+import peminjaman
 import data_peminjam
 import pengaturan_admin
 
@@ -26,22 +27,7 @@ def mainmenu():
                 with open('ui/data_peminjaman.txt','r') as title:
                     display = title.read()
                     print(display)
-                    peminjaman = int(input("Pilihan: "))
-                    match peminjaman:
-                        case 1:
-                            pass
-                        case 2:
-                            pass
-                        case 3:
-                            pass
-                        case 4:
-                            pass
-                        case 5:
-                            pass
-                        case 9:
-                            pass
-                        case 0:
-                            print("Keluar dari program.")
+                    peminjaman.aksi_peminjaman()
             case 4:
                 with open('ui/data_peminjam.txt','r') as title:
                     display = title.read()
