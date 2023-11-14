@@ -1,9 +1,8 @@
                                   _________________                                   
 .________________________________/   PEMINJAMAN    \________________________________.
-|/                               [1] Tambah Peminjaman Baru                        \|
-|                                [2] Daftar Peminjaman                              |
-|                                [4] Perbarui Peminjaman                            |
-|                                [5] Hapus Peminjaman                               |
-|                                [9] Kembali                                        |
+|/           Silahkan Pilih Peminjam (no urut) atau operasi dibawah                \| 
+|                                [A] Cari Peminjam                                  |
+|                                [Z] Pindah Halaman Ke kiri                         |
+|                                [X] Pindah Halaman Ke kanan                        |
 |\                               [0] Keluar                                        /|
 +-----------------------------------------------------------------------------------+
