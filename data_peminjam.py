@@ -18,34 +18,6 @@ def baca_baris_peminjam():
     # data = core.baca_csv(nama_file)
     df = pd.read_csv(nama_file)
     print(df.to_string(index=False))
-    # i = 1
-    # data = [["No.", "Nama", "NIM", "Telp", "id"]]
-                
-    # # var untuk ditampilkan
-    # data_tampil = [["No.", "Nama", "NIM", "Telp"]]
-                
-    # for baris in data:
-                    
-    #     # me skip baris kolom / header
-    #     if baris[0] == "id":
-    #         continue
-                    
-    #     data.append([i, baris[1], baris[2] , baris[3], baris[0]])
-                    
-    #     data_tampil.append([i, baris[1], baris[2] , baris[3]])
-                            
-    #     i += 1
-                    
-    # # membuat dataframe dan me-set kolom custom
-    # df = pd.DataFrame(data_tampil[1:], columns=['No.', 'Nama', 'NIM','Telp'])
-
-    # # untuk mengabaikan index bawaan pandas
-    # output = df.to_string(index=False)
-    # output = output.split("\n")
-    # hasil = ""
-    # for i in output:
-    #     hasil += " "*23 + i + "\n"    
-    # print(hasil)
 
 def perbarui_baris_peminjam(id, nama, nim, telp):
     data = core.baca_csv(nama_file)
@@ -57,17 +29,27 @@ def perbarui_baris_peminjam(id, nama, nim, telp):
             break
     tulis_csv(data)
 
-def hapus_baris_peminjam(id):
-    # user = input('Masukkan ID yang akan dihapus: ')
-    # row_delete = user
-    # df = data.drop(row_delete)
-    data = core.baca_csv(nama_file)
-    index_baris = core.cari_index_dengan_id_list(data, id)
-    if index_baris == 0:
-        # baris 0 merupakan baris kolom
-        print("data tidak ditemukan")
-    else:
-        core.hapus_baris_csv(nama_file,index_baris)
+def hapus_baris_peminjam(delete):
+    with open('database/data_peminjam.csv','r') as file:
+        data = list(csv.reader(file))
+        index_hapus = 0
+        for array in data:
+            if array[0] == delete:
+                print(f'ID: {array[0]}')
+                print(f'Kategori: {array[1]}')
+                user = input('Apakah anda ingin menghapus data diatas?(y/n) ')
+                if user == 'y':
+                    data.pop(index_hapus)
+                    with open('database/data_peminjam.csv','w',newline="") as new_data:
+                        write = csv.writer(new_data)
+                        write.writerows(data)
+            index_hapus += 1
+    # data = core.baca_csv(nama_file)
+    # index_baris = core.cari_index_dengan_id_list(data, id)
+        if data == 0:
+            print("data tidak ditemukan")
+    # else:
+    #     core.hapus_baris_csv(nama_file,index_baris)
 
 def aksi_peminjam():
     while True:
@@ -118,17 +100,18 @@ def aksi_peminjam():
                 enter  = print("Klik enter untuk meneruskan")
                 core.clear()
         elif pilih == 4:
-            id = input("Masukkan ID data yang akan dihapus: ")
-            confirm = input('yakin ingin menghapus(y/n)? : ')
-            if confirm == 'y':
-                hapus_baris_peminjam(id)
-                print("Data telah dihapus."+'\n')
-                enter  = print("Klik enter untuk meneruskan")
-                core.clear()
-            elif confirm == 'n':
-                print('Data batal dihapus'+'\n')
-                enter  = print("Klik enter untuk meneruskan")
-                core.clear()
+            user = input("Masukkan ID data yang akan dihapus: ")
+            hapus_baris_peminjam(user)
+            # confirm = input('yakin ingin menghapus(y/n)? : ')
+            # if confirm == 'y':
+            #     hapus_baris_peminjam(idhapus)
+            #     print("Data telah dihapus."+'\n')
+            #     enter  = print("Klik enter untuk meneruskan")
+            #     core.clear()
+            # elif confirm == 'n':
+            #     print('Data batal dihapus'+'\n')
+            #     enter  = print("Klik enter untuk meneruskan")
+            # core.clear()
         elif pilih == 9:
             print("Kembali")
         elif pilih == 0:
