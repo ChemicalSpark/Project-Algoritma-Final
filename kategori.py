@@ -9,7 +9,7 @@ def tulis_csv(data):
 
 def list_kategori():
     df = pd.read_csv('database/kategori.csv')
-    print(df)
+    print(df.to_string(index=False))
 
 def tambah_kategori(new_kategori):
     with open('database/kategori.csv','r') as file:
@@ -65,7 +65,6 @@ def aksi_kategori():
                 case 2:
                     core.clear()
                     list_kategori()
-                    print('\n')
                 case 3:
                     id = input("Masukkan ID data yang akan diperbarui: ")
                     data = core.cari_id_list(core.baca_csv('database/kategori.csv'), id)
