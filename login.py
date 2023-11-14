@@ -1,4 +1,5 @@
 import csv
+import core
 
 def login():
     data_admin = []
@@ -11,16 +12,20 @@ def login():
 
     attempts = 0
     login_session = False
+    
+    with open('ui/login.txt','r') as login_ui:
+        display = login_ui.read()
+        print(display)
 
-    print('='*51+'\n','Selamat Datang di Aplikasi Manajemen Perpustakaan'+'\n'+'='*51+'\n')
     while attempts < 3 and not login_session:
-        username = input("Username: ")
-        password = input("Password: ")
+        username = input("| Username: ")
+        password = input("| Password: ")
 
         for user in data_admin:
             if username == user['username'] and password == user['password']:
                 print('Login berhasil'+'\n')
                 login_session = True
+                core.clear()
                 break
         if not login_session:
             print('Login Gagal'+'\n')

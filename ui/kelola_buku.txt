@@ -1,7 +1,7 @@
                                     _____________                                   
 .__________________________________/ KELOLA BUKU \__________________________________.
-|/                               [1] Daftar Buku                                   \|
-|                                [2] Tambah Buku Baru                               |
+|/                               [1] Tambah Buku Baru                              \|
+|                                [2] Daftar Buku                                    |
 |                                [3] Perbarui Data                                  |
 |                                [4] Hapus Data                                     |
 |                                [9] Kembali                                        |

@@ -1,9 +1,10 @@
                                   _________________                                   
 .________________________________/   PEMINJAMAN    \________________________________.
-|/                               [1] Daftar Peminjaman                             \|
-|                                [2] Tambah Peminjaman Baru                         |
-|                                [4] Perbarui Peminjaman                            |
-|                                [5] Hapus Peminjaman                               |
-|                                [9] Kembali                                        |
+|/                               [1] Pilih Peminjam                                \| 
+|                                [2] Cari Peminjam                                  |
+|                                [3] Tambah Peminjam (konsol)                       |
+|                                [4] Pindah Halaman Ke kiri                         |
+|                                [4] Pindah Halaman Ke kanan                        |
+|                                [5] Kembali                                        |
 |\                               [0] Keluar                                        /|
 +-----------------------------------------------------------------------------------+
