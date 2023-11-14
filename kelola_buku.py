@@ -108,23 +108,24 @@ def aksi_buku():
                     case '1':
                         tambah_buku()
                     case '3':
-                        id = input("Masukkan ID data yang akan diperbarui: ")
-                        data = core.cari_id_list(core.baca_csv('database/buku.csv'), id)
-                        if data == False:
-                            print("Data Tidak ada"+'\n')
-                        else:
-                            print("Kategori lama :", data[1])
-                            input_kategori = input("Masukkan Kategori yang baru : ")
-                            print("Judul lama :", data[2])
-                            input_judul = input("Masukkan Judul yang baru : ")
-                            print("Penulis lama :", data[3])
-                            input_penulis = input("Masukkan Penulis yang baru : ")
-                            print("Penerbit lama :", data[4])
-                            input_penerbit = input("Masukkan Penerbit yang baru : ")
-                            print("jumlah lama :", data[5])
-                            input_jumlah = input("Masukkan  yang baru : ")
-                            perbarui_baris_kategori(id, input_kategori, input_judul, input_penulis, input_penerbit, input_jumlah)
-                            print("Data telah diperbarui."+'\n')
+                        pass
+                        # id = input("Masukkan ID data yang akan diperbarui: ")
+                        # data = core.cari_id_list(core.baca_csv('database/buku.csv'), id)
+                        # if data == False:
+                        #     print("Data Tidak ada"+'\n')
+                        # else:
+                        #     print("Kategori lama :", data[1])
+                        #     input_kategori = input("Masukkan Kategori yang baru : ")
+                        #     print("Judul lama :", data[2])
+                        #     input_judul = input("Masukkan Judul yang baru : ")
+                        #     print("Penulis lama :", data[3])
+                        #     input_penulis = input("Masukkan Penulis yang baru : ")
+                        #     print("Penerbit lama :", data[4])
+                        #     input_penerbit = input("Masukkan Penerbit yang baru : ")
+                        #     print("jumlah lama :", data[5])
+                        #     input_jumlah = input("Masukkan  yang baru : ")
+                        #     perbarui_baris_kategori(id, input_kategori, input_judul, input_penulis, input_penerbit, input_jumlah)
+                        #     print("Data telah diperbarui."+'\n')
                     case '4':
                         hapus_buku()
                     case '9':
