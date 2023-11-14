@@ -101,11 +101,11 @@ def aksi_buku():
                 baca_buku = list_buku()
                 nomor = 0
                 match pilihan:
-                    case '1':
+                    case '2':
                         for i in baca_buku:
                             nomor += 1
                             print(f'{nomor} {i}')
-                    case '2':
+                    case '1':
                         tambah_buku()
                     case '3':
                         id = input("Masukkan ID data yang akan diperbarui: ")

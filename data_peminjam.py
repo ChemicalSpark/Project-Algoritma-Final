@@ -3,12 +3,6 @@ import core
 
 nama_file = 'database/data_peminjam.csv'
 
-# data = core.baca_csv(nama_file)
-# data = core.convert_ke_associative_dict(data)
-# print(data)
-# exit()
-
-
 def tulis_csv(data):
     with open(nama_file, 'w', newline='') as file:
         tulis = csv.writer(file)
@@ -47,12 +41,9 @@ def hapus_baris_peminjam(id):
 
 def aksi_peminjam():
     while True:
-        print("Data Peminjam:")
-        print("1. Tambah Data")
-        print("2. Daftar Peminjam")
-        print("3. Perbarui Data")
-        print("4. Hapus Data")
-        print("5. Kembali")
+        with open('ui/data_peminjam.txt','r') as datpnjm:
+            display = datpnjm.read()
+            print(display)
 
         pilih = int(input("Pilihan: "))
         if pilih == 1:
@@ -61,7 +52,9 @@ def aksi_peminjam():
             telp = input("Masukkan Nomor Telepon: ")
             tambah_baris_peminjam(nama, no, telp)
             print("Data telah ditambahkan."+'\n')
+            core.clear()
         elif pilih == 2:
+            core.clear()
             print("Data saat ini:")
             baca_baris_peminjam()
             print("\n")
@@ -70,6 +63,7 @@ def aksi_peminjam():
             data = core.cari_id_list(core.baca_csv(nama_file), id)
             if data == False:
                 print("Data Tidak ada"+'\n')
+                core.clear()
             else:
                 print("Nama lama :", data[1])
                 nama = input("Masukkan Nama yang baru : ")
@@ -79,20 +73,26 @@ def aksi_peminjam():
                 telp = input("Masukkan Nomor Telepon yang baru : ")
                 perbarui_baris_peminjam(id, nama, no, telp)
                 print("Data telah diperbarui."+'\n')
-
+                core.clear()
         elif pilih == 4:
             id = input("Masukkan ID data yang akan dihapus: ")
             confirm = input('yakin ingin menghapus(y/n)? : ')
             if confirm == 'y':
                 hapus_baris_peminjam(id)
                 print("Data telah dihapus."+'\n')
+                core.clear()
             elif confirm == 'n':
                 print('Data batal dihapus'+'\n')
-        elif pilih == 5:
+                core.clear()
+        elif pilih == 9:
+            print("Kembali")
+        elif pilih == 0:
             print("Keluar dari program.")
+            core.clear()
             break
         else:
             print("Pilihan tidak valid! Pilihlah sesuai nomor yang ada."+'\n')
+            core.clear()
 
 if __name__ == "__main__":
     tulis_csv()

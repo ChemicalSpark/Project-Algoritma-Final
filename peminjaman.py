@@ -42,4 +42,4 @@ if __name__ == "__main__":
     tampilkan_peminjaman()
     perbarui_peminjaman()
     hapus_peminjaman()
-    
+    aksi_peminjaman()
