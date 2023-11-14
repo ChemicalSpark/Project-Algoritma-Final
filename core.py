@@ -66,11 +66,16 @@ def cari_index_dengan_id_list(data, id):
 # mencari data dengan id (kolom csv index ke 0), dan mengembalikan nilai dari 1 baris jik diemukan
 # contoh data yag dikembalikan of func : ['2', 'Fauzan', '232410102011', '0888888888']
 def cari_id_list(data, nilai_id):
+
+    return cari_list(data, nilai_id, 0)
+
+
+def cari_list(data, nilai_id, index_kolom_id):
     hasil = False
     for i in data:
         if (type(i) == type(nilai_id)):
             print("Warning : Perbandingan memiliki tipe data yang berbeda\n")
-        if (nilai_id == i[0]):
+        if (nilai_id == i[index_kolom_id]):
             hasil = i
             break
     return hasil
@@ -99,6 +104,24 @@ def convert_ke_associative_dict(data):
 def dd(data):
     print(data)
     exit()
+    
+def pagination(data, limit, offset):
+    hasil = {}
+    index = 0
+
+    for i in data:
+        if len(hasil.get(index, [])) < limit:
+            hasil.setdefault(index, []).append(i)
+        else:
+            index += 1
+            hasil.setdefault(index, []).append(i)
+
+    return hasil.get(offset, []), len(hasil)
+
+# data = [['1', 'Fauzan', '232410102011', '0888888888'],['2', 'Fauzan', '232410102011', '0888888888']]
+# print(pagination(data, 1, 0))
+
+    
     
 def clear():
     if os.name == 'posix':
