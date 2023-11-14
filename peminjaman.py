@@ -35,6 +35,7 @@ while True:
         print("Pilihan tidak valid! Pilihlah sesuai nomor yang ada."+'\n')
 
 if __name__ == "__main__":
+    aksi_peminjaman()
     baca_baris()
     hapus_baris()
     perbarui_baris()
@@ -42,4 +43,3 @@ if __name__ == "__main__":
     tampilkan_peminjaman()
     perbarui_peminjaman()
     hapus_peminjaman()
-    aksi_peminjaman()

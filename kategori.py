@@ -56,10 +56,11 @@ def aksi_kategori():
             user = int(input("| Pilihan: "))
             match user:
                 case 1:
-                    print("Masukkan kategori baru!")
+                    print("| Masukkan kategori baru!")
                     user = input("| Kategori: ")
                     tambah_kategori(user)
-                    print('\n')
+                    print("| Kategori berhasil ditambahkan!")
+                    enter = input("| Klik Enter untuk melanjutkan... ")
                     core.clear()
                 case 2:
                     core.clear()
@@ -93,8 +94,8 @@ def aksi_kategori():
                     aksi_kategori()
 
 if __name__ == "__main__":
+    aksi_kategori()
     list_kategori()
     tambah_kategori()
     perbarui_baris_kategori()
     hapus_kategori()
-    aksi_kategori()
