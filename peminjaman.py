@@ -129,3 +129,12 @@ while True:
 ####################
 # Area Setelah memlihi peminjam
 
+if __name__ == "__main__":
+    aksi_peminjaman()
+    baca_baris()
+    hapus_baris()
+    perbarui_baris()
+    tambah_peminjaman()
+    tampilkan_peminjaman()
+    perbarui_peminjaman()
+    hapus_peminjaman()

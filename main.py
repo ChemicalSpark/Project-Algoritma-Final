@@ -1,8 +1,8 @@
 import login
 import kategori
 import kelola_buku
-import peminjaman
-import data_peminjam
+# import peminjaman
+# import data_peminjam
 import pengaturan_admin
 import core
 
@@ -22,11 +22,13 @@ def mainmenu():
                 core.clear()
                 kelola_buku.aksi_buku()
             case '3':
-                core.clear()
-                peminjaman.aksi_peminjaman()
+                pass
+                # core.clear()
+                # peminjaman.aksi_peminjaman()
             case '4':
-                core.clear()
-                data_peminjam.aksi_peminjam()
+                pass
+                # core.clear()
+                # data_peminjam.aksi_peminjam()
             case '5':
                 core.clear()
                 pengaturan_admin.Pengaturan_Admin()

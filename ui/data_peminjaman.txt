@@ -1,8 +1,10 @@
                                   _________________                                   
 .________________________________/   PEMINJAMAN    \________________________________.
-|/           Silahkan Pilih Peminjam (no urut) atau operasi dibawah                \| 
-|                                [A] Cari Peminjam                                  |
-|                                [Z] Pindah Halaman Ke kiri                         |
-|                                [X] Pindah Halaman Ke kanan                        |
+|/                               [1] Pilih Peminjam                                \| 
+|                                [2] Cari Peminjam                                  |
+|                                [3] Tambah Peminjam (konsol)                       |
+|                                [4] Pindah Halaman Ke kiri                         |
+|                                [4] Pindah Halaman Ke kanan                        |
+|                                [5] Kembali                                        |
 |\                               [0] Keluar                                        /|
 +-----------------------------------------------------------------------------------+
