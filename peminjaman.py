@@ -9,6 +9,8 @@ db_peminjaman = 'database/peminjaman.csv'
 db_buku       = 'database/buku.csv'
 
 
+# UNTUK BAGIAN NAMBAH PEMINJAMAN 
+
 def tambah_peminjam():
     nama = input("Masukkan Nama: ")
     no = input("Masukkan NIM: ")
@@ -24,11 +26,8 @@ def tambah_peminjam():
             break
         else:
             print("Input tidak valid, hanya menerima 'y' atau 'n' saja!")
-    
 
-# UNTUK BAGIAN NAMBAH PEMINJAMAN 
-
-def pilih_peminjam(id_peminjam):
+def pilih_buku(id_peminjam):
         
     data_peminjam = core.cari_list(core.baca_csv(db_peminjam), id_peminjam, 0)
     search_keyword = ""
@@ -117,62 +116,65 @@ def cari_status(id_peminjam):
     if not meminjam:
         isi_status(status, "Tidak Meminjam")
     return status
-          
+
+
+
+def daftar_peminjam_dan_status(search_keyword = "", current_page = 1, total_pages = 1):
+    core.clear()
+    
+    data_peminjam = core.baca_csv(db_peminjam)
+
+    if len(search_keyword) > 0:
+        data_peminjam = core.cari_list(data_peminjam, search_keyword, 1)
+        current_page = 1
+
+    data_peminjam, total_pages = core.pagination(data_peminjam, 7, current_page)
+    
+    
+    i = 1
+    data = []
+    
+    # var untuk ditampilkan
+    data_tampil = [["No", "Nama", "NIM", "Status"]]
+    
+    for baris in data_peminjam:
+        if baris[0] == "id":
+            continue # me skip baris kolom / header
+        
+        status = ""
+        for iterasi_status in cari_status(baris[0]):
+            status +=  iterasi_status
+            
+        data.append([i, baris[1], baris[2] , status, baris[0]])
+        data_tampil.append([i, baris[1], baris[2] , status])
+        
+        i += 1
+        
+    
+    
+    # membuat dataframe dan me-set kolom custom
+    df = pd.DataFrame(data_tampil[1:], columns=['No.', 'Nama', 'NIM', 'Status'])
+
+
+    # untuk mengabaikan index bawaan pandas
+    output = df.to_string(index=False)
+    
+    hasil = ""
+    for i in output.split("\n"):
+        hasil += " "*23 + i + "\n"
+    
+    print(hasil)
+    
+    print( " "*37 + f"page {current_page} of {total_pages}")
+    
+    return data
+        
           
 def aksi_utama():  
-    search_keyword = ""
 
-    current_page = 1
-
-    total_pages = 1
 
     while True:
-        core.clear()
-        
-        data_peminjam = core.baca_csv(db_peminjam)
 
-        if len(search_keyword) > 0:
-            data_peminjam = core.cari_list(data_peminjam, search_keyword, 1)
-            current_page = 1
-
-        data_peminjam, total_pages = core.pagination(data_peminjam, 7, current_page)
-        
-        
-        i = 1
-        data = []
-        
-        # var untuk ditampilkan
-        data_tampil = [["No", "Nama", "NIM", "Status"]]
-        
-        for baris in data_peminjam:
-            if baris[0] == "id":
-                continue # me skip baris kolom / header
-            
-            status = ""
-            for iterasi_status in cari_status(baris[0]):
-                status +=  iterasi_status
-                
-            data.append([i, baris[1], baris[2] , status, baris[0]])
-            data_tampil.append([i, baris[1], baris[2] , status])
-            
-            i += 1
-            
-        
-        
-        # membuat dataframe dan me-set kolom custom
-        df = pd.DataFrame(data_tampil[1:], columns=['No.', 'Nama', 'NIM', 'Status'])
-
-
-        # untuk mengabaikan index bawaan pandas
-        output = df.to_string(index=False)
-        
-        hasil = ""
-        for i in output.split("\n"):
-            hasil += " "*23 + i + "\n"
-        
-        print(hasil)
-        
-        print( " "*37 + f"page {current_page} of {total_pages}")
         
         with open('ui/data_peminjaman.txt', 'r') as f:
             print(f.read())
