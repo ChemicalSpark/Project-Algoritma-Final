@@ -2,22 +2,11 @@ import os
 import csv
 import core
 import pandas  as pd
-# os.system('cls')
-
-# def tulis_csv(data):
-#     with open('database/kategori.csv', 'w', newline='') as file:
-#         tulis = csv.writer(file)
-#         tulis.writerows(data)
 
 def list_buku():
     '''fungsi menampilkan buku'''
     with open('database/buku.csv', mode='r', encoding='cp1252') as list_data:
         baca_buku = list(csv.reader(list_data))
-        # for_id = len(baca_buku)
-        # nomor = 0
-        # for i in baca_buku:
-        #     nomor += 1
-        #     print(nomor, i)
         return baca_buku
     
 def daftar_buku():
@@ -35,9 +24,6 @@ def kategori_buku():
             nomor += 1
             tampil_kategori += f'[{nomor}] {i[1]} '
         return tampil_kategori, list_kategori
-# def id_buku():
-    # tampil_kategori, list_kategori = kategori_buku()
-    #id_number = f"{list_kategori[input_kategori-1][0]}0"
 
 def tambah_buku():
     '''fungsi tambah buku'''
@@ -93,12 +79,14 @@ def hapus_buku():
 
 def aksi_buku():
         while True:
+            with open('ui/kelola_buku.txt','r') as buku:
+                display = buku.read()
+                print(display)
                 pilihan = input("Pilihan : ")
-               
                 match pilihan:
                     case '2':
-                        daftar_buku()
                         core.clear()
+                        daftar_buku()
                     case '1':
                         tambah_buku()
                         core.clear()
@@ -120,21 +108,4 @@ if __name__ == "__main__":
     daftar_buku()
     tambah_buku()
     hapus_buku()
-    # display_buku = list_buku()
-    # print('pilihan')
-    # print('1. daftar buku')
-    # print('2. tambah buku')
-    # print('3. perbarui data buku')
-    # print('4. hapus data buku')
-    # pilihan = input('masukkan pilihan = ')
-    # match pilihan:
-    #     case '1':
-    #         daftar_buku()
-    #     case '2':
-    #         tambah_buku()
-    #     case '3':
-    #         # aksi_buku()
-    #         pass
-    #     case '4':
-    #         hapus_buku()
-   
+    
