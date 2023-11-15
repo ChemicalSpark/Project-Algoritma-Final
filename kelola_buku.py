@@ -2,7 +2,7 @@ import os
 import csv
 import core
 import pandas  as pd
-os.system('cls')
+# os.system('cls')
 
 # def tulis_csv(data):
 #     with open('database/kategori.csv', 'w', newline='') as file:
@@ -58,13 +58,13 @@ def tambah_buku():
             id_bk = int(baca_buku[len(baca_buku) - 1][0]) + 1
         with open('database/buku.csv', mode='a', encoding='cp1252', newline='') as tambah_data:
             write = csv.writer(tambah_data)
-            write.writerow([id_bk,list_kategori[input_kategori-1][1],input_judul,input_penulis,input_penerbit,input_isbn,input_jumlah])
+            write.writerow([id_bk,list_kategori[input_kategori-1][0],input_judul,input_penulis,input_penerbit,input_isbn,input_jumlah])
         ulangi = input('ada tambahan(y/n) ? : ')
     print('data telah ditambahkan')
 
-def update_buku(baca_buku):
-    input_judul = input('masukkan judul buku : ')
-    for 
+# def update_buku(baca_buku):
+#     input_judul = input('masukkan judul buku : ')
+#     for 
 
 
 def hapus_buku():
@@ -91,61 +91,50 @@ def hapus_buku():
                 
             index_hapus += 1
 
-# def aksi_buku():
-#         while True:
-#                 pilihan = input("Pilihan : ")
-#                 baca_buku = list_buku()
-#                 nomor = 0
-#                 match pilihan:
-#                     case '2':
-#                         for i in baca_buku:
-#                             nomor += 1
-#                             print(f'{nomor} {i}')
-#                     case '1':
-#                         tambah_buku()
-#                     case '3':
-#                         pass
-#                         # id = input("Masukkan ID data yang akan diperbarui: ")
-#                         # data = core.cari_id_list(core.baca_csv('database/buku.csv'), id)
-#                         # if data == False:
-#                         #     print("Data Tidak ada"+'\n')
-#                         # else:
-#                         #     print("Kategori lama :", data[1])
-#                         #     input_kategori = input("Masukkan Kategori yang baru : ")
-#                         #     print("Judul lama :", data[2])
-#                         #     input_judul = input("Masukkan Judul yang baru : ")
-#                         #     print("Penulis lama :", data[3])
-#                         #     input_penulis = input("Masukkan Penulis yang baru : ")
-#                         #     print("Penerbit lama :", data[4])
-#                         #     input_penerbit = input("Masukkan Penerbit yang baru : ")
-#                         #     print("jumlah lama :", data[5])
-#                         #     input_jumlah = input("Masukkan  yang baru : ")
-#                         #     perbarui_baris_kategori(id, input_kategori, input_judul, input_penulis, input_penerbit, input_jumlah)
-#                         #     print("Data telah diperbarui."+'\n')
-#                     case '4':
-#                         hapus_buku()
-#                     case '9':
-#                         pass
-#                     case '0':
-#                         print("Keluar dari program."+'\n')
-#                         break
+def aksi_buku():
+        while True:
+                pilihan = input("Pilihan : ")
+               
+                match pilihan:
+                    case '2':
+                        daftar_buku()
+                        core.clear()
+                    case '1':
+                        tambah_buku()
+                        core.clear()
+                    case '3':
+                        pass
+                    case '4':
+                        hapus_buku()
+                        core.clear()
+                    case '9':
+                        core.clear()
+                        pass
+                    case '0':
+                        print("Keluar dari program."+'\n')
+                        core.clear()
+                        break
 
 if __name__ == "__main__":
+    aksi_buku()
+    daftar_buku()
+    tambah_buku()
+    hapus_buku()
     # display_buku = list_buku()
-    print('pilihan')
-    print('1. daftar buku')
-    print('2. tambah buku')
-    print('3. perbarui data buku')
-    print('4. hapus data buku')
-    pilihan = input('masukkan pilihan = ')
-    match pilihan:
-        case '1':
-            daftar_buku()
-        case '2':
-            tambah_buku()
-        case '3':
-            # aksi_buku()
-            pass
-        case '4':
-            hapus_buku()
+    # print('pilihan')
+    # print('1. daftar buku')
+    # print('2. tambah buku')
+    # print('3. perbarui data buku')
+    # print('4. hapus data buku')
+    # pilihan = input('masukkan pilihan = ')
+    # match pilihan:
+    #     case '1':
+    #         daftar_buku()
+    #     case '2':
+    #         tambah_buku()
+    #     case '3':
+    #         # aksi_buku()
+    #         pass
+    #     case '4':
+    #         hapus_buku()
    
