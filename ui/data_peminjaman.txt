@@ -4,7 +4,7 @@
 |                                [2] Cari Peminjam                                  |
 |                                [3] Tambah Peminjam (konsol)                       |
 |                                [4] Pindah Halaman Ke kiri                         |
-|                                [4] Pindah Halaman Ke kanan                        |
-|                                [5] Kembali                                        |
+|                                [5] Pindah Halaman Ke kanan                        |
+|                                [6] Kembali                                        |
 |\                               [0] Keluar                                        /|
 +-----------------------------------------------------------------------------------+

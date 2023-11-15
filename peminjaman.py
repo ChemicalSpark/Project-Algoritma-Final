@@ -2,11 +2,37 @@ import os
 import core
 import pandas as pd
 from datetime import datetime,date
+import data_peminjam as peminjam
 
 db_peminjam   = 'database/data_peminjam.csv'
 db_peminjaman = 'database/peminjaman.csv'
 db_buku       = 'database/buku.csv'
 
+
+def tambah_peminjam():
+    nama = input("Masukkan Nama: ")
+    no = input("Masukkan NIM: ")
+    telp = input("Masukkan Nomor Telepon: ")
+    id_peminjam_baru = peminjam.tambah_baris_peminjam(nama, no, telp)
+    print("Data telah ditambahkan."+'\n')
+    while True:
+        pilihan = input("Apakah anda ingin langsung memilih Peminjam ini (y/n) ? : ").lower()
+        if pilihan == "y":
+            pilih_peminjam(id_peminjam_baru)
+        elif pilihan == "n":
+            search_keyword = ""
+            break
+        else:
+            print("Input tidak valid, hanya menerima 'y' atau 'n' saja!")
+            
+
+def pilih_peminjam(id_peminjam):
+    peminjam = core.baca_csv(db_peminjam)
+    
+    daftar_peminjaman = core.cari_list(core.baca_csv(db_peminjaman), id_peminjam)
+    
+    print(peminjam)
+    print(daftar_peminjaman)
 
 def cari_status(id_peminjam):
     # status = ["Tidak Meminjam", "Belum Dikembalikan", "Belum Lunas", "Dikembalikan"]
@@ -54,21 +80,29 @@ def cari_status(id_peminjam):
         isi_status(status, "Tidak Meminjam")
     return status
         
+search_keyword = ""
 
-# 
+current_page = 1
 
+total_pages = 1
 
 while True:
     core.clear()
     
     data_peminjam = core.baca_csv(db_peminjam)
 
+    if len(search_keyword) > 0:
+        data_peminjam = core.cari_list(data_peminjam, search_keyword, 1)
+        current_page = 1
+
+    data_peminjam, total_pages = core.pagination(data_peminjam, 10, 1)
+    
     
     i = 1
-    data = [["No.", "Nama", "NIM", "Status", "id"]]
+    data = [["No", "Nama", "NIM", "Status", "id"]]
     
     # var untuk ditampilkan
-    data_tampil = [["No.", "Nama", "NIM", "Status"]]
+    data_tampil = [["No", "Nama", "NIM", "Status"]]
     
     for baris in data_peminjam:
         
@@ -79,7 +113,7 @@ while True:
         status = ""
         for iterasi_status in cari_status(baris[0]):
             status +=  iterasi_status
-        
+            
         data.append([i, baris[1], baris[2] , status, baris[0]])
         
         data_tampil.append([i, baris[1], baris[2] , status])
@@ -101,6 +135,7 @@ while True:
     
     print(hasil)
     
+    print( " "*37 + f"page {current_page} of {total_pages}")
     # 
     
     
@@ -108,26 +143,38 @@ while True:
         print(f.read())
     input_user = int(input("Pilih operasi anda (angka) : "))
     
+    
+# [1] Pilih Peminjam                                \| 
+# [2] Cari Peminjam                                  |
+# [3] Tambah Peminjam (konsol)                       |
+# [4] Pindah Halaman Ke kiri                         |
+# [5] Pindah Halaman Ke kanan                        |
+# [6] Kembali                                        |
+# [0] Keluar 
 
-        if ():
-            daftar_peminjaman()
-        elif ():
-            tambah_peminjaman_baru()
-        elif ():
-            perbarui_peminjaman()
-        elif ():
-            hapus_peminjamam()
-        elif ():
-            break
-        elif ():
-            exit("Program Ditutup")
-        elif ():
-            print("Input Tidak Valid!")
+    if (input_user == 1):
+        no_urut = int(input("Silahkan pilih peminjam menggunakan no urut dari tabel diatas : "))
+        id_peminjam = core.cari_list(data, no_urut, 0, True)[0][4]
+        pilih_peminjam(id_peminjam)
+    elif (input_user ==  2):
+        search_keyword = input("Masukan Nama : ")
+    elif (input_user ==  3):
+        tambah_peminjam()
+    elif (input_user ==  4):
+        if current_page > total_pages:
+            current_page -= 1
+    elif (input_user ==  5):
+        if current_page < total_pages:
+            current_page += 1
+    elif (input_user ==  6):
+        exit("Program Ditutup")
+    else:
+        print("Input Tidak Valid!")
     # end match
-
 
 ####################
 # Area Setelah memlihi peminjam
+    
 
 if __name__ == "__main__":
     aksi_peminjaman()

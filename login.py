@@ -34,22 +34,22 @@ def login():
             # Kondisi benar jika input sesuai dengan database
             if username == user['username'] and password == user['password']:
                 # UI Login Berhasil
-                greeting = f"Selamat Datang Admin {username}"
+                greeting = f"Selamat Datang Admin {username.title()}"
                 print('+' + '='*83 + '+')
-                print('|' + '[LOGIN SUCCESFUL]'.center(83) + '|')
+                print('|' + '-'*32 + '[ LOGIN SUCCESFUL ]' + '-'*32 + '|')
                 print('|' + greeting.center(83) + '|')
                 print('+' + '='*83 + '+')
                 # -
                 login_session = True
                 # Pause sebelum di clear
-                req = input("| Klik Enter untuk melanjutkan... ")
+                req = input("| Klik ENTER untuk melanjutkan... ")
                 core.clear()
                 break
         # -
         if not login_session:
             # UI Login Gagal
             print('+' + '='*83 + '+')
-            print('|' + '[LOGIN FAILED]'.center(83) + '|')
+            print('|' + '-'*33 + '[ LOGIN FAILED ]' + '-'*34 + '|')
             print('|' + 'Username atau Password salah!'.center(83) + '|')
             print('+' + '='*83 + '+')
             attempts += 1
@@ -57,14 +57,14 @@ def login():
             if attempts == 3 and not login_session:
                 # UI Login gagal
                 print('+' + '='*83 + '+')
-                print('|' + '[LOGIN SESSION ATTEMPT OUT]'.center(83) + '|')
+                print('|' + '-'*27 + '[ LOGIN SESSION ATTEMPT OUT ]' + '-'*27 + '|')
                 print('|' + 'Anda telah melebihi batas percobaan login, Silahkan jalankan ulang program!'.center(83) + '|')
                 print('+' + '='*83 + '+')
                 # Keluar dari program
                 exit()
             # Melanjutkan percobaan login
             else:
-                req = input("| Klik Enter untuk melanjutkan... ")
+                req = input("| Klik ENTER untuk melanjutkan... ")
                 core.clear()
 
 # -
