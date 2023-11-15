@@ -67,38 +67,26 @@ def cari_index_dengan_id_list(data, id):
 # contoh data yag dikembalikan of func : ['2', 'Fauzan', '232410102011', '0888888888']
 def cari_id_list(data, nilai_id):
 
-    return cari_list(data, nilai_id, 0)
+    return cari_list(data, nilai_id, 0, True)
 
 
-def cari_list(data, nilai_id, index_kolom_id):
-    hasil = False
+# adalaha fungsi search untuk list, yang dimana mengiterasi kolom setiap baris,
+# disini memiliki 2 mode, strict (ketat) apa tidak, yang dimana ketat harus sama persis 
+# yang dicari (cocok untuk mencari id) (yang dimana merupaan 2 perbandingan string), 
+# jika non strict digunakan untuk mencari jika kolom memiliki karakter yang bersangkutan
+def cari_list(data, nilai, index_kolom:int, strict = False):
+    hasil = []
     for i in data:
-        if (type(i) == type(nilai_id)):
-            print("Warning : Perbandingan memiliki tipe data yang berbeda\n")
-        if (nilai_id == i[index_kolom_id]):
-            hasil = i
+        if (type(i[index_kolom]) != type(nilai)):
+            # print("Warning : Perbandingan memiliki tipe data yang berbeda\nmeloncati baris")
+            continue
+        if (nilai == i[index_kolom]) and (strict == True):
+            hasil.append(i)
             break
+        elif (nilai in i[index_kolom]) and (strict == False):
+            hasil.append(i)
+
     return hasil
-
-
-def convert_ke_associative_dict(data):
-    # Mendapatkan header (key) dari baris pertama
-    header = data[0]
-    del data[0]
-    # Inisialisasi dictionary kosong
-    data_dict = {}
-    
-    # Iterasi melalui baris-baris selanjutnya untuk membuat dict
-    for baris in data:
-        # Membuat kamus asosiatif untuk setiap baris
-        baris_dict = {}
-        for i in header:
-            baris_dict[header[i]] = baris[i]
-        
-        # Menambahkan kamus baris ke dalam kamus utama dengan menggunakan 'id' sebagai kunci
-        data_dict[baris_dict['id']] = baris_dict
-    
-    return data_dict
 
 
 def dd(data):
@@ -107,7 +95,7 @@ def dd(data):
     
 def pagination(data, limit, offset):
     hasil = {}
-    index = 0
+    index = 1
 
     for i in data:
         if len(hasil.get(index, [])) < limit:

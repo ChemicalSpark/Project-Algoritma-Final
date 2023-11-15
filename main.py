@@ -2,7 +2,7 @@ import login
 import kategori
 import kelola_buku
 # import peminjaman
-# import data_peminjam
+import data_peminjam
 import pengaturan_admin
 import core
 
@@ -22,17 +22,17 @@ def mainmenu():
                 core.clear()
                 kelola_buku.aksi_buku()
             case '3':
-                pass
-                # core.clear()
-                # peminjaman.aksi_peminjaman()
+                peminjaman = input('| > Pilih: ')
+                match peminjaman:
+                    case '1':
+                        core.clear()
+                        data_peminjam.aksi_peminjam()
+                    case '2':
+                        pass
             case '4':
-                pass
-                # core.clear()
-                # data_peminjam.aksi_peminjam()
-            case '5':
                 core.clear()
                 pengaturan_admin.Pengaturan_Admin()
-            case '6':
+            case '0':
                 print("Keluar dari program.")
                 exit()
             case _:

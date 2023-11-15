@@ -13,6 +13,8 @@ def tambah_baris_peminjam(nama, nim, telp):
     new_baris = [new_id, nama, nim, telp]
     data.append(new_baris)
     tulis_csv(data)
+    
+    return new_id
 
 def baca_baris_peminjam():
     # data = core.baca_csv(nama_file)
