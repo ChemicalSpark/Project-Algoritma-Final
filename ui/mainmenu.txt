@@ -18,8 +18,7 @@
 |___________________________________/ MAIN MENU \___________________________________|
 |/                               [1] Kategori Buku                                 \|
 |                                [2] Kelola Buku                                    |
-|                                [3] Daftar Peminjaman                              |
-|                                [4] Daftar Peminjam                                |
-|                                [5] Kelola Akun Admin                              |
+|                                [3] Kelola Peminjaman                              |
+|                                [4] Kelola Akun Admin                              |
 |\                               [0] Keluar                                        /|
 +-----------------------------------------------------------------------------------+
