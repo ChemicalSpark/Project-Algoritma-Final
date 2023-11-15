@@ -67,9 +67,9 @@ def aksi_peminjam():
             display = datpnjm.read()
             print(display)
 
-        pilih = int(input("Pilihan: "))
+        pilih = input("Pilihan: ")
         match pilih:
-            case 1:
+            case '1':
                 nama = input("Masukkan Nama: ")
                 no = input("Masukkan NIM: ")
                 telp = input("Masukkan Nomor Telepon: ")
@@ -77,12 +77,12 @@ def aksi_peminjam():
                 print("Data telah ditambahkan")
                 enter  = input("Klik enter untuk meneruskan")
                 core.clear()
-            case 2:
+            case '2':
                 core.clear()
                 print("Data saat ini:")
                 baca_baris_peminjam()
                 
-            case 3:
+            case '3':
                 print("Data saat ini:")
                 baca_baris_peminjam()
                 id = input("Masukkan ID data yang akan diperbarui: ")
@@ -106,7 +106,7 @@ def aksi_peminjam():
                     print("Data telah diperbarui.")
                     enter  = input("Klik enter untuk meneruskan")
                     core.clear()
-            case 4:
+            case '4':
                 user = input("Masukkan ID data yang akan dihapus: ")
                 hapus_baris_peminjam(user)
                 match user:
@@ -123,14 +123,12 @@ def aksi_peminjam():
             #     print('Data batal dihapus'+'\n')
             #     enter  = print("Klik enter untuk meneruskan")
             # core.clear()
-            case 9:
-                print("Kembali")
-            case 0:
-                print("Keluar dari program.")
-                core.clear()
+            case '9':
                 break
+            case '0':
+                core.clear()
+                exit()
             case _:
-                print("Pilihan tidak valid! Pilihlah sesuai nomor yang ada."+'\n')
                 core.clear()
 
 if __name__ == "__main__":
