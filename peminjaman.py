@@ -8,6 +8,24 @@ db_peminjam   = 'database/data_peminjam.csv'
 db_peminjaman = 'database/peminjaman.csv'
 db_buku       = 'database/buku.csv'
 
+
+def tambah_peminjam():
+    nama = input("Masukkan Nama: ")
+    no = input("Masukkan NIM: ")
+    telp = input("Masukkan Nomor Telepon: ")
+    id_peminjam_baru = peminjam.tambah_baris_peminjam(nama, no, telp)
+    print("Data telah ditambahkan."+'\n')
+    while True:
+        pilihan = input("Apakah anda ingin langsung memilih Peminjam ini (y/n) ? : ").lower()
+        if pilihan == "y":
+            pilih_peminjam(id_peminjam_baru)
+        elif pilihan == "n":
+            search_keyword = ""
+            break
+        else:
+            print("Input tidak valid, hanya menerima 'y' atau 'n' saja!")
+            
+
 def pilih_peminjam(id_peminjam):
     peminjam = core.baca_csv(db_peminjam)
     
@@ -154,22 +172,6 @@ while True:
         print("Input Tidak Valid!")
     # end match
 
-def tambah_peminjam():
-    nama = input("Masukkan Nama: ")
-    no = input("Masukkan NIM: ")
-    telp = input("Masukkan Nomor Telepon: ")
-    id_peminjam_baru = peminjam.tambah_baris_peminjam(nama, no, telp)
-    print("Data telah ditambahkan."+'\n')
-    while True:
-        pilihan = input("Apakah anda ingin langsung memilih Peminjam ini (y/n) ? : ").lower()
-        if pilihan == "y":
-            pilih_peminjam(id_peminjam_baru)
-        elif pilihan == "n":
-            search_keyword = ""
-            break
-        else:
-            print("Input tidak valid, hanya menerima 'y' atau 'n' saja!")
-            
 ####################
 # Area Setelah memlihi peminjam
     
