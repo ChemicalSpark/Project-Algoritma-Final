@@ -1,3 +1,3 @@
-id/kodebuku,id_kategori,judul,penulis,penerbit,isbn
-302,Ensiklopedia,hallo,thobiq,thobiq media,863,3
-203,Non Fiksi,yhahhH,thobiq,thobiq media,83,2
+id/kodebuku,id_kategori,judul,penulis,penerbit,isbn,jumlah
+2,Fiksi,kancil bakar,thobiq,thobiq media ilmu,t3-323-9,9
+3,Non Fiksi,fakta pohon,thobiq,thobiq dot com,279493-u38073-3,8

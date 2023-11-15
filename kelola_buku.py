@@ -1,7 +1,7 @@
 import os
 import csv
 import core
-#import pandas  as pd
+import pandas  as pd
 os.system('cls')
 
 # def tulis_csv(data):
@@ -19,6 +19,11 @@ def list_buku():
         #     nomor += 1
         #     print(nomor, i)
         return baca_buku
+    
+def daftar_buku():
+    '''fungsi menampilkan buku'''
+    df = pd.read_csv('database/buku.csv')
+    print(df)
 
 def kategori_buku():
     '''fungsi menampilakn kategori buku'''
@@ -47,29 +52,20 @@ def tambah_buku():
         input_penerbit = input('masukkan penerbit : ')
         input_isbn = input('masukkan ISBN : ')
         input_jumlah = int(input('masukkan jumlah buku : '))
-        if len(baca_buku) < 1:
+        if len(baca_buku) <= 1:
             id_bk = 1
         else :
-            id_bk = len(baca_buku) + 1
-        id_number = f"{list_kategori[input_kategori-1][0]}0{id_bk}"
+            id_bk = int(baca_buku[len(baca_buku) - 1][0]) + 1
         with open('database/buku.csv', mode='a', encoding='cp1252', newline='') as tambah_data:
             write = csv.writer(tambah_data)
-            write.writerow([id_number,list_kategori[input_kategori-1][1],input_judul,input_penulis,input_penerbit,input_isbn,input_jumlah])
+            write.writerow([id_bk,list_kategori[input_kategori-1][1],input_judul,input_penulis,input_penerbit,input_isbn,input_jumlah])
         ulangi = input('ada tambahan(y/n) ? : ')
     print('data telah ditambahkan')
 
-# def perbarui_baris_kategori(id_bk, input_kategori, input_judul, input_penulis, input_penerbit, input_isbn, input_jumlah):
-#     data = core.baca_csv('database/buku.csv')
-#     for baris in data:
-#         if  baris[0] == id_bk:
-#             baris[1] = input_kategori
-#             baris[2] = input_judul
-#             baris[3] = input_penulis
-#             baris[4] = input_penerbit
-#             baris[5] = input_isbn
-#             baris[6] = input_jumlah
-#             break
-#     tulis_csv(data)
+def update_buku(baca_buku):
+    input_judul = input('masukkan judul buku : ')
+    for 
+
 
 def hapus_buku():
     '''fungsi hapus buku'''
@@ -95,47 +91,47 @@ def hapus_buku():
                 
             index_hapus += 1
 
-def aksi_buku():
-        while True:
-                pilihan = input("Pilihan : ")
-                baca_buku = list_buku()
-                nomor = 0
-                match pilihan:
-                    case '2':
-                        for i in baca_buku:
-                            nomor += 1
-                            print(f'{nomor} {i}')
-                    case '1':
-                        tambah_buku()
-                    case '3':
-                        pass
-                        # id = input("Masukkan ID data yang akan diperbarui: ")
-                        # data = core.cari_id_list(core.baca_csv('database/buku.csv'), id)
-                        # if data == False:
-                        #     print("Data Tidak ada"+'\n')
-                        # else:
-                        #     print("Kategori lama :", data[1])
-                        #     input_kategori = input("Masukkan Kategori yang baru : ")
-                        #     print("Judul lama :", data[2])
-                        #     input_judul = input("Masukkan Judul yang baru : ")
-                        #     print("Penulis lama :", data[3])
-                        #     input_penulis = input("Masukkan Penulis yang baru : ")
-                        #     print("Penerbit lama :", data[4])
-                        #     input_penerbit = input("Masukkan Penerbit yang baru : ")
-                        #     print("jumlah lama :", data[5])
-                        #     input_jumlah = input("Masukkan  yang baru : ")
-                        #     perbarui_baris_kategori(id, input_kategori, input_judul, input_penulis, input_penerbit, input_jumlah)
-                        #     print("Data telah diperbarui."+'\n')
-                    case '4':
-                        hapus_buku()
-                    case '9':
-                        pass
-                    case '0':
-                        print("Keluar dari program."+'\n')
-                        break
+# def aksi_buku():
+#         while True:
+#                 pilihan = input("Pilihan : ")
+#                 baca_buku = list_buku()
+#                 nomor = 0
+#                 match pilihan:
+#                     case '2':
+#                         for i in baca_buku:
+#                             nomor += 1
+#                             print(f'{nomor} {i}')
+#                     case '1':
+#                         tambah_buku()
+#                     case '3':
+#                         pass
+#                         # id = input("Masukkan ID data yang akan diperbarui: ")
+#                         # data = core.cari_id_list(core.baca_csv('database/buku.csv'), id)
+#                         # if data == False:
+#                         #     print("Data Tidak ada"+'\n')
+#                         # else:
+#                         #     print("Kategori lama :", data[1])
+#                         #     input_kategori = input("Masukkan Kategori yang baru : ")
+#                         #     print("Judul lama :", data[2])
+#                         #     input_judul = input("Masukkan Judul yang baru : ")
+#                         #     print("Penulis lama :", data[3])
+#                         #     input_penulis = input("Masukkan Penulis yang baru : ")
+#                         #     print("Penerbit lama :", data[4])
+#                         #     input_penerbit = input("Masukkan Penerbit yang baru : ")
+#                         #     print("jumlah lama :", data[5])
+#                         #     input_jumlah = input("Masukkan  yang baru : ")
+#                         #     perbarui_baris_kategori(id, input_kategori, input_judul, input_penulis, input_penerbit, input_jumlah)
+#                         #     print("Data telah diperbarui."+'\n')
+#                     case '4':
+#                         hapus_buku()
+#                     case '9':
+#                         pass
+#                     case '0':
+#                         print("Keluar dari program."+'\n')
+#                         break
 
 if __name__ == "__main__":
-    display_buku =     list_buku()
+    # display_buku = list_buku()
     print('pilihan')
     print('1. daftar buku')
     print('2. tambah buku')
@@ -144,11 +140,12 @@ if __name__ == "__main__":
     pilihan = input('masukkan pilihan = ')
     match pilihan:
         case '1':
-            print(display_buku)
+            daftar_buku()
         case '2':
             tambah_buku()
         case '3':
-            aksi_buku()
+            # aksi_buku()
+            pass
         case '4':
             hapus_buku()
    
