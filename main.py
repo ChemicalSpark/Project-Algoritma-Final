@@ -10,6 +10,7 @@ core.clear()
 login.login()
 
 def mainmenu():
+    core.clear()
     with open('ui/mainmenu.txt','r') as title:
         display = title.read()
         print(display)
@@ -18,8 +19,8 @@ def mainmenu():
             case '1':
                 while True:
                     core.clear()
-                    with open('ui/kategori.txt','r') as kategori:
-                        display = kategori.read()
+                    with open('ui/kategori.txt','r') as kat:
+                        display = kat.read()
                         print(display)
                     user = input("| Pilihan: ")
                     match user:
@@ -33,6 +34,7 @@ def mainmenu():
                         case '2':
                             core.clear()
                             kategori.list_kategori()
+                            enter = input("| Klik Enter untuk melanjutkan... ")
                         case '3':
                             id = input("Masukkan ID data yang akan diperbarui: ")
                             data = core.cari_id_list(core.baca_csv('database/kategori.csv'), id)
@@ -40,9 +42,10 @@ def mainmenu():
                                 print("Data Tidak ada"+'\n')
                                 core.clear()
                             else:
-                                print("Kategori lama :", data[1])
-                                kategori = input("Masukkan Kategori yang baru : ")
-                                kategori.perbarui_baris_kategori(id, kategori)
+                                print("Kategori lama :", data[0])
+                                kat_baru = input("Masukkan Kategori yang baru : ")
+                                kat = kat_baru if kat_baru else data[0]
+                                kategori.perbarui_baris_kategori(id, kat)
                                 print("Data telah diperbarui."+'\n')
                                 core.clear()
                         case '4':

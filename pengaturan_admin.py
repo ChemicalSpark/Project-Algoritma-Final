@@ -101,9 +101,10 @@ Masukkan password yang berisi:
 def list_data():
     data_admin = load_data()
     if data_admin:
-        core.clear()
         df = pd.DataFrame(data_admin, columns=["ID", "Username", "Password"])
         print(df.to_string(index=False))
+        enter = input('Klik enter untuk melanjutkan')
+        core.clear()
     else:
         print("Tidak ada data admin yang tersedia.")
         enter = input('Klik enter untuk melanjutkan')

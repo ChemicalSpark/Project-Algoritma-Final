@@ -24,11 +24,11 @@ def tambah_kategori(new_kategori):
     with open('database/kategori.csv','a') as add_kategori:
         add_kategori.write(data_temp)
 
-def perbarui_baris_kategori(id, kategori):
+def perbarui_baris_kategori(id, kat):
     data = core.baca_csv('database/kategori.csv')
     for baris in data:
         if  baris[0] == id:
-            baris[1] = kategori
+            baris[1] = kat
             break
     tulis_csv(data)
         
@@ -47,6 +47,8 @@ def hapus_kategori(delete):
                         write = csv.writer(new_data)
                         write.writerows(data)
             index_hapus += 1
+
+
 
 if __name__ == "__main__":
     list_kategori()
