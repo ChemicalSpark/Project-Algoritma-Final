@@ -1,3 +1,5 @@
-id/kodebuku,id_kategori,judul,penulis,penerbit,isbn,jumlah
-4,5,kamus bahasa cina,thobiq,thobiq media,6583-3421-4,9
-5,1,kancil terbang,thobiq,thobiq media,863873-3863,9
+id,id_kategori,judul,penulis,penerbit,isbn,jumlah
+5,2,sapi renang,fauzan,unej media,0856-0668,8
+6,1,dongeng bakso sapi,ozi S.Pdf,PT. Kunci Ilmu,0856-0668-9642,7
+7,1,sapi kukus,thobiq,thobiq media,9583-3849,9
+7,2,fakta luar angkasa,prof. thobiq,thobiq media,3839382-999-9,9

@@ -13,8 +13,6 @@ def tambah_baris_peminjam(nama, nim, telp):
     new_baris = [new_id, nama, nim, telp]
     data.append(new_baris)
     tulis_csv(data)
-    
-    return new_id
 
 def baca_baris_peminjam():
     # data = core.baca_csv(nama_file)
@@ -56,8 +54,8 @@ def hapus_baris_peminjam(delete):
             index_hapus += 1
     # data = core.baca_csv(nama_file)
     # index_baris = core.cari_index_dengan_id_list(data, id)
-            if data == 0:
-                print("data tidak ditemukan")
+    # if index_baris == 0:
+    #     print("data tidak ditemukan")
     # else:
     #     core.hapus_baris_csv(nama_file,index_baris)
 
@@ -96,9 +94,11 @@ def aksi_peminjam():
                     print("Nama lama :", data[1])
                     nama_baru = input("Masukkan Nama yang baru : ")
                     nama = nama_baru if nama_baru else data[1]
+                    
                     print("NIM lama :", data[2])
                     no_baru = input("Masukkan NIM yang baru : ")
                     no = no_baru if no_baru else data[2]
+                    
                     print("Nomor Telepon lama :", data[3])
                     telp_baru = input("Masukkan Nomor Telepon yang baru : ")
                     telp = telp_baru if telp_baru else data[3]
@@ -111,18 +111,9 @@ def aksi_peminjam():
                 hapus_baris_peminjam(user)
                 match user:
                     case _:
+                        print('Data tidak ada')
                         aksi_peminjam()
                         core.clear()
-            # confirm = input('yakin ingin menghapus(y/n)? : ')
-            # if confirm == 'y':
-            #     hapus_baris_peminjam(idhapus)
-            #     print("Data telah dihapus."+'\n')
-            #     enter  = print("Klik enter untuk meneruskan")
-            #     core.clear()
-            # elif confirm == 'n':
-            #     print('Data batal dihapus'+'\n')
-            #     enter  = print("Klik enter untuk meneruskan")
-            # core.clear()
             case '9':
                 break
             case '0':

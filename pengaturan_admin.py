@@ -1,5 +1,6 @@
 import csv
 import pandas as pd
+import core
 
 user_file = "database/data_admin.csv"
 
@@ -82,14 +83,17 @@ Masukkan password yang berisi:
         for i in csvr:
             data_admin.append({"id": i[0], "username": i[1], "password": i[2]})
 
-
     for admin in data_admin:
         if username == admin['username']:
             print('Username sudah ada')
+            enter = input('Klik enter untuk melanjutkan')  
+            core.clear()
             return False
 
     id_baru = tambah_csv(username, password)
-    print(f"User baru dengan ID {id_baru} berhasil terdaftar.")    
+    print(f"User baru dengan ID {id_baru} berhasil terdaftar.")  
+    enter = input('Klik enter untuk melanjutkan')  
+    core.clear()
 
 
 
@@ -99,8 +103,12 @@ def list_data():
     if data_admin:
         df = pd.DataFrame(data_admin, columns=["ID", "Username", "Password"])
         print(df.to_string(index=False))
+        enter = input('Klik enter untuk melanjutkan')
+        core.clear()
     else:
         print("Tidak ada data admin yang tersedia.")
+        enter = input('Klik enter untuk melanjutkan')
+        core.clear()
 
 
 def hapus_akun(id_to_delete):
@@ -116,36 +124,13 @@ def hapus_akun(id_to_delete):
     if found:
         save_data(data_admin)
         print(f"Akun dengan ID {id_to_delete} berhasil dihapus.")
+        enter = input('Klik enter untuk melanjutkan')
+        core.clear()
     else:
         print(f"Akun dengan ID {id_to_delete} tidak ditemukan.")    
+        enter = input('Klik enter untuk melanjutkan')
+        core.clear()
 
-    
-def Pengaturan_Admin():
-    while True:
-        print('''
-Pilihan:
-1. Register
-2. List Admin
-3. Hapus Akun Admin
-9. Kembali
-0. Keluar
-        ''')
-
-        pilihan = input('Masukkan pilihan: ')
-
-        if pilihan == '1':
-            register()
-        elif pilihan == '2':
-            list_data()
-        elif pilihan == '3':
-            id_to_delete = input('Masukkan ID admin yang akan dihapus: ')
-            hapus_akun(id_to_delete)
-        elif pilihan == '9':
-            pass
-        elif pilihan == '0':
-            return
-        else:
-            print('Pilihan tidak valid. Silakan coba lagi.')
     
 
 if __name__ == "__main__":
@@ -156,5 +141,4 @@ if __name__ == "__main__":
     register()
     list_data()
     hapus_akun()
-    Pengaturan_Admin()
 

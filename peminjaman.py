@@ -51,7 +51,7 @@ def tambah_peminjaman(id_peminjam):
         while True:        
             input_user = int(input("Pilih operasi (angka) : "))
             
-            buku = core.cari_list(daftar_buku, input_user, 0)
+            buku = core.cari_list(daftar_buku[1:], input_user, 0, True)
             
             match input_user:
                 case 1:
@@ -60,12 +60,14 @@ def tambah_peminjaman(id_peminjam):
                     else:    
                         pilihan_user = input(f"apakah anda yakin memilih buku no {input_user} (y/t) :" )
                         
-                        if pilihan_user.lower() != 'y':
+                        if pilihan_user.lower() != 'n':
                             break
-                        else:
+                        elif pilihan_user.lower() != 'y':
                             core.dd(buku)
-                            # input_peminjaman(buku[3], )
-                    
+                            input_peminjaman(buku[3], )
+                        else:
+                            input("input tidak valid!\ntekan enter untuk melanjutkan")
+
                 case 2:
                     if current_page > 1:
                         current_page -= 1
@@ -96,16 +98,26 @@ def tampilkan_daftar_buku(search_keyword = "", current_page = 1, total_pages = 1
     
     daftar_kategori = core.baca_csv(db_kategori)
         
-    data_buku = [["No", "Nama", "Kategori", "Penulis", "Penerbit", "Jumlah", "id"]]
+    data_buku = [["No", "Nama", "Kategori", "Penulis", "Penerbit", "ISBN", "Jumlah" , "id"]]
     
     i = 1
     for baris in daftar_buku:
+        # me skip baris kolom / header
+        if baris[0] == "id":
+            continue
+        
+        nama_kategori = ""
         
         nama = baris[2]
-        nama_kategori = core.cari_id_list(daftar_kategori, baris[1])
+        
+        kategori = core.cari_id_list(daftar_kategori, baris[1])
+        if (len(kategori) > 0):
+            nama_kategori = kategori[0][1]
+            
         penulis = baris[3]
         penerbit = baris[4]
-        jumlah = baris[5]
+        isbn = baris[5]
+        jumlah = baris[6]
         
         data_buku.append([i, nama, nama_kategori, penulis, penerbit, jumlah])
         i += 1
@@ -307,6 +319,7 @@ def aksi_peminjaman(mode = "kelola"):
 def aksi_utama():
 
     while True:
+        core.clear()
         with open('ui/catalibra.txt', 'r') as f:
             print(f.read())
         with open('ui/peminjaman/aksi_utama.txt', 'r') as f:
@@ -333,7 +346,8 @@ def aksi_utama():
     
 ####################
 # Area Setelah memlihi peminjam
-    
+
+# aksi_utama()    
 
 if __name__ == "__main__":
     aksi_utama()
