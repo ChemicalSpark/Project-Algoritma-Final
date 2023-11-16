@@ -131,33 +131,8 @@ def hapus_akun(id_to_delete):
         core.clear()
 
     
-def Pengaturan_Admin():
-    while True:
-        with open('ui/kelola_akun_admin.txt','r') as pengaturan_admin :
-            display = pengaturan_admin.read()
-            print(display)
-        pilihan = input('Masukkan pilihan: ')
-        if pilihan == '1':
-            register()
-            core.clear()
-        elif pilihan == '2':
-            list_data()
-        elif pilihan == '3':
-            id_to_delete = input('Masukkan ID admin yang akan dihapus: ')
-            hapus_akun(id_to_delete)
-            core.clear()
-        elif pilihan == '9':
-            break
-        elif pilihan == '0':
-            print('Keluar dari program')
-            exit()
-        else:
-            print('Pilihan tidak valid. Silakan coba lagi.')
-            core.clear()
-    
 
 if __name__ == "__main__":
-    Pengaturan_Admin()
     load_data()
     save_data()
     tambah_csv()

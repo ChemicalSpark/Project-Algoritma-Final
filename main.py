@@ -82,8 +82,29 @@ def mainmenu():
                             continue
                         
             case '4':
-                core.clear()
-                pengaturan_admin.Pengaturan_Admin()
+                while True:
+                    core.clear()
+                    with open('ui/kelola_akun_admin.txt','r') as settings_admin :
+                        display = settings_admin.read()
+                        print(display)
+                    pilihan = input('Masukkan pilihan: ')
+                    if pilihan == '1':
+                        pengaturan_admin.register()
+                        core.clear()
+                    elif pilihan == '2':
+                        pengaturan_admin.list_data()
+                    elif pilihan == '3':
+                        id_to_delete = input('Masukkan ID admin yang akan dihapus: ')
+                        pengaturan_admin.hapus_akun(id_to_delete)
+                        core.clear()
+                    elif pilihan == '9':
+                        core.clear()
+                        mainmenu()
+                    elif pilihan == '0':
+                        core.clear()
+                        exit()
+                    else:
+                        core.clear()
             case '0':
                 print("Keluar dari program.")
                 exit()

@@ -48,51 +48,7 @@ def hapus_kategori(delete):
                         write.writerows(data)
             index_hapus += 1
 
-def aksi_kategori():
-        while True:
-            with open('ui/kategori.txt','r') as kategori:
-                display = kategori.read()
-                print(display)
-            user = input("| Pilihan: ")
-            match user:
-                case '1':
-                    print("| Masukkan kategori baru!")
-                    user = input("| Kategori: ")
-                    tambah_kategori(user)
-                    print("| Kategori berhasil ditambahkan!")
-                    enter = input("| Klik Enter untuk melanjutkan... ")
-                    core.clear()
-                case '2':
-                    core.clear()
-                    list_kategori()
-                case '3':
-                    id = input("Masukkan ID data yang akan diperbarui: ")
-                    data = core.cari_id_list(core.baca_csv('database/kategori.csv'), id)
-                    if data == False:
-                        print("Data Tidak ada"+'\n')
-                        core.clear()
-                    else:
-                        print("Kategori lama :", data[1])
-                        kategori = input("Masukkan Kategori yang baru : ")
-                        perbarui_baris_kategori(id, kategori)
-                        print("Data telah diperbarui."+'\n')
-                        core.clear()
-                case '4':
-                    list_kategori()
-                    user = input("Pilih data yang akan dihapus: ")
-                    hapus_kategori(user)
-                    print('\n')
-                    core.clear()
-                case '9':
-                    break
-                case '0':
-                    core.clear()
-                    exit()
-                case _:
-                    core.clear()
-
 if __name__ == "__main__":
-    aksi_kategori()
     list_kategori()
     tambah_kategori()
     perbarui_baris_kategori()
