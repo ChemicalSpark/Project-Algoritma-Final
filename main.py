@@ -1,6 +1,6 @@
 import login
 import kategori
-# import kelola_buku
+import kelola_buku
 # import peminjaman
 import data_peminjam
 import pengaturan_admin
@@ -63,8 +63,34 @@ def mainmenu():
                         case _:
                             core.clear()
             case '2':
-                core.clear()
-                # kelola_buku.aksi_buku()
+                while True:
+                    core.clear()
+                    with open('ui/kelola_buku.txt','r') as buku:
+                        display = buku.read()
+                        print(display)
+                        pilihan = input("Pilihan : ")
+                        match pilihan:
+                            case '1':
+                                kelola_buku.tambah_buku()
+                                core.clear()
+                            case '2':
+                                kelola_buku.dtframe_buku()
+                                enter = input('Klik ENTER untuk melanjutkan...')
+                                core.clear()
+                            case '3':
+                                kelola_buku.update_buku()
+                                core.clear()
+                            case '4':
+                                kelola_buku.hapus_buku()
+                                core.clear()
+                            case '9':
+                                core.clear()
+                                mainmenu()
+                            case '0':
+                                core.clear()
+                                exit()
+                            case _:
+                                core.clear()
             case '3':
                 while True:
                     core.clear()
@@ -83,7 +109,6 @@ def mainmenu():
                             mainmenu()
                         case _:
                             continue
-                        
             case '4':
                 while True:
                     core.clear()
