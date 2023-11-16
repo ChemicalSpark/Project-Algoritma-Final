@@ -37,24 +37,31 @@ def mainmenu():
                                 kategori.list_kategori()
                                 enter = input("| Klik Enter untuk melanjutkan... ")
                             case '3':
+                                kategori.list_kategori()
                                 id = input("Masukkan ID data yang akan diperbarui: ")
                                 data = core.cari_id_list(core.baca_csv('database/kategori.csv'), id)
                                 if data == False:
-                                    print("Data Tidak ada"+'\n')
+                                    kategori.list_kategori()
+                                    print("Data Tidak ada")
+                                    enter  = input("Klik ENTER untuk meneruskan")
                                     core.clear()
                                 else:
-                                    print("Kategori lama :", data[0])
+                                    print("Kategori lama :", data[0][1])
                                     kat_baru = input("Masukkan Kategori yang baru : ")
-                                    kat = kat_baru if kat_baru else data[0]
+                                    kat = kat_baru if kat_baru else data[0][1]
                                     kategori.perbarui_baris_kategori(id, kat)
-                                    print("Data telah diperbarui."+'\n')
+                                    print("Data telah diperbarui.")
+                                    enter  = input("Klik ENTER untuk meneruskan")
                                     core.clear()
                             case '4':
                                 kategori.list_kategori()
                                 user = input("Pilih data yang akan dihapus: ")
                                 kategori.hapus_kategori(user)
-                                print('\n')
-                                core.clear()
+                                match user:
+                                    case _:
+                                        core.clear()
+                                        print('Data tidak ada')
+                                        continue
                             case '9':
                                 core.clear()
                                 mainmenu()
