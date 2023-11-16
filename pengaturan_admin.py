@@ -83,14 +83,17 @@ Masukkan password yang berisi:
         for i in csvr:
             data_admin.append({"id": i[0], "username": i[1], "password": i[2]})
 
-
     for admin in data_admin:
         if username == admin['username']:
             print('Username sudah ada')
+            enter = input('Klik enter untuk melanjutkan')  
+            core.clear()
             return False
 
     id_baru = tambah_csv(username, password)
-    print(f"User baru dengan ID {id_baru} berhasil terdaftar.")    
+    print(f"User baru dengan ID {id_baru} berhasil terdaftar.")  
+    enter = input('Klik enter untuk melanjutkan')  
+    core.clear()
 
 
 
@@ -98,10 +101,13 @@ Masukkan password yang berisi:
 def list_data():
     data_admin = load_data()
     if data_admin:
+        core.clear()
         df = pd.DataFrame(data_admin, columns=["ID", "Username", "Password"])
         print(df.to_string(index=False))
     else:
         print("Tidak ada data admin yang tersedia.")
+        enter = input('Klik enter untuk melanjutkan')
+        core.clear()
 
 
 def hapus_akun(id_to_delete):
@@ -117,8 +123,12 @@ def hapus_akun(id_to_delete):
     if found:
         save_data(data_admin)
         print(f"Akun dengan ID {id_to_delete} berhasil dihapus.")
+        enter = input('Klik enter untuk melanjutkan')
+        core.clear()
     else:
         print(f"Akun dengan ID {id_to_delete} tidak ditemukan.")    
+        enter = input('Klik enter untuk melanjutkan')
+        core.clear()
 
     
 def Pengaturan_Admin():
@@ -135,16 +145,19 @@ def Pengaturan_Admin():
         elif pilihan == '3':
             id_to_delete = input('Masukkan ID admin yang akan dihapus: ')
             hapus_akun(id_to_delete)
-            core.clear
+            core.clear()
         elif pilihan == '9':
-            pass
+            break
         elif pilihan == '0':
-            return
+            print('Keluar dari program')
+            exit()
         else:
             print('Pilihan tidak valid. Silakan coba lagi.')
+            core.clear()
     
 
 if __name__ == "__main__":
+    Pengaturan_Admin()
     load_data()
     save_data()
     tambah_csv()
@@ -152,5 +165,4 @@ if __name__ == "__main__":
     register()
     list_data()
     hapus_akun()
-    Pengaturan_Admin()
 
