@@ -4,13 +4,13 @@ import core
 import pandas  as pd
 
 def list_buku():
-    '''fungsi menampilkan buku'''
+    '''fungsi read data buku'''
     with open('database/buku.csv', mode='r', encoding='cp1252') as list_data:
         baca_buku = list(csv.reader(list_data))
         return baca_buku
     
-def daftar_buku():
-    '''fungsi menampilkan buku'''
+def dtframe_buku():
+    '''fungsi menampilkan data frame buku'''
     df = pd.read_csv('database/buku.csv')
     print(df)
 
@@ -22,16 +22,18 @@ def kategori_buku():
         tampil_kategori = ''
         for i in list_kategori:
             nomor += 1
-            tampil_kategori += f'[{nomor}] {i[1]}'
+            tampil_kategori += f'[{nomor}] {i[1]} '
         return tampil_kategori, list_kategori
 
 def tambah_buku():
     '''fungsi tambah buku'''
     data_buku = list_buku()
-    tampil_kategori, list_kategori = kategori_buku()
+    display_kategori, list_kategori = kategori_buku()
     ulangi = 'y'
     while ulangi == 'y':
-        print(tampil_kategori)
+        nomor = 0
+        print('pilihan kategori :')
+        print(display_kategori)
         input_kategori = int(input('pilih kategori buku : '))
         input_judul = input('masukkan judul : ')
         input_penulis = input('masukka penulis : ')
@@ -42,10 +44,17 @@ def tambah_buku():
             id_bk = 1
         else :
             id_bk = int(data_buku[len(data_buku) - 1][0]) + 1
-        with open('database/buku.csv', mode='a', encoding='cp1252', newline='') as tambah_data:
-            write = csv.writer(tambah_data)
-            write.writerow([id_bk,list_kategori[input_kategori-1][0],input_judul,input_penulis,input_penerbit,input_isbn,input_jumlah])
-        ulangi = input('ada tambahan(y/n) ? : ')
+        for i in data_buku:
+            if i[2] == input_judul:
+                print('!'*27,'PERINGATAN','!'*27)
+                print('<< data yang ditambahkan sudah ada, silahkan masukkan data lain >>')
+            else:
+                nomor += 1
+        if nomor == len(data_buku):
+            with open('database/buku.csv', mode='a', encoding='cp1252', newline='') as tambah_data:
+                write = csv.writer(tambah_data)
+                write.writerow([id_bk,list_kategori[input_kategori-1][0],input_judul,input_penulis,input_penerbit,input_isbn,input_jumlah])
+            ulangi = input('ada tambahan(y/n) ? : ')
     print('data telah ditambahkan')
 
 def update_buku():
@@ -68,7 +77,8 @@ def update_buku():
                     pilihan = input('masukkan pilihan : ')
                     match pilihan :
                         case '1':
-                            list_kategori()
+                            print('pilihan kategori :')
+                            print(display_kategori)
                             input_kategori = int(input('masukkan kategori baru : '))
                             i[1] = list_kategori[input_kategori - 1][0]
                         case '2':
@@ -82,9 +92,10 @@ def update_buku():
                         case '6':
                             i[6] = input('masukkan jumlah baru : ')     
                         case '99':
+                            print('pilihan kategori :')
                             print(display_kategori)
                             input_kategori = int(input('masukkan kategori baru : '))
-                            i[1] = display_kategori[input_kategori - 1][0]
+                            i[1] = list_kategori[input_kategori - 1][0]
                             i[2] = input('masukkan judul baru : ')
                             i[3] = input('masukkan penulis baru : ')
                             i[4] = input('masukkan penerbit baru :')
@@ -131,7 +142,7 @@ def hapus_buku():
                     print('data batal dihapus')
                     kondisi = False
             else:
-                nilai += 1
+                nilai += 1   
             if nilai == len(data_buku):
                 print('!! judul tidak ditemukan, silahkan masukkan judul yang benar !!')
             index_hapus += 1
@@ -147,7 +158,7 @@ def aksi_buku():
                         tambah_buku()
                         core.clear()
                     case '2':
-                        daftar_buku()
+                       dtframe_buku()
                         # core.clear()
                     case '3':
                         update_buku()
@@ -165,7 +176,8 @@ def aksi_buku():
 
 if __name__ == "__main__":
     aksi_buku()
-    daftar_buku()
     tambah_buku()
+    dtframe_buku()
+    update_buku()
     hapus_buku()
-    
+    2
