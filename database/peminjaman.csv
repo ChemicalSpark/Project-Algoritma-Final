@@ -1,2 +1,6 @@
-id,id_peminjam,id_buku,id_admin,tanggal_peminjaman,tanggal_pengembalian,status,denda_terlambat
-0,2,2,0,12/05/2020,29/06/2020,dikembalikan,0
+id,id_peminjam,id_buku,tanggal_peminjaman,tanggal_pengembalian,status,denda_terlambat
+1,2,2,12/05/2020,29/06/2020,dikembalikan,0
+2,1,1,16/11/2023,12/12/2012,belum dikembalikan,0
+3,1,1,16/11/2023,09/01/2023,belum dikembalikan,0
+4,1,1,16/11/2023,13/02/2024,belum dikembalikan,0
+5,1,1,16/11/2023,13/02/2024,belum dikembalikan,0

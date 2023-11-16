@@ -2,8 +2,9 @@
                                   _________________
 .________________________________/   PEMINJAMAN    \________________________________.
 |/                               [1] Pilih Buku                                    \| 
-|                                [2] Pindah Halaman Ke kiri                         |
-|                                [3] Pindah Halaman Ke kanan                        |
-|                                [4] Kembali                                        |
+|                                [2] Cari Buku                                      |
+|                                [3] Pindah Halaman Ke kiri                         |
+|                                [4] Pindah Halaman Ke kanan                        |
+|                                [5] Kembali                                        |
 |\                               [0] Keluar                                        /|
 +-----------------------------------------------------------------------------------+

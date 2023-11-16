@@ -41,6 +41,7 @@ def login():
                 print('+' + '='*83 + '+')
                 # -
                 login_session = True
+                
                 # Pause sebelum di clear
                 req = input("| Klik ENTER untuk melanjutkan... ")
                 core.clear()

@@ -30,7 +30,8 @@ def tulis_csv(nama_file, data):
 def tambah_ke_csv(nama_file, data_baru):
     with open(nama_file, mode='a', newline='') as file_csv:
         csv_writer = csv.writer(file_csv)
-        csv_writer.writerows(data_baru)
+        # file_csv.write('\n')  # Add a newline
+        csv_writer.writerow(data_baru)
 
 # menulis data baru ke baris index 
 # nilai argumen harus list contoh : 
@@ -81,11 +82,13 @@ def cari_list(data, nilai, index_kolom:int, strict = False):
         if (type(i[index_kolom]) != type(nilai)):
             # print("Warning : Perbandingan memiliki tipe data yang berbeda\nmeloncati baris")
             continue
-        if (nilai == i[index_kolom]) and (strict == True):
-            hasil.append(i)
-            break
-        elif (nilai in i[index_kolom]) and (strict == False):
-            hasil.append(i)
+        if (strict == True):
+            if (nilai == i[index_kolom]):
+                hasil.append(i)
+                break
+        elif (strict == False):
+            if (nilai in i[index_kolom]) and (strict == False):
+                hasil.append(i)
 
     return hasil
 
