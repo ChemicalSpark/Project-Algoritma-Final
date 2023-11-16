@@ -15,7 +15,6 @@ def tambah_baris_peminjam(nama, nim, telp):
     tulis_csv(data)
 
 def baca_baris_peminjam():
-    # data = core.baca_csv(nama_file)
     df = pd.read_csv(nama_file)
     print(df.to_string(index=False))
 
@@ -73,12 +72,13 @@ def aksi_peminjam():
                 telp = input("Masukkan Nomor Telepon: ")
                 tambah_baris_peminjam(nama, no, telp)
                 print("Data telah ditambahkan")
-                enter  = input("Klik enter untuk meneruskan")
+                enter  = input("Klik ENTER untuk meneruskan")
                 core.clear()
             case '2':
-                core.clear()
                 print("Data saat ini:")
                 baca_baris_peminjam()
+                enter  = input("Klik ENTER untuk meneruskan")
+                core.clear()
                 
             case '3':
                 print("Data saat ini:")
@@ -88,23 +88,24 @@ def aksi_peminjam():
                 if data == False:
                     baca_baris_peminjam()
                     print("Data Tidak ada")
-                    enter  = input("Klik enter untuk meneruskan")
+                    enter  = input("Klik ENTER untuk meneruskan")
                     core.clear()
                 else:
-                    print("Nama lama :", data[1])
+                    core.dd(data)
+                    print("Nama lama :", data[0][1])
                     nama_baru = input("Masukkan Nama yang baru : ")
-                    nama = nama_baru if nama_baru else data[1]
+                    nama = nama_baru if nama_baru else data[0][1]
                     
-                    print("NIM lama :", data[2])
+                    print("NIM lama :", data[0][2])
                     no_baru = input("Masukkan NIM yang baru : ")
-                    no = no_baru if no_baru else data[2]
+                    no = no_baru if no_baru else data[0][2]
                     
-                    print("Nomor Telepon lama :", data[3])
+                    print("Nomor Telepon lama :", data[0][3])
                     telp_baru = input("Masukkan Nomor Telepon yang baru : ")
-                    telp = telp_baru if telp_baru else data[3]
+                    telp = telp_baru if telp_baru else data[0][3]
                     perbarui_baris_peminjam(id, nama, no, telp)
                     print("Data telah diperbarui.")
-                    enter  = input("Klik enter untuk meneruskan")
+                    enter  = input("Klik ENTER untuk meneruskan")
                     core.clear()
             case '4':
                 user = input("Masukkan ID data yang akan dihapus: ")
