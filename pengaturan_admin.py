@@ -133,7 +133,6 @@ def hapus_akun(id_to_delete):
 
 def aksi_pengaturan():
     while True:
-        core.clear()
         with open('ui/kelola_akun_admin.txt','r') as settings_admin :
             display = settings_admin.read()
             print(display)

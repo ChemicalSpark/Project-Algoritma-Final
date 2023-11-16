@@ -48,7 +48,7 @@ def hapus_kategori(delete):
 
 def aksi_kategori():
     while True:
-        core.clear()
+        # core.clear()
         with open('ui/kategori.txt','r') as kat:
             display = kat.read()
             print(display)

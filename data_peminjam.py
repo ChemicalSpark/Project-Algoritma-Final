@@ -60,7 +60,6 @@ def hapus_baris_peminjam(delete):
 
 def aksi_peminjam():
     while True:
-        core.clear()
         with open('ui/data_peminjam.txt','r') as datpnjm:
             display = datpnjm.read()
             print(display)

@@ -189,7 +189,6 @@ def hapus_buku():
             
 def aksi_buku():
         while True:
-            core.clear()
             with open('ui/kelola_buku.txt','r') as buku:
                 display = buku.read()
                 print(display)
