@@ -53,19 +53,19 @@ def aksi_kategori():
             with open('ui/kategori.txt','r') as kategori:
                 display = kategori.read()
                 print(display)
-            user = int(input("| Pilihan: "))
+            user = input("| Pilihan: ")
             match user:
-                case 1:
+                case '1':
                     print("| Masukkan kategori baru!")
                     user = input("| Kategori: ")
                     tambah_kategori(user)
                     print("| Kategori berhasil ditambahkan!")
                     enter = input("| Klik Enter untuk melanjutkan... ")
                     core.clear()
-                case 2:
+                case '2':
                     core.clear()
                     list_kategori()
-                case 3:
+                case '3':
                     id = input("Masukkan ID data yang akan diperbarui: ")
                     data = core.cari_id_list(core.baca_csv('database/kategori.csv'), id)
                     if data == False:
@@ -77,20 +77,19 @@ def aksi_kategori():
                         perbarui_baris_kategori(id, kategori)
                         print("Data telah diperbarui."+'\n')
                         core.clear()
-                case 4:
+                case '4':
                     list_kategori()
                     user = input("Pilih data yang akan dihapus: ")
                     hapus_kategori(user)
                     print('\n')
                     core.clear()
-                case 9:
-                    pass
-                case 0:
-                    print("Keluar dari program."+'\n')
-                    core.clear()
+                case '9':
                     break
+                case '0':
+                    core.clear()
+                    exit()
                 case _:
-                    aksi_kategori()
+                    core.clear()
 
 if __name__ == "__main__":
     aksi_kategori()
