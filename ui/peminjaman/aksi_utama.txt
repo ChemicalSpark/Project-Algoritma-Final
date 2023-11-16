@@ -1,0 +1,10 @@
+                      [ Silahkan Pilih Operasi yang anda inginkan ]
+                                  _________________
+.________________________________/   PEMINJAMAN    \________________________________.
+|/                               [1] Buat Peminjaman Baru                          \| 
+|                                [2] Update Peminjaman                              |
+|                                [3] Hapus Peminjaman                               |
+|                                [4] Kelola Peminjaman                              |
+|                                [5] Kembali                                        |
+|\                               [0] Keluar                                        /|
++-----------------------------------------------------------------------------------+

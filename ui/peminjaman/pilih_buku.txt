@@ -1,0 +1,9 @@
+                      [ Silahkan Pilih Buku yang ingin Dipinjam ]
+                                  _________________
+.________________________________/   PEMINJAMAN    \________________________________.
+|/                               [1] Pilih Buku                                    \| 
+|                                [2] Pindah Halaman Ke kiri                         |
+|                                [3] Pindah Halaman Ke kanan                        |
+|                                [4] Kembali                                        |
+|\                               [0] Keluar                                        /|
++-----------------------------------------------------------------------------------+
