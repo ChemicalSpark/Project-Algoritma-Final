@@ -1,5 +1,6 @@
 import csv
 import pandas as pd
+import core
 
 user_file = "database/data_admin.csv"
 
@@ -122,24 +123,19 @@ def hapus_akun(id_to_delete):
     
 def Pengaturan_Admin():
     while True:
-        print('''
-Pilihan:
-1. Register
-2. List Admin
-3. Hapus Akun Admin
-9. Kembali
-0. Keluar
-        ''')
-
+        with open('ui/kelola_akun_admin.txt','r') as pengaturan_admin :
+            display = pengaturan_admin.read()
+            print(display)
         pilihan = input('Masukkan pilihan: ')
-
         if pilihan == '1':
             register()
+            core.clear()
         elif pilihan == '2':
             list_data()
         elif pilihan == '3':
             id_to_delete = input('Masukkan ID admin yang akan dihapus: ')
             hapus_akun(id_to_delete)
+            core.clear
         elif pilihan == '9':
             pass
         elif pilihan == '0':
