@@ -189,6 +189,7 @@ def hapus_buku():
             
 def aksi_buku():
         while True:
+            core.clear()
             with open('ui/kelola_buku.txt','r') as buku:
                 display = buku.read()
                 print(display)
@@ -198,8 +199,9 @@ def aksi_buku():
                         tambah_buku()
                         core.clear()
                     case '2':
-                       dtframe_buku()
-                        # core.clear()
+                        dtframe_buku()
+                        enter = input('Klik ENTER untuk melanjutkan...')
+                        core.clear()
                     case '3':
                         update_buku()
                         core.clear()
@@ -207,6 +209,7 @@ def aksi_buku():
                         hapus_buku()
                         core.clear()
                     case '9':
+                        core.clear()
                         break
                     case '0':
                         core.clear()
