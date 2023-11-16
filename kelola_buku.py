@@ -3,6 +3,9 @@ import csv
 import core
 import pandas  as pd
 
+db_buku = 'database/buku.csv'
+db_kategori   = "database/kategori.csv"
+
 def list_buku():
     '''fungsi read data buku'''
     with open('database/buku.csv', mode='r', encoding='cp1252') as list_data:
@@ -11,8 +14,45 @@ def list_buku():
     
 def dtframe_buku():
     '''fungsi menampilkan data frame buku'''
-    df = pd.read_csv('database/buku.csv')
-    print(df)
+    
+    daftar_buku = core.baca_csv(db_buku)
+    
+    daftar_kategori = core.baca_csv(db_kategori)
+        
+    data_buku = [["No", "Nama", "Kategori", "Penulis", "Penerbit", "ISBN", "Jumlah" , "id"]]
+    
+    i = 1
+    for baris in daftar_buku:
+        # me skip baris kolom / header
+        if baris[0] == "id":
+            continue
+        
+        nama_kategori = ""
+        
+        nama = baris[2]
+        
+        kategori = core.cari_id_list(daftar_kategori, baris[1])
+        if (len(kategori) > 0):
+            nama_kategori = kategori[0][1]
+            
+        penulis = baris[3]
+        penerbit = baris[4]
+        isbn = baris[5]
+        jumlah = baris[6]
+        
+        data_buku.append([i, nama, nama_kategori, penulis, penerbit, jumlah])
+        i += 1
+
+
+
+    # membuat data frame dengan data buku dimulai dari index (me skip header)
+    df = pd.DataFrame(data_buku[1:], columns=["No", "Nama", "Kategori", "Penulis", "Penerbit", "Jumlah"])
+
+    # untuk mengabaikan index bawaan pandas
+    output = df.to_string(index=False)
+    print(output)
+    
+    
 
 def kategori_buku():
     '''fungsi menampilakn kategori buku'''

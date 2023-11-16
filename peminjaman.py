@@ -7,7 +7,11 @@ import data_peminjam as peminjam
 db_peminjam   = 'database/data_peminjam.csv'
 db_peminjaman = 'database/peminjaman.csv'
 db_buku       = 'database/buku.csv'
+db_kategori   = "database/kategori.csv"
 
+limit_per_page = 7
+
+# UNTUK BAGIAN JALUR NAMBAH PEMINJAMAN SETELAH
 
 def tambah_peminjam():
     nama = input("Masukkan Nama: ")
@@ -24,15 +28,150 @@ def tambah_peminjam():
             break
         else:
             print("Input tidak valid, hanya menerima 'y' atau 'n' saja!")
-            
 
-def pilih_peminjam(id_peminjam):
+def input_peminjaman(id_buku, id_peminjam):
+    exit()
+
+
+
+def tambah_peminjaman(id_peminjam):
+    
+    search_keyword = ""
+    current_page = 1
+    total_pages = 1
+    
+    kembali = False
+    
+    while True:
+        core.clear()
+        daftar_buku = tampilkan_daftar_buku(search_keyword, current_page, total_pages)
+        with open('ui/peminjaman/pilih_buku.txt', 'r') as f:
+            print(f.read())
+            
+        while True:        
+            input_user = int(input("Pilih operasi (angka) : "))
+            
+            buku = core.cari_list(daftar_buku[1:], input_user, 0, True)
+            
+            match input_user:
+                case 1:
+                    if (len(buku) == 0):
+                        print("no buku yang anda pilih Tidak ada")
+                    else:    
+                        pilihan_user = input(f"apakah anda yakin memilih buku no {input_user} (y/t) :" )
+                        
+                        if pilihan_user.lower() != 'n':
+                            break
+                        elif pilihan_user.lower() != 'y':
+                            core.dd(buku)
+                            input_peminjaman(buku[3], )
+                        else:
+                            input("input tidak valid!\ntekan enter untuk melanjutkan")
+
+                case 2:
+                    if current_page > 1:
+                        current_page -= 1
+                case 3:
+                    if current_page < total_pages:
+                        current_page += 1
+                case 4:
+                    break
+                case 0:
+                    exit()
+                case _ :
+                    input("input tidak valid!\ntekan enter untuk melanjutkan")
+                    
+        if kembali:
+            break        
+    
+
+
+def tampilkan_daftar_buku(search_keyword = "", current_page = 1, total_pages = 1):
+
+    daftar_buku = core.baca_csv(db_buku)
+    
+    if len(search_keyword) > 0:
+        daftar_buku = core.cari_list(daftar_buku, search_keyword, 2, True)
+        current_page = 1
+
+    daftar_buku, total_pages = core.pagination(daftar_buku, limit_per_page, current_page)
+    
+    daftar_kategori = core.baca_csv(db_kategori)
+        
+    data_buku = [["No", "Nama", "Kategori", "Penulis", "Penerbit", "ISBN", "Jumlah" , "id"]]
+    
+    i = 1
+    for baris in daftar_buku:
+        # me skip baris kolom / header
+        if baris[0] == "id":
+            continue
+        
+        nama_kategori = ""
+        
+        nama = baris[2]
+        
+        kategori = core.cari_id_list(daftar_kategori, baris[1])
+        if (len(kategori) > 0):
+            nama_kategori = kategori[0][1]
+            
+        penulis = baris[3]
+        penerbit = baris[4]
+        isbn = baris[5]
+        jumlah = baris[6]
+        
+        data_buku.append([i, nama, nama_kategori, penulis, penerbit, jumlah])
+        i += 1
+
+
+
+    df = pd.DataFrame(data_buku[1:8], columns=["No", "Nama", "Kategori", "Penulis", "Penerbit", "Jumlah"])
+
+    # untuk mengabaikan index bawaan pandas
+    output = df.to_string(index=False)
+    
+    hasil = ""
+    for i in output.split("\n"):
+        hasil += " "*10 + i + "\n"
+    
+    print(hasil)
+    
+    print( " "*37 + f"page {current_page} of {total_pages}")
+    
+    return data_buku
+
+
+###########
+# UNTUK MENGELOLA PEMINJAM
+
+def kelola_peminjam():
     peminjam = core.baca_csv(db_peminjam)
+    daftar_peminjaman = core.cari_list(core.baca_csv(db_peminjaman), id_peminjam, 0)
     
-    daftar_peminjaman = core.cari_list(core.baca_csv(db_peminjaman), id_peminjam)
+    # Mengonversi data menjadi DataFrames
+    df_peminjam = pd.DataFrame(data_peminjam, columns=['id', 'Nama', 'NIM', 'Status', 'Status Lunas', 'Jumlah Dikembalikan'])
+    df_peminjaman = pd.DataFrame(data_peminjaman, columns=['No.', 'Judul', 'Kategori', 'Tgl Dipinjam', 'Deadline', 'Status', 'Telat Hari', 'Denda'])
+        
+    print("Identitas Peminjam")
+    print("+-------------------------------------------------------------+")
+    print(f"| Nama\t\t: {peminjam_terpilih['Nama'].values[0]}\t\t\t  |")
+    print(f"| NIM\t\t: {peminjam_terpilih['NIM'].values[0]}\t\t\t  |")
+    print(f"| Status\t: {peminjam_terpilih['Status'].values[0]} | {peminjam_terpilih['Status Lunas'].values[0]}\t\t  |")
+    print(f"| Jumlah\t: {peminjam_terpilih['Jumlah Dikembalikan'].values[0]}\t\t\t  |")
+    print("+-------------------------------------------------------------+")
     
-    print(peminjam)
-    print(daftar_peminjaman)
+    print("\nDaftar Peminjaman", peminjam_terpilih['Nama'].values[0])
+    print(df_peminjaman.to_string(index=False))
+        
+        
+        
+
+    # Contoh penggunaan
+    id_peminjam_yang_ditampilkan = '1'  # Ganti ini dengan ID yang diinginkan
+    tampilkan_peminjam_dan_peminjaman(df_peminjam, df_peminjaman, id_peminjam_yang_ditampilkan)
+
+
+
+
 
 def cari_status(id_peminjam):
     # status = ["Tidak Meminjam", "Belum Dikembalikan", "Belum Lunas", "Dikembalikan"]
@@ -64,9 +203,9 @@ def cari_status(id_peminjam):
         p_status = i[6]
         denda_terlambat = i[7]
         
-
+        # jika ada data 
         if id_peminjam == p_id_peminjam:
-            meminjam = True
+            meminjam = True # menunjukan jika peminjam ada data peminjaman
             if ((p_status == "belum dikembalikan") and (today <= tanggal_pengembalian)):
                 isi_status(status, "Belum Dikembalikan, ")
             if ((p_status == "belum dikembalikan") and (today > tanggal_pengembalian)):
@@ -79,50 +218,42 @@ def cari_status(id_peminjam):
     if not meminjam:
         isi_status(status, "Tidak Meminjam")
     return status
-        
-search_keyword = ""
 
-current_page = 1
 
-total_pages = 1
 
-while True:
+def tampilkan_daftar_peminjam_dan_status(search_keyword = "", current_page = 1, total_pages = 1):
     core.clear()
-    
     data_peminjam = core.baca_csv(db_peminjam)
 
     if len(search_keyword) > 0:
         data_peminjam = core.cari_list(data_peminjam, search_keyword, 1)
         current_page = 1
 
-    data_peminjam, total_pages = core.pagination(data_peminjam, 10, 1)
+    data_peminjam, total_pages = core.pagination(data_peminjam, limit_per_page, current_page)
     
     
     i = 1
-    data = [["No", "Nama", "NIM", "Status", "id"]]
+    data = []
     
     # var untuk ditampilkan
     data_tampil = [["No", "Nama", "NIM", "Status"]]
     
     for baris in data_peminjam:
-        
-        # me skip baris kolom / header
         if baris[0] == "id":
-            continue
+            continue # me skip baris kolom / header
         
         status = ""
         for iterasi_status in cari_status(baris[0]):
             status +=  iterasi_status
             
         data.append([i, baris[1], baris[2] , status, baris[0]])
-        
         data_tampil.append([i, baris[1], baris[2] , status])
         
         i += 1
         
     
     
-    # membuat dataframe dan me-set kolom custom
+    # membmode == uat dataframe dan me-set kolom custom
     df = pd.DataFrame(data_tampil[1:], columns=['No.', 'Nama', 'NIM', 'Status'])
 
 
@@ -136,47 +267,90 @@ while True:
     print(hasil)
     
     print( " "*37 + f"page {current_page} of {total_pages}")
-    # 
     
+    return data, current_page, total_pages
     
-    with open('ui/data_peminjaman.txt', 'r') as f:
-        print(f.read())
-    input_user = int(input("Pilih operasi anda (angka) : "))
-    
-    
-# [1] Pilih Peminjam                                \| 
-# [2] Cari Peminjam                                  |
-# [3] Tambah Peminjam (konsol)                       |
-# [4] Pindah Halaman Ke kiri                         |
-# [5] Pindah Halaman Ke kanan                        |
-# [6] Kembali                                        |
-# [0] Keluar 
+          
+def aksi_peminjaman(mode = "kelola"):  
 
-    if (input_user == 1):
-        no_urut = int(input("Silahkan pilih peminjam menggunakan no urut dari tabel diatas : "))
-        id_peminjam = core.cari_list(data, no_urut, 0, True)[0][4]
-        pilih_peminjam(id_peminjam)
-    elif (input_user ==  2):
-        search_keyword = input("Masukan Nama : ")
-    elif (input_user ==  3):
-        tambah_peminjam()
-    elif (input_user ==  4):
-        if current_page > total_pages:
-            current_page -= 1
-    elif (input_user ==  5):
-        if current_page < total_pages:
-            current_page += 1
-    elif (input_user ==  6):
-        exit("Program Ditutup")
-    else:
-        print("Input Tidak Valid!")
-    # end match
+    search_keyword = ""
+    current_page = 1
+    total_pages = 1
 
+    while True:
+        daftar_peminjam, current_page, total_pages = tampilkan_daftar_peminjam_dan_status(search_keyword, current_page, total_pages)
+        
+        with open('ui/peminjaman/aksi_peminjaman.txt', 'r') as f:
+            print(f.read())
+        input_user = int(input("Pilih operasi anda (angka) : "))
+
+        if (input_user == 1):
+            no_urut = int(input("Silahkan pilih peminjam menggunakan no urut dari tabel diatas : "))
+            id_peminjam = core.cari_list(daftar_peminjam, no_urut, 0, True)[0][4]
+            
+            if (mode == "kelola"):
+                kelola_peminjam()
+            elif (mode == "tambah"):
+                tambah_peminjaman(id_peminjam)
+            # elif (mode =="hapus"):
+                
+            # elif (mode == "update"):
+            
+            
+            
+        elif (input_user ==  2):
+            search_keyword = input("Masukan Nama : ")
+        elif (input_user ==  3):
+            tambah_peminjam()
+        elif (input_user ==  4):
+            if current_page > 1:
+                current_page -= 1
+        elif (input_user ==  5):
+            if current_page < total_pages:
+                current_page += 1
+        elif (input_user ==  6):
+            break
+        elif (input_user ==  7):
+            exit("Program Ditutup")
+        else:
+            input("input tidak valid!\ntekan enter untuk melanjutkan")
+
+# merupakan fungsi yang akan dijalankan pertama kali
+def aksi_utama():
+
+    while True:
+        core.clear()
+        with open('ui/catalibra.txt', 'r') as f:
+            print(f.read())
+        with open('ui/peminjaman/aksi_utama.txt', 'r') as f:
+            print(f.read())
+        
+        input_user = int(input("| > Pilih: "))
+        
+        match input_user:
+            case 1:
+                aksi_peminjaman("tambah")
+            case 2:
+                aksi_peminjaman("update")
+            case 3:
+                aksi_peminjaman("hapus")
+            case 4:
+                aksi_peminjaman("kelola")
+            case 5:
+                break
+            case 0:
+                exit()
+            case _ : 
+                input("input tidak valid!\ntekan enter untuk melanjutkan")
+
+    
 ####################
 # Area Setelah memlihi peminjam
-    
+
+# aksi_utama()    
 
 if __name__ == "__main__":
+    aksi_utama()
     aksi_peminjaman()
     baca_baris()
     hapus_baris()

@@ -77,6 +77,7 @@ def cari_id_list(data, nilai_id):
 def cari_list(data, nilai, index_kolom:int, strict = False):
     hasil = []
     for i in data:
+        # print(type(i[index_kolom]))
         if (type(i[index_kolom]) != type(nilai)):
             # print("Warning : Perbandingan memiliki tipe data yang berbeda\nmeloncati baris")
             continue
