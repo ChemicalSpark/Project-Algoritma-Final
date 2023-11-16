@@ -167,12 +167,12 @@ def aksi_buku():
                         hapus_buku()
                         core.clear()
                     case '9':
-                        core.clear()
-                        pass
-                    case '0':
-                        print("Keluar dari program."+'\n')
-                        core.clear()
                         break
+                    case '0':
+                        core.clear()
+                        exit()
+                    case _:
+                        core.clear()
 
 if __name__ == "__main__":
     aksi_buku()

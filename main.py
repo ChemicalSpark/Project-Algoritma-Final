@@ -16,8 +16,49 @@ def mainmenu():
         user = input("| > Menu: ")
         match user:
             case '1':
-                core.clear()
-                kategori.aksi_kategori()
+                while True:
+                    core.clear()
+                    with open('ui/kategori.txt','r') as kategori:
+                        display = kategori.read()
+                        print(display)
+                    user = input("| Pilihan: ")
+                    match user:
+                        case '1':
+                            print("| Masukkan kategori baru!")
+                            user = input("| Kategori: ")
+                            kategori.tambah_kategori(user)
+                            print("| Kategori berhasil ditambahkan!")
+                            enter = input("| Klik Enter untuk melanjutkan... ")
+                            core.clear()
+                        case '2':
+                            core.clear()
+                            kategori.list_kategori()
+                        case '3':
+                            id = input("Masukkan ID data yang akan diperbarui: ")
+                            data = core.cari_id_list(core.baca_csv('database/kategori.csv'), id)
+                            if data == False:
+                                print("Data Tidak ada"+'\n')
+                                core.clear()
+                            else:
+                                print("Kategori lama :", data[1])
+                                kategori = input("Masukkan Kategori yang baru : ")
+                                kategori.perbarui_baris_kategori(id, kategori)
+                                print("Data telah diperbarui."+'\n')
+                                core.clear()
+                        case '4':
+                            kategori.list_kategori()
+                            user = input("Pilih data yang akan dihapus: ")
+                            kategori.hapus_kategori(user)
+                            print('\n')
+                            core.clear()
+                        case '9':
+                            core.clear()
+                            mainmenu()
+                        case '0':
+                            core.clear()
+                            exit()
+                        case _:
+                            core.clear()
             case '2':
                 core.clear()
                 # kelola_buku.aksi_buku()
@@ -41,8 +82,29 @@ def mainmenu():
                             continue
                         
             case '4':
-                core.clear()
-                pengaturan_admin.Pengaturan_Admin()
+                while True:
+                    core.clear()
+                    with open('ui/kelola_akun_admin.txt','r') as settings_admin :
+                        display = settings_admin.read()
+                        print(display)
+                    pilihan = input('Masukkan pilihan: ')
+                    if pilihan == '1':
+                        pengaturan_admin.register()
+                        core.clear()
+                    elif pilihan == '2':
+                        pengaturan_admin.list_data()
+                    elif pilihan == '3':
+                        id_to_delete = input('Masukkan ID admin yang akan dihapus: ')
+                        pengaturan_admin.hapus_akun(id_to_delete)
+                        core.clear()
+                    elif pilihan == '9':
+                        core.clear()
+                        mainmenu()
+                    elif pilihan == '0':
+                        core.clear()
+                        exit()
+                    else:
+                        core.clear()
             case '0':
                 print("Keluar dari program.")
                 exit()
