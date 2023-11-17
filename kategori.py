@@ -13,9 +13,8 @@ def list_kategori():
 
 def tambah_kategori(kat):
     data = core.baca_csv(nama_file)
-    new_id = len(data) + 1
-    new_baris = [new_id, kat]
-    data.append(new_baris)
+    new_id = len(data)
+    
     tulis_csv(data)
     # with open(nama_file,'r') as file:
     #     data = [row.strip().split(',') for row in file.readlines()]
@@ -74,25 +73,37 @@ def aksi_kategori():
         user = input("| Pilihan: ")
         match user:
             case '1':
-                print("| Masukkan kategori baru!")
+                print('+' + '='*83 + '+')
+                print('|' + '-'*37 + '[ NOTICE ]' + '-'*36 + '|')
+                print('|' + 'Masukkan kategori baru!'.center(83) + '|')
+                print('+' + '='*83 + '+')
                 user = input("| Kategori: ")
                 if user:
                     tambah_kategori(user)
-                    print("| Kategori berhasil ditambahkan!")
-                    enter = input("Klik ENTER untuk meneruskan")
+                    print('+' + '='*83 + '+')
+                    print('|' + '-'*37 + '[ NOTICE ]' + '-'*36 + '|')
+                    print('|' + 'Kategori berhasil ditambahkan'.center(83) + '|')
+                    print('|' + 'Klik ENTER untuk melanjutkan!'.center(83) + '|')
+                    print('+' + '='*83 + '+')
+                    enter = input()
                     core.clear()
                 else:
-                    core.clear()
-                    print("Data Tidak ada")
-                    enter  = input("Klik ENTER untuk meneruskan")
+                    print('+' + '='*83 + '+')
+                    print('|' + '-'*32 + '[ DATA NOT FOUND ]' + '-'*33 + '|')
+                    print('|' + 'Klik ENTER untuk melanjutkan!'.center(83) + '|')
+                    print('+' + '='*83 + '+')
+                    enter  = input()
             case '2':
                 core.clear()
                 print('+' + '='*32 + '+')
                 print('|' + '-'*4 + '[ DAFTAR KATEGORI BUKU ]' + '-'*4 + '|')
-                # print('|' + 'Daftar kategori buku'.center(83) + '|')
                 print('+' + '='*32 + '+')
                 list_kategori()
-                enter = input("| Klik ENTER untuk meneruskan...")
+                print('+' + '='*32 + '+')
+                print('|' + '-'*6 + '[ NOTICE ]' + '-'*6 + '|')
+                print('|' + 'Klik ENTER untuk melanjutkan!'.center(83) + '|')
+                print('+' + '='*32 + '+')
+                enter = input()
             case '3':
                 list_kategori()
                 id = input("Masukkan ID data yang akan diperbarui: ")
@@ -134,7 +145,3 @@ def aksi_kategori():
 
 if __name__ == "__main__":
     aksi_kategori()
-    list_kategori()
-    tambah_kategori()
-    perbarui_baris_kategori()
-    hapus_kategori()
