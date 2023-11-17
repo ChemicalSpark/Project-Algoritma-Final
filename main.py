@@ -34,8 +34,18 @@ def mainmenu():
                     core.clear()
                     pengaturan_admin.aksi_pengaturan()
                 case '0':
-                    print("Keluar dari program.")
-                    exit()
+                    core.clear()
+                    print('+' + '='*83 + '+')
+                    print('|' + '-'*37 + '[ NOTICE ]' + '-'*36 + '|')
+                    print('|' + 'Apakah Anda yakin untuk keluar? (y/n)'.center(83) + '|')
+                    print('+' + '='*83 + '+')
+                    user = input(f"| > ")
+                    if user.lower() == 'y' or 'yes':
+                        core.clear()
+                        exit()
+                    else:
+                        core.clear()
+                        mainmenu()
                 case _:
                     core.clear()
                     mainmenu()

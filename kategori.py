@@ -9,7 +9,8 @@ def tulis_csv(data):
 
 def list_kategori():
     df = pd.read_csv(nama_file)
-    print(df.to_string(index=False))
+    df.index = df.index + 1
+    print(df.to_string(index=True))
 
 def tambah_kategori(kat):
     data = core.baca_csv(nama_file)
@@ -21,18 +22,6 @@ def tambah_kategori(kat):
     new_baris = [new_id, kat]
     data.append(new_baris)
     tulis_csv(data)
-    
-    # with open(nama_file,'r') as file:
-    #     data = [row.strip().split(',') for row in file.readlines()]
-    #     if len(data) <= 1:
-    #         length = 1
-    #         data_temp = f"{length},{new_kategori}\n"
-    #     else:
-    #         length = int(data[len(data) - 1][0]) + 1
-    #         data_temp = f"{length},{new_kategori}\n"
-
-    # with open(nama_file) as add_kategori:
-    #     add_kategori.write(data_temp)
 
 def perbarui_baris_kategori(id, kat):
     data = core.baca_csv(nama_file)
@@ -56,10 +45,6 @@ def hapus_kategori(delete):
                     with open(nama_file,'w',newline="") as new_data:
                         write = csv.writer(new_data)
                         write.writerows(data)
-                    new_id = range(1,len(data))
-                    for index in new_id:
-                        data[index][0] = index
-                        tulis_csv(data)
                     print('Data telah dihapus')
                     enter  = input("Klik ENTER untuk meneruskan")
                     core.clear()
@@ -111,7 +96,7 @@ def aksi_kategori():
                 list_kategori()
                 print('+' + '='*32 + '+')
                 print('|' + '-'*6 + '[ NOTICE ]' + '-'*6 + '|')
-                print('|' + 'Klik ENTER untuk melanjutkan!'.center(83) + '|')
+                print('|' + 'Klik ENTER untuk melanjutkan!'.center(32) + '|')
                 print('+' + '='*32 + '+')
                 enter = input()
             case '3':
