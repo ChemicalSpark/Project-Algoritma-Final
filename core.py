@@ -30,19 +30,15 @@ def tulis_csv(nama_file, data):
 def tambah_ke_csv(nama_file, data_baru):
     with open(nama_file, mode='a', newline='') as file_csv:
         csv_writer = csv.writer(file_csv)
-        # file_csv.write('\n')  # Add a newline
         csv_writer.writerow(data_baru)
 
 # menulis data baru ke baris index 
 # nilai argumen harus list contoh : 
 def perbarui_baris_csv(nama_file, indeks_baris, data_baris_baru):
     data = baca_csv(nama_file)
-    if 0 <= indeks_baris < len(data):
-        data[indeks_baris] = data_baris_baru
-        tulis_csv(nama_file, data)
-        return True
-    else:
-        return False
+    data[indeks_baris] = data_baris_baru
+    tulis_csv(nama_file, data)
+
 
 def hapus_baris_csv(nama_file, indeks_baris):
     data = baca_csv(nama_file)
@@ -55,12 +51,12 @@ def hapus_baris_csv(nama_file, indeks_baris):
 
 
 # mengembalikan nilai index baris dari id yg ditemukan
-def cari_index_dengan_id_list(data, id):
-    index = False
+def cari_index_dengan_id_list(data, id_p):
+    index = 0
     for i in data:
-        index += 1
-        if (id == i[0]):
+        if (id_p == i[0]):
             break
+        index += 1
     return index
 
 

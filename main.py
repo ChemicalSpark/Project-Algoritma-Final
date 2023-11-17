@@ -29,6 +29,7 @@ def mainmenu():
                 case '4':
                     core.clear()
                     peminjaman.aksi_utama()
+                    
                 case '5':
                     core.clear()
                     pengaturan_admin.aksi_pengaturan()
