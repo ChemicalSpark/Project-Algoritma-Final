@@ -2,28 +2,35 @@ import csv
 import pandas as pd
 import core
 
+nama_file = 'database/kategori.csv'
+
 def tulis_csv(data):
-    core.tulis_csv('database/kategori.csv', data)
+    core.tulis_csv(nama_file, data)
 
 def list_kategori():
-    df = pd.read_csv('database/kategori.csv')
+    df = pd.read_csv(nama_file)
     print(df.to_string(index=False))
 
-def tambah_kategori(new_kategori):
-    with open('database/kategori.csv','r') as file:
-        data = [row.strip().split(',') for row in file.readlines()]
-        if len(data) <= 1:
-            length = 1
-            data_temp = f"{length},{new_kategori}\n"
-        else:
-            length = int(data[len(data) - 1][0]) + 1
-            data_temp = f"{length},{new_kategori}\n"
+def tambah_kategori(kat):
+    data = core.baca_csv(nama_file)
+    new_id = len(data) + 1
+    new_baris = [new_id, kat]
+    data.append(new_baris)
+    tulis_csv(data)
+    # with open(nama_file,'r') as file:
+    #     data = [row.strip().split(',') for row in file.readlines()]
+    #     if len(data) <= 1:
+    #         length = 1
+    #         data_temp = f"{length},{new_kategori}\n"
+    #     else:
+    #         length = int(data[len(data) - 1][0]) + 1
+    #         data_temp = f"{length},{new_kategori}\n"
 
-    with open('database/kategori.csv','a') as add_kategori:
-        add_kategori.write(data_temp)
+    # with open(nama_file) as add_kategori:
+    #     add_kategori.write(data_temp)
 
 def perbarui_baris_kategori(id, kat):
-    data = core.baca_csv('database/kategori.csv')
+    data = core.baca_csv(nama_file)
     for baris in data:
         if  baris[0] == id:
             baris[1] = kat
@@ -31,7 +38,7 @@ def perbarui_baris_kategori(id, kat):
     tulis_csv(data)
         
 def hapus_kategori(delete):
-    with open('database/kategori.csv','r') as file:
+    with open(nama_file,'r') as file:
         data = list(csv.reader(file))
         index_hapus = 0
         for array in data:
@@ -41,9 +48,16 @@ def hapus_kategori(delete):
                 user = input('Apakah anda ingin menghapus data diatas?(y/n) ')
                 if user == 'y':
                     data.pop(index_hapus)
-                    with open('database/kategori.csv','w',newline="") as new_data:
+                    with open(nama_file,'w',newline="") as new_data:
                         write = csv.writer(new_data)
                         write.writerows(data)
+                        print('Data telah dihapus')
+                        enter  = input("| Klik Enter untuk melanjutkan... ")
+                        core.clear()
+                elif user == 'n':
+                    print('Data batal dihapus')
+                    enter  = input("| Klik Enter untuk melanjutkan... ")
+                    core.clear()
             index_hapus += 1
 
 def aksi_kategori():
@@ -63,6 +77,7 @@ def aksi_kategori():
                 core.clear()
             case '2':
                 core.clear()
+                print("Data saat ini:")
                 list_kategori()
                 enter = input("| Klik Enter untuk melanjutkan... ")
             case '3':
@@ -72,7 +87,7 @@ def aksi_kategori():
                 if data == False:
                     list_kategori()
                     print("Data Tidak ada")
-                    enter  = input("Klik ENTER untuk meneruskan")
+                    enter  = input("| Klik Enter untuk melanjutkan... ")
                     core.clear()
                 else:
                     print("Kategori lama :", data[0][1])
@@ -80,7 +95,7 @@ def aksi_kategori():
                     kat = kat_baru if kat_baru else data[0][1]
                     perbarui_baris_kategori(id, kat)
                     print("Data telah diperbarui.")
-                    enter  = input("Klik ENTER untuk meneruskan")
+                    enter  = input("| Klik Enter untuk melanjutkan... ")
                     core.clear()
             case '4':
                 list_kategori()

@@ -64,7 +64,7 @@ def aksi_peminjam():
             display = datpnjm.read()
             print(display)
 
-        pilih = input("Pilihan: ")
+        pilih = input("| Pilihan: ")
         match pilih:
             case '1':
                 nama = input("Masukkan Nama: ")
