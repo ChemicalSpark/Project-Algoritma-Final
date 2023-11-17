@@ -80,6 +80,11 @@ def tambah_buku():
         input_penerbit = input('masukkan penerbit : ')
         input_isbn = input('masukkan ISBN : ')
         input_jumlah = int(input('masukkan jumlah buku : '))
+        if input_judul == False:
+            core.clear()
+            print('Judul tidak ada')
+            enter  = input("Klik ENTER untuk meneruskan")
+
         if len(data_buku) <= 1:
             id_bk = 1
         else :
@@ -153,6 +158,7 @@ def update_buku():
                 nilai += 1
 
             if nilai == len(baca_buku):
+                core.clear()
                 print('!! judul tidak ditemukan, silahkan masukkan judul yang benar !!')
 
 
