@@ -13,9 +13,15 @@ def list_kategori():
 
 def tambah_kategori(kat):
     data = core.baca_csv(nama_file)
-    new_id = len(data)
-    
+    if len(data) <= 1:
+        new_id = 1
+    else:
+        new_id = int(data[len(data) - 1][0]) + 1
+
+    new_baris = [new_id, kat]
+    data.append(new_baris)
     tulis_csv(data)
+    
     # with open(nama_file,'r') as file:
     #     data = [row.strip().split(',') for row in file.readlines()]
     #     if len(data) <= 1:
@@ -50,9 +56,13 @@ def hapus_kategori(delete):
                     with open(nama_file,'w',newline="") as new_data:
                         write = csv.writer(new_data)
                         write.writerows(data)
-                        print('Data telah dihapus')
-                        enter  = input("Klik ENTER untuk meneruskan")
-                        core.clear()
+                    new_id = range(1,len(data))
+                    for index in new_id:
+                        data[index][0] = index
+                        tulis_csv(data)
+                    print('Data telah dihapus')
+                    enter  = input("Klik ENTER untuk meneruskan")
+                    core.clear()
                 elif user == 'n':
                     print('Data batal dihapus')
                     enter  = input("Klik ENTER untuk meneruskan")
