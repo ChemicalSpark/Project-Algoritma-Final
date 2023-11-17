@@ -109,8 +109,7 @@ def aksi_kategori():
                     core.clear()
                 else:
                     core.clear()
-                    print("Data saat ini:")
-                    list_kategori()
+                    print("Data tidak ada")
                     enter = input("Klik ENTER untuk meneruskan")
             case '4':
                 list_kategori()

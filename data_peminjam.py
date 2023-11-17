@@ -118,10 +118,9 @@ def aksi_peminjam():
                 print("Data saat ini:")
                 baca_baris_peminjam()
                 user = input("Masukkan ID data yang akan dihapus: ")
-                hapus_baris_peminjam(user)
-                if user == True:
-                    continue
-                if user == False:
+                if user:
+                    hapus_baris_peminjam(user)
+                else:
                     core.clear()
                     print('Data tidak ada')
                     enter  = input("Klik ENTER untuk meneruskan")
