@@ -87,9 +87,12 @@ def aksi_kategori():
                     enter  = input("Klik ENTER untuk meneruskan")
             case '2':
                 core.clear()
-                print("Data saat ini:")
+                print('+' + '='*32 + '+')
+                print('|' + '-'*4 + '[ DAFTAR KATEGORI BUKU ]' + '-'*4 + '|')
+                # print('|' + 'Daftar kategori buku'.center(83) + '|')
+                print('+' + '='*32 + '+')
                 list_kategori()
-                enter = input("Klik ENTER untuk meneruskan")
+                enter = input("| Klik ENTER untuk meneruskan...")
             case '3':
                 list_kategori()
                 id = input("Masukkan ID data yang akan diperbarui: ")
