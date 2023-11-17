@@ -9,10 +9,11 @@ import core
 core.clear()
 login.login()
 
+
 def mainmenu():
     while True:
         core.clear()
-        with open('ui/mainmenu.txt','r') as title:
+        with open('ui/catalibra.txt','r') as title:
             display = title.read()
             print(display)
             user = input("| > Menu: ")
@@ -28,8 +29,7 @@ def mainmenu():
                     data_peminjam.aksi_peminjam()
                 case '4':
                     core.clear()
-                    peminjaman.aksi_utama()
-                    
+                    # peminjaman.aksi_utama()
                 case '5':
                     core.clear()
                     pengaturan_admin.aksi_pengaturan()
