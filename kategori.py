@@ -52,17 +52,22 @@ def hapus_kategori(delete):
                         write = csv.writer(new_data)
                         write.writerows(data)
                         print('Data telah dihapus')
-                        enter  = input("| Klik Enter untuk melanjutkan... ")
+                        enter  = input("Klik ENTER untuk meneruskan")
                         core.clear()
                 elif user == 'n':
                     print('Data batal dihapus')
-                    enter  = input("| Klik Enter untuk melanjutkan... ")
+                    enter  = input("Klik ENTER untuk meneruskan")
                     core.clear()
+                else:
+                    core.clear()
+                    print('Aksi tidak ada / tidak sesuai!')
+                    enter  = input("Klik ENTER untuk meneruskan")
+                    aksi_kategori()
             index_hapus += 1
 
 def aksi_kategori():
     while True:
-        # core.clear()
+        core.clear()
         with open('ui/kategori.txt','r') as kat:
             display = kat.read()
             print(display)
@@ -71,41 +76,51 @@ def aksi_kategori():
             case '1':
                 print("| Masukkan kategori baru!")
                 user = input("| Kategori: ")
-                tambah_kategori(user)
-                print("| Kategori berhasil ditambahkan!")
-                enter = input("| Klik Enter untuk melanjutkan... ")
-                core.clear()
+                if user:
+                    tambah_kategori(user)
+                    print("| Kategori berhasil ditambahkan!")
+                    enter = input("Klik ENTER untuk meneruskan")
+                    core.clear()
+                else:
+                    core.clear()
+                    print("Data Tidak ada")
+                    enter  = input("Klik ENTER untuk meneruskan")
             case '2':
                 core.clear()
                 print("Data saat ini:")
                 list_kategori()
-                enter = input("| Klik Enter untuk melanjutkan... ")
+                enter = input("Klik ENTER untuk meneruskan")
             case '3':
                 list_kategori()
                 id = input("Masukkan ID data yang akan diperbarui: ")
                 data = core.cari_id_list(core.baca_csv('database/kategori.csv'), id)
-                if data == False:
-                    list_kategori()
-                    print("Data Tidak ada")
-                    enter  = input("| Klik Enter untuk melanjutkan... ")
-                    core.clear()
-                else:
+                # if data == False:
+                #     list_kategori()
+                #     print("Data Tidak ada")
+                #     enter  = input("| Klik Enter untuk melanjutkan... ")
+                #     core.clear()
+                if data:
                     print("Kategori lama :", data[0][1])
                     kat_baru = input("Masukkan Kategori yang baru : ")
                     kat = kat_baru if kat_baru else data[0][1]
                     perbarui_baris_kategori(id, kat)
                     print("Data telah diperbarui.")
-                    enter  = input("| Klik Enter untuk melanjutkan... ")
+                    enter  = input("Klik ENTER untuk meneruskan")
                     core.clear()
+                else:
+                    core.clear()
+                    print("Data saat ini:")
+                    list_kategori()
+                    enter = input("Klik ENTER untuk meneruskan")
             case '4':
                 list_kategori()
                 user = input("Pilih data yang akan dihapus: ")
-                hapus_kategori(user)
-                match user:
-                    case _:
-                        core.clear()
-                        print('Data tidak ada')
-                        continue
+                if user:
+                    hapus_kategori(user)
+                else:
+                    core.clear()
+                    print('Data tidak ada')
+                    enter  = input("Klik ENTER untuk meneruskan")
             case '9':
                 core.clear()
                 break
