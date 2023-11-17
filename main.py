@@ -1,6 +1,6 @@
 import login
 import kategori
-# import peminjaman
+import peminjaman
 import kelola_buku
 import data_peminjam
 import pengaturan_admin
