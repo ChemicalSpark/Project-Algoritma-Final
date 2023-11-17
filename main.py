@@ -13,7 +13,7 @@ login.login()
 def mainmenu():
     while True:
         core.clear()
-        with open('ui/catalibra.txt','r') as title:
+        with open('ui/mainmenu.txt','r') as title:
             display = title.read()
             print(display)
             user = input("| > Menu: ")
