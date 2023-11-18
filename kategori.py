@@ -37,16 +37,23 @@ def hapus_kategori(delete):
         index_hapus = 0
         for array in data:
             if array[0] == delete:
-                print(f'ID: {array[0]}')
-                print(f'Kategori: {array[1]}')
-                user = input('Apakah anda ingin menghapus data diatas?(y/n) ')
+                print('+' + '-'*55 + '+')
+                print(f'| ID\t   : {array[0]}')
+                print(f'| Kategori : {array[1]}')
+                print('+' + '-'*55 + '+')
+                user = input('| Apakah anda yakin ingin menghapus data diatas?(y/n) ')
+
                 if user == 'y':
                     data.pop(index_hapus)
                     with open(nama_file,'w',newline="") as new_data:
                         write = csv.writer(new_data)
                         write.writerows(data)
-                    print('Data telah dihapus')
-                    enter  = input("Klik ENTER untuk meneruskan")
+                    print('+' + '='*55 + '+')
+                    print('|' + '-'*23 + '[ NOTICE ]' + '-'*22 + '|')
+                    print('|' + 'Data berhasil dihapus!'.center(55) + '|')
+                    print('|' + 'Klik ENTER untuk melanjutkan'.center(55) + '|')
+                    print('+' + '='*55 + '+')
+                    user = input()
                     core.clear()
                 elif user == 'n':
                     print('Data batal dihapus')
@@ -54,8 +61,12 @@ def hapus_kategori(delete):
                     core.clear()
                 else:
                     core.clear()
-                    print('Aksi tidak ada / tidak sesuai!')
-                    enter  = input("Klik ENTER untuk meneruskan")
+                    print('+' + '='*83 + '+')
+                    print('|' + '-'*32 + '[ DATA NOT FOUND ]' + '-'*33 + '|')
+                    print('|' + 'Klik ENTER untuk melanjutkan!'.center(83) + '|')
+                    print('+' + '='*83 + '+')
+                    enter = input()
+                    core.clear()
                     aksi_kategori()
             index_hapus += 1
 
@@ -84,7 +95,7 @@ def aksi_kategori():
                     core.clear()
                 else:
                     print('+' + '='*83 + '+')
-                    print('|' + '-'*32 + '[ DATA NOT FOUND ]' + '-'*33 + '|')
+                    print('|' + '-'*34 + '[ INPUT ERROR ]' + '-'*34 + '|')
                     print('|' + 'Klik ENTER untuk melanjutkan!'.center(83) + '|')
                     print('+' + '='*83 + '+')
                     enter  = input()
@@ -94,8 +105,9 @@ def aksi_kategori():
                 print('|' + '-'*4 + '[ DAFTAR KATEGORI BUKU ]' + '-'*4 + '|')
                 print('+' + '='*32 + '+')
                 list_kategori()
+                enter = input()
                 print('+' + '='*32 + '+')
-                print('|' + '-'*6 + '[ NOTICE ]' + '-'*6 + '|')
+                print('|' + '-'*11 + '[ NOTICE ]' + '-'*11 + '|')
                 print('|' + 'Klik ENTER untuk melanjutkan!'.center(32) + '|')
                 print('+' + '='*32 + '+')
                 enter = input()
@@ -121,14 +133,21 @@ def aksi_kategori():
                     print("Data tidak ada")
                     enter = input("Klik ENTER untuk meneruskan")
             case '4':
+                core.clear()
+                print('+' + '='*55 + '+')
+                print('|' + '-'*15 + '[ DAFTAR KATEGORI BUKU ]' + '-'*16 + '|')
+                print('+' + '='*55 + '+')
                 list_kategori()
-                user = input("Pilih data yang akan dihapus: ")
+                user = input("\n| Pilih data yang akan dihapus: ")
                 if user:
                     hapus_kategori(user)
                 else:
                     core.clear()
-                    print('Data tidak ada')
-                    enter  = input("Klik ENTER untuk meneruskan")
+                    print('+' + '='*83 + '+')
+                    print('|' + '-'*32 + '[ DATA NOT FOUND ]' + '-'*33 + '|')
+                    print('|' + 'Klik ENTER untuk melanjutkan!'.center(83) + '|')
+                    print('+' + '='*83 + '+')
+                    enter  = input()
             case '9':
                 core.clear()
                 break
