@@ -224,8 +224,3 @@ def aksi_buku():
 
 if __name__ == "__main__":
     aksi_buku()
-    tambah_buku()
-    dtframe_buku()
-    update_buku()
-    hapus_buku()
-    
