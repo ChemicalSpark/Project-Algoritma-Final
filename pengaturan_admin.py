@@ -30,7 +30,7 @@ def tambah_csv(username, password):
     for row in data:
         ada_username = row[1]
         if username == ada_username:
-            print('Username sudah ada')
+            print('Username sudah ada!')
             return False
 
     data_baru = [str(id_baru), username, password]
@@ -41,7 +41,9 @@ def tambah_csv(username, password):
     return id_baru
 def kriteria_password(password):
     if len(password) < 8:
-        return 'pasword minimal 8 karakter!'
+        print('pasword minimal 8 karakter!')
+        enter = input('Klik ENTER untuk melanjutkan') 
+        return False
          
     lower = False
     upper = False
@@ -56,12 +58,19 @@ def kriteria_password(password):
             number = True
 
     if upper and lower and number:
-        return "Password ini aman."
+        print("Password ini aman.") 
+        return True
     else:
-        return "Password tidak sesuai kriteria."
+        print("Password tidak sesuai kriteria!.")
+        enter = input('Klik ENTER untuk melanjutkan')  
+        return False
 
 def register():
     username = input('Masukkan username baru: ')
+    if not username:
+        print("Username tidak boleh kosong!")
+        enter = input('Klik ENTER untuk melanjutkan') 
+        return False 
     print('''
 Masukkan password yang berisi:
 - Minimal 8 karakter
@@ -70,9 +79,13 @@ Masukkan password yang berisi:
 - Setidaknya satu angka
         ''')
     password = input('Masukkan password baru: ')
+    if not password:
+        print('Password tidak boleh kosong!')
+        enter = input('Klik ENTER untuk melanjutkan')  
+        return False
 
     pengecekan = kriteria_password(password)
-    if pengecekan != "Password ini aman.":
+    if pengecekan != True:
         print(pengecekan)
         return False
 
@@ -86,16 +99,16 @@ Masukkan password yang berisi:
     for admin in data_admin:
         if username == admin['username']:
             print('Username sudah ada')
-            enter = input('Klik enter untuk melanjutkan')  
-            core.clear()
+            enter = input('Klik ENTER untuk melanjutkan')  
             return False
-
+    
     id_baru = tambah_csv(username, password)
-    print(f"User baru dengan ID {id_baru} berhasil terdaftar.")  
-    enter = input('Klik enter untuk melanjutkan')  
-    core.clear()
-
-
+    print('+' + '='*39 + '+')
+    print('|' + '[ NOTICE ]'.center(39) + '|')
+    print('|' + f'Admin dengan ID {id_baru} berhasil ditambahkan'.center(38) + '|')
+    print('|' + 'Klik ENTER untuk melanjutkan!'.center(39) + '|')
+    print('+' + '='*39 + '+')
+    enter = input()  
 
 
 def list_data():
@@ -103,12 +116,8 @@ def list_data():
     if data_admin:
         df = pd.DataFrame(data_admin, columns=["ID", "Username", "Password"])
         print(df.to_string(index=False))
-        enter = input('Klik enter untuk melanjutkan')
-        core.clear()
     else:
         print("Tidak ada data admin yang tersedia.")
-        enter = input('Klik enter untuk melanjutkan')
-        core.clear()
 
 
 def hapus_akun(id_to_delete):
@@ -124,15 +133,16 @@ def hapus_akun(id_to_delete):
     if found:
         save_data(data_admin)
         print(f"Akun dengan ID {id_to_delete} berhasil dihapus.")
-        enter = input('Klik enter untuk melanjutkan')
+        enter = input('Klik ENTER untuk melanjutkan')
         core.clear()
     else:
         print(f"Akun dengan ID {id_to_delete} tidak ditemukan.")    
-        enter = input('Klik enter untuk melanjutkan')
+        enter = input('Klik ENTER untuk melanjutkan')
         core.clear()
 
 def aksi_pengaturan():
     while True:
+        core.clear()
         with open('ui/kelola_akun_admin.txt','r') as settings_admin :
             display = settings_admin.read()
             print(display)
@@ -141,11 +151,35 @@ def aksi_pengaturan():
             register()
             core.clear()
         elif pilihan == '2':
-            list_data()
-        elif pilihan == '3':
-            id_to_delete = input('Masukkan ID admin yang akan dihapus: ')
-            hapus_akun(id_to_delete)
             core.clear()
+            print('+' + '='*36 + '+')
+            print('|' + '-'*6 + '[ DAFTAR KATEGORI BUKU ]' + '-'*6 + '|')
+            print('+' + '='*36 + '+')
+            list_data()
+            print('+' + '='*36 + '+')
+            print('|' + '[ NOTICE ]'.center(36) + '|')
+            print('|' + 'Klik ENTER untuk melanjutkan!'.center(36) + '|')
+            print('+' + '='*36 + '+')
+            enter = input()
+        elif pilihan == '3':
+            core.clear()
+            print("Data saat ini:")
+            list_data()
+            id_to_delete = input('Masukkan ID admin yang akan dihapus: ')
+            if id_to_delete:
+                user = input('Apakah anda ingin menghapus data diatas?(y/n) ')
+                if user == 'y':
+                    hapus_akun(id_to_delete)
+                else:
+                    print('Data batal dihapus')
+                    enter  = input("Klik ENTER untuk meneruskan")
+            else:
+                print('+' + '='*36 + '+')
+                print('|' + '[ DATA NOT FOUND ]'.center(36) + '|')
+                print('|' + 'Klik ENTER untuk melanjutkan!'.center(36) + '|')
+                print('+' + '='*36 + '+')
+                enter  = input()
+            
         elif pilihan == '9':
             core.clear()
             break
@@ -157,11 +191,3 @@ def aksi_pengaturan():
 
 if __name__ == "__main__":
     aksi_pengaturan()
-    load_data()
-    save_data()
-    tambah_csv()
-    kriteria_password()
-    register()
-    list_data()
-    hapus_akun()
-
