@@ -251,7 +251,7 @@ def cari_status(id_peminjam):
 
 def tampilkan_daftar_peminjam_dan_status(search_keyword = "", current_page = 1, total_pages = 1):
     core.clear()
-    data_peminjam = core.baca_csv(db_peminjam)
+    data_peminjam = core.baca_csv(db_peminjam)[1:]
 
     if len(search_keyword) > 0:
         data_peminjam = core.cari_list(data_peminjam, search_keyword, 1)
