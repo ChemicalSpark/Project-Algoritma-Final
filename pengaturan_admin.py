@@ -110,14 +110,10 @@ Masukkan password yang berisi:
     print('+' + '='*39 + '+')
     enter = input()  
 
-
 def list_data():
     data_admin = load_data()
-    if data_admin:
-        df = pd.DataFrame(data_admin, columns=["ID", "Username", "Password"])
-        print(df.to_string(index=False))
-    else:
-        print("Tidak ada data admin yang tersedia.")
+    df = pd.DataFrame(data_admin, columns=["ID", "Username", "Password"])
+    print(df.to_string(index=False))
 
 
 def hapus_akun(id_to_delete):

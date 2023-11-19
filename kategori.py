@@ -8,9 +8,17 @@ def tulis_csv(data):
     core.tulis_csv(nama_file, data)
 
 def list_kategori():
-    df = pd.read_csv(nama_file)
-    df.index = df.index + 1
-    print(df.to_string(index=True))
+    kategori_file = core.baca_csv(nama_file)
+    data_kategori = [['ID','Kategori']]
+    i = 1
+    for baris in kategori_file:
+        if baris[0] == 'ID':
+            continue
+        kategori = baris[1]
+        data_kategori.append([i,kategori])
+        i += 1
+    df = pd.DataFrame(data_kategori[1:],columns=['No','Kategori'])
+    print(df.to_string(index=False))
 
 def tambah_kategori(kat):
     data = core.baca_csv(nama_file)
