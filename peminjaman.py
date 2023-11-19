@@ -139,19 +139,26 @@ def tampilkan_daftar_buku_dipinjam(current_page = 1, total_pages = 1, id_peminja
     
     data_peminjaman_f = core.baca_csv(db_peminjaman)
     
-    data_peminjaman_f = core.cari_list(data_peminjaman_f, id_peminjam, 1)[0]
+    data_peminjaman_f = core.cari_list(data_peminjaman_f, id_peminjam, 1)
+    
     
     buku_f = core.baca_csv(db_buku)
     
     kategori_f = core.baca_csv(db_kategori)
     
     peminjaman_tampil = [["No", "Judul", "Kategori", "Tgl Dipinjam", "Tenggat", "Status", "Jumlah Telat Hari", "Denda"]]
-    peminjaman = [peminjaman + "id"]
+    peminjaman = peminjaman_tampil
+    peminjaman.append("id")
     i = 1
     for peminjaman_perbaris in data_peminjaman_f:
-        # cari buku 
-        buku = core.cari_id_list(buku_f, data_peminjaman_f[2])
-        kategori = core.cari_id_list(kategori_f, buku[1])[0]
+        # cari buku yg dimpinjam
+        buku = core.cari_id_list(buku_f, peminjaman_perbaris[2])
+        if len(buku) < 1:
+            print("Data Buku yang dipinjam tidak ada disistem!, ini bisa di sebabkan dihapusnya buku di database!")
+            continue
+        #cari kategori buku yng dipinjam
+        buku = buku[0]
+        kategori = core.cari_id_list(kategori_f, buku[1])
         
         #parse input str ke datetime objek
         tgl_dipinjam = datetime.strptime(peminjaman_perbaris[3], "%d/%m/%Y")
@@ -174,7 +181,8 @@ def tampilkan_daftar_buku_dipinjam(current_page = 1, total_pages = 1, id_peminja
             ]
         
         peminjaman.append(d)
-        peminjaman_tampil.append(d + peminjaman_perbaris[0])
+        f = d
+        peminjaman_tampil.append(f.append(peminjaman_perbaris[0]))
         
         i += 1
         
