@@ -25,8 +25,7 @@ def baca_baris_peminjam():
         nim = baris[2]
         telp = baris[3]
         data_peminjam.append([i,nama,nim,telp])
-        i += 1
-        
+        i += 1 
     df = pd.DataFrame(data_peminjam[1:], columns=['No','Nama','NIM','Nomor Telepon'])
     print(df.to_string(index=False))
 
@@ -41,40 +40,36 @@ def perbarui_baris_peminjam(id, nama, nim, telp):
     tulis_csv(data)
 
 def hapus_baris_peminjam(delete):
-    with open(nama_file,'r') as file:
-        data = list(csv.reader(file))
-        nomor_urut = 0
-        nomor = []  # To store relevant entries for deletion
-        # Collect relevant entries to show for deletion
-        for arr in data:
-            if arr[0] != 'ID':
-                nomor.append(arr)
-                nomor_urut += 1
+    data = core.baca_csv(nama_file)
+    nomor_urut = 0
+    nomor = []
+    for baris in data:
+        if baris[0] != 'ID':
+            nomor.append(baris)
+            nomor_urut += 1
 
-        if 1 <= delete <= len(nomor):
-            print(f'ID: {nomor[delete - 1][0]}')
-            print(f'Nama: {nomor[delete - 1][1]}')
-            print(f'NIM: {nomor[delete - 1][2]}')
-            print(f'Nomor Telepon: {nomor[delete - 1][3]}')
-            
-            user = input('Apakah anda ingin menghapus data diatas?(y/n) ')
-            if user == 'y':
-                data.remove(nomor[delete - 1])
-                with open(nama_file, 'w', newline="") as file:
-                    write = csv.writer(file)
-                    write.writerows(data)
-                    print('+' + '='*40 + '+')
-                    print('|' + '[ DATA BERHASIL DIHAPUS ]'.center(40) + '|')
-                    print('|' + 'Klik ENTER untuk melanjutkan!'.center(40) + '|')
-                    print('+' + '='*40 + '+')
-                    enter  = input()
-            else:
+    if 1 <= delete <= len(nomor):
+        print(f'ID: {nomor[delete - 1][0]}')
+        print(f'Nama: {nomor[delete - 1][1]}')
+        print(f'NIM: {nomor[delete - 1][2]}')
+        print(f'Nomor Telepon: {nomor[delete - 1][3]}')     
+        user = input('Apakah anda ingin menghapus data diatas?(y/n) ')
+        if user == 'y':
+            data.remove(nomor[delete - 1])
+            with open(nama_file, 'w', newline="") as file:
+                write = csv.writer(file)
+                write.writerows(data)
                 print('+' + '='*40 + '+')
-                print('|' + '[ DATA BATAL DIHAPUS ]'.center(40) + '|')
+                print('|' + '[ DATA BERHASIL DIHAPUS ]'.center(40) + '|')
                 print('|' + 'Klik ENTER untuk melanjutkan!'.center(40) + '|')
                 print('+' + '='*40 + '+')
                 enter  = input()
-            # index_hapus += 1
+        else:
+            print('+' + '='*40 + '+')
+            print('|' + '[ DATA BATAL DIHAPUS ]'.center(40) + '|')
+            print('|' + 'Klik ENTER untuk melanjutkan!'.center(40) + '|')
+            print('+' + '='*40 + '+')
+            enter  = input()
         
 
 def aksi_peminjam():
@@ -122,38 +117,51 @@ def aksi_peminjam():
                     if baris[0] != 'ID':
                         nomor.append(baris)
                         nomor_urut += 1
-                # for baris in data:
-                update = int(input("Masukkan Nomor urut data yang akan diperbarui: "))
-                if 1 <= update <= len(nomor):
-                    id = nomor[update - 1][0]
-                    data = core.cari_id_list(core.baca_csv(nama_file),id)
-                    if data:
-                        print("Nama lama :", data[0][1])
-                        nama_baru = input("Masukkan Nama yang baru : ")
-                        nama = nama_baru if nama_baru else data[0][1]
-                        
-                        print("NIM lama :", data[0][2])
-                        nim_baru = input("Masukkan NIM yang baru : ")
-                        nim = nim_baru if nim_baru else data[0][2]
-                        
-                        print("Nomor Telepon lama :", data[0][3])
-                        telp_baru = input("Masukkan Nomor Telepon yang baru : ")
-                        telp = telp_baru if telp_baru else data[0][3]
-                        perbarui_baris_peminjam(id, nama, nim, telp)
-                        print("Data telah diperbarui.")
-                        enter  = input("Klik ENTER untuk meneruskan")
-                        core.clear()
+                update = input("Masukkan Nomor urut data yang akan diperbarui: ")
+                if update.split() and update.isdigit():
+                    update = int(update)
+                    if 1 <= update <= len(nomor):
+                        id = nomor[update - 1][0]
+                        data = core.cari_id_list(core.baca_csv(nama_file),id)
+                        if data:
+                            print("Nama lama :", data[0][1])
+                            nama_baru = input("Masukkan Nama yang baru : ")
+                            nama = nama_baru if nama_baru else data[0][1]
+                            
+                            print("NIM lama :", data[0][2])
+                            nim_baru = input("Masukkan NIM yang baru : ")
+                            nim = nim_baru if nim_baru else data[0][2]
+                            
+                            print("Nomor Telepon lama :", data[0][3])
+                            telp_baru = input("Masukkan Nomor Telepon yang baru : ")
+                            telp = telp_baru if telp_baru else data[0][3]
+                            perbarui_baris_peminjam(id, nama, nim, telp)
+                            print("Data telah diperbarui.")
+                            enter  = input("Klik ENTER untuk meneruskan")
+                            core.clear()
+                        else:
+                            print('+' + '='*40 + '+')
+                            print('|' + '[ DATA NOT FOUND ]'.center(40) + '|')
+                            print('|' + 'Klik ENTER untuk melanjutkan!'.center(40) + '|')
+                            print('+' + '='*40 + '+')
+                            enter  = input()
                     else:
                         print('+' + '='*40 + '+')
                         print('|' + '[ DATA NOT FOUND ]'.center(40) + '|')
                         print('|' + 'Klik ENTER untuk melanjutkan!'.center(40) + '|')
                         print('+' + '='*40 + '+')
                         enter  = input()
+                else:
+                    print('+' + '='*40 + '+')
+                    print('|' + '[ DATA NOT FOUND ]'.center(40) + '|')
+                    print('|' + 'Klik ENTER untuk melanjutkan!'.center(40) + '|')
+                    print('+' + '='*40 + '+')
+                    enter  = input()
             case '4':
                 print("Data saat ini:")
                 baca_baris_peminjam()
                 user = input("Masukkan Nomor urut data yang akan dihapus: ")
-                if user:
+                if user.split() and user.isdigit():
                     hapus_baris_peminjam(int(user))
                 else:
                     print('+' + '='*40 + '+')
