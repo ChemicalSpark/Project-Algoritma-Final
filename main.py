@@ -1,6 +1,6 @@
 import login
 import kategori
-import peminjaman
+# import peminjaman
 import kelola_buku
 import data_peminjam
 import pengaturan_admin
@@ -19,22 +19,18 @@ def mainmenu():
             user = input("| > Menu: ")
             match user:
                 case '1':
-                    core.clear()
                     kategori.aksi_kategori()
                 case '2':
-                    core.clear()
                     kelola_buku.aksi_buku()
                 case '3':
-                    core.clear()
                     data_peminjam.aksi_peminjam()
                 case '4':
                     core.clear()
-                    peminjaman.aksi_utama()
+                    # peminjaman.aksi_utama()
                 case '5':
-                    core.clear()
                     pengaturan_admin.aksi_pengaturan()
                 case '0':
-                    core.clear()
+
                     print('+' + '='*83 + '+')
                     print('|' + '-'*37 + '[ NOTICE ]' + '-'*36 + '|')
                     print('|' + 'Apakah Anda yakin untuk keluar? (y/n)'.center(83) + '|')

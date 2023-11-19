@@ -56,7 +56,7 @@ def dtframe_buku():
 
 def kategori_buku():
     '''fungsi menampilakn kategori buku'''
-    with open('database/kategori.csv', mode='r', encoding='cp1252') as kategori:
+    with open(db_kategori, mode='r', encoding='cp1252') as kategori:
         list_kategori = list(csv.reader(kategori))
         nomor = 0
         tampil_kategori = ''
@@ -74,16 +74,20 @@ def tambah_buku():
         nomor = 0
         print('pilihan kategori :')
         print(display_kategori)
-        input_kategori = int(input('pilih kategori buku : '))
+        input_kategori = input('pilih kategori buku : ')
         input_judul = input('masukkan judul : ')
         input_penulis = input('masukka penulis : ')
         input_penerbit = input('masukkan penerbit : ')
         input_isbn = input('masukkan ISBN : ')
-        input_jumlah = int(input('masukkan jumlah buku : '))
-        if input_judul == False:
-            core.clear()
-            print('Judul tidak ada')
+        input_jumlah = input('masukkan jumlah buku : ')
+        if input_kategori and input_judul and input_penulis and input_penerbit and input_isbn and input_jumlah:
+            input_kategori = int(input_kategori)
+            input_jumlah = int(input_jumlah)
+            print('Proses')
+        else:
+            print('Data tidak ada / tidak lengkap!')
             enter  = input("Klik ENTER untuk meneruskan")
+            return False
 
         if len(data_buku) <= 1:
             id_bk = 1
@@ -96,11 +100,12 @@ def tambah_buku():
             else:
                 nomor += 1
         if nomor == len(data_buku):
-            with open('database/buku.csv', mode='a', encoding='cp1252', newline='') as tambah_data:
+            with open(db_buku, mode='a', encoding='cp1252', newline='') as tambah_data:
                 write = csv.writer(tambah_data)
                 write.writerow([id_bk,list_kategori[input_kategori-1][0],input_judul,input_penulis,input_penerbit,input_isbn,input_jumlah])
             ulangi = input('ada tambahan(y/n) ? : ')
-    print('data telah ditambahkan')
+    print('Data telah ditambahkan')
+    enter = input('Klik ENTER untuk melanjutkan')
 
 def update_buku():
     '''fungsi update data buku'''
@@ -116,7 +121,7 @@ def update_buku():
                 print('judul :',i[2])
                 print('id buku :',i[0])
                 confirm = input('yakin ingin update data ? y/n :')
-                if confirm == 'y':
+                if confirm == 'y' or 'Y':
                     print('pilih data yang akan diubah :')
                     print('[1] kategori [2] judul [3] penulis [4] penerbit [5] ISBN [6] jumlah [99] semua')
                     pilihan = input('masukkan pilihan : ')
@@ -146,14 +151,16 @@ def update_buku():
                             i[4] = input('masukkan penerbit baru :')
                             i[5] = input('masukkan ISBN baru : ')
                             i[6] = input('masukkan jumlah baru : ')
-                    with open('database/buku.csv', mode='w', newline='', encoding='cp1252') as data_kembali:
+                    with open(db_buku, mode='w', newline='', encoding='cp1252') as data_kembali:
                         masukkan_data = csv.writer(data_kembali)
                         masukkan_data.writerows(baca_buku)
                         print('data telah diperbarui')
                         kondisi = False
+                        enter = input('Klik ENTER untuk melanjutkan')
                 else :
-                    print('update dibatalkan')
+                    print('Update dibatalkan')
                     kondisi = False
+                    enter = input('Klik ENTER untuk melanjutkan')
             else:
                 nilai += 1
 
@@ -179,13 +186,15 @@ def hapus_buku():
                 confirm = input('yakin ingin menghapus(y/n)? : ')
                 if confirm == 'y':
                     data_buku.pop(index_hapus)
-                    with open('database/buku.csv', mode='w', newline='', encoding='cp1252') as return_data:
+                    with open(db_buku, mode='w', newline='', encoding='cp1252') as return_data:
                         masukkan_data = csv.writer(return_data)
                         masukkan_data.writerows(data_buku)
                         print('data telah dihapus')
+                        enter = input('Klik ENTER untuk melanjutkan')
                         kondisi = False
                 else:
                     print('data batal dihapus')
+                    enter = input('Klik ENTER untuk melanjutkan')
                     kondisi = False
             else:
                 nilai += 1   
@@ -195,24 +204,25 @@ def hapus_buku():
             
 def aksi_buku():
         while True:
+            core.clear()
             with open('ui/kelola_buku.txt','r') as buku:
                 display = buku.read()
                 print(display)
                 pilihan = input("Pilihan : ")
                 match pilihan:
                     case '1':
+                        core.clear()
                         tambah_buku()
-                        core.clear()
                     case '2':
+                        core.clear()
                         dtframe_buku()
-                        enter = input('Klik ENTER untuk melanjutkan...')
-                        core.clear()
+                        enter = input('Klik ENTER untuk melanjutkan')
                     case '3':
+                        core.clear()
                         update_buku()
-                        core.clear()
                     case '4':
-                        hapus_buku()
                         core.clear()
+                        hapus_buku()
                     case '9':
                         core.clear()
                         break

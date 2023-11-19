@@ -158,7 +158,7 @@ def hapus_akun(id_to_delete):
         print(f'Username: {nomor[id_to_delete - 1][1]}')   
         print(f'Password: {nomor[id_to_delete - 1][2]}')  
         user = input('Apakah anda ingin menghapus data diatas?(y/n) ')
-        if user == 'y':
+        if user == 'y' or 'Y':
             data.remove(nomor[id_to_delete - 1])
             with open(user_file, 'w', newline="") as file:
                 write = csv.writer(file)
@@ -183,8 +183,8 @@ def aksi_pengaturan():
             print(display)
         pilihan = input('Masukkan pilihan: ')
         if pilihan == '1':
-            register()
             core.clear()
+            register()
         elif pilihan == '2':
             core.clear()
             print('+' + '='*38 + '+')

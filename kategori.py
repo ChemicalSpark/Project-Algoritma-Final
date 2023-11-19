@@ -52,7 +52,7 @@ def hapus_kategori(delete):
         print(f'ID: {nomor[delete - 1][0]}')
         print(f'Kategori: {nomor[delete - 1][1]}')     
         user = input('Apakah anda ingin menghapus data diatas?(y/n) ')
-        if user == 'y':
+        if user == 'y' or 'Y':
             data.remove(nomor[delete - 1])
             with open(nama_file, 'w', newline="") as file:
                 write = csv.writer(file)
@@ -79,6 +79,7 @@ def aksi_kategori():
         user = input("| Pilihan: ")
         match user:
             case '1':
+                core.clear()
                 print('+' + '='*83 + '+')
                 print('|' + '-'*37 + '[ NOTICE ]' + '-'*36 + '|')
                 print('|' + 'Masukkan kategori baru!'.center(83) + '|')
