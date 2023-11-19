@@ -30,10 +30,10 @@ def baca_baris_peminjam():
     df = pd.DataFrame(data_peminjam[1:], columns=['No','Nama','NIM','Nomor Telepon'])
     print(df.to_string(index=False))
 
-def perbarui_baris_peminjam(nomor, nama, nim, telp):
+def perbarui_baris_peminjam(id, nama, nim, telp):
     data = core.baca_csv(nama_file)
-    for i,baris in data:
-        if i + 1 == nomor:
+    for baris in data:
+        if baris[0] == id:
             baris[1] = nama
             baris[2] = nim
             baris[3] = telp
@@ -115,35 +115,40 @@ def aksi_peminjam():
             case '3':
                 print("Data saat ini:")
                 baca_baris_peminjam()
-                id = input("Masukkan ID data yang akan diperbarui: ")
-                data = core.cari_id_list(core.baca_csv(nama_file), id)
-                # if data == False:
-                #     baca_baris_peminjam()
-                #     print("Data Tidak ada")
-                #     enter  = input("Klik ENTER untuk meneruskan")
-                #     core.clear()
-                if data:
-                    print("Nama lama :", data[0][1])
-                    nama_baru = input("Masukkan Nama yang baru : ")
-                    nama = nama_baru if nama_baru else data[0][1]
-                    
-                    print("NIM lama :", data[0][2])
-                    no_baru = input("Masukkan NIM yang baru : ")
-                    no = no_baru if no_baru else data[0][2]
-                    
-                    print("Nomor Telepon lama :", data[0][3])
-                    telp_baru = input("Masukkan Nomor Telepon yang baru : ")
-                    telp = telp_baru if telp_baru else data[0][3]
-                    perbarui_baris_peminjam(id, nama, no, telp)
-                    print("Data telah diperbarui.")
-                    enter  = input("Klik ENTER untuk meneruskan")
-                    core.clear()
-                else:
-                    print('+' + '='*40 + '+')
-                    print('|' + '[ DATA NOT FOUND ]'.center(40) + '|')
-                    print('|' + 'Klik ENTER untuk melanjutkan!'.center(40) + '|')
-                    print('+' + '='*40 + '+')
-                    enter  = input()
+                read_data = core.baca_csv(nama_file)
+                nomor_urut = 0
+                nomor = []
+                for baris in read_data:
+                    if baris[0] != 'ID':
+                        nomor.append(baris)
+                        nomor_urut += 1
+                # for baris in data:
+                update = int(input("Masukkan Nomor urut data yang akan diperbarui: "))
+                if 1 <= update <= len(nomor):
+                    id = nomor[update - 1][0]
+                    data = core.cari_id_list(core.baca_csv(nama_file),id)
+                    if data:
+                        print("Nama lama :", data[0][1])
+                        nama_baru = input("Masukkan Nama yang baru : ")
+                        nama = nama_baru if nama_baru else data[0][1]
+                        
+                        print("NIM lama :", data[0][2])
+                        nim_baru = input("Masukkan NIM yang baru : ")
+                        nim = nim_baru if nim_baru else data[0][2]
+                        
+                        print("Nomor Telepon lama :", data[0][3])
+                        telp_baru = input("Masukkan Nomor Telepon yang baru : ")
+                        telp = telp_baru if telp_baru else data[0][3]
+                        perbarui_baris_peminjam(id, nama, nim, telp)
+                        print("Data telah diperbarui.")
+                        enter  = input("Klik ENTER untuk meneruskan")
+                        core.clear()
+                    else:
+                        print('+' + '='*40 + '+')
+                        print('|' + '[ DATA NOT FOUND ]'.center(40) + '|')
+                        print('|' + 'Klik ENTER untuk melanjutkan!'.center(40) + '|')
+                        print('+' + '='*40 + '+')
+                        enter  = input()
             case '4':
                 print("Data saat ini:")
                 baca_baris_peminjam()
@@ -166,3 +171,4 @@ def aksi_peminjam():
 
 if __name__ == "__main__":
     aksi_peminjam()
+    
