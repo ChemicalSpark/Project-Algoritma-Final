@@ -11,6 +11,8 @@ db_kategori   = "database/kategori.csv"
 
 limit_per_page = 7
 
+denda_perhari = 30000
+
 # UNTUK BAGIAN JALUR NAMBAH PEMINJAMAN SETELAH
 
 def tambah_peminjam():
@@ -63,22 +65,27 @@ def input_peminjaman(id_buku, id_peminjam):
                        "belum dikembalikan",
                        0]
     
+    update_kuantitas_buku(id_buku, "mengurangi")
+    input("Tekan Enter untuk kembali menu pilih buku...")
+    
+        
+def update_kuantitas_buku(id_buku, mode="mengurangi"):
     data_buku_db = core.baca_csv(db_buku)
     core.tambah_ke_csv(db_peminjaman, baris_data_baru)
     print("Data Peminjaman Telah Berhasil Ditambahkan")
     buku_d = core.cari_id_list(data_buku_db, id_buku)[0]
     jumlah = int(buku_d[6])
-    jumlah -= 1
+    if mode == "mengurangi":
+        jumlah -= 1
+    else:
+        jumlah += 1
+    
     buku_d[6] = jumlah
     
     index_baris = core.cari_index_dengan_id_list(data_buku_db, id_buku)
     
     core.perbarui_baris_csv(db_buku, index_baris, buku_d)
     print("Data Kuantitas Buku telah diupdate")
-    input("Tekan Enter untuk kembali menu pilih buku...")
-        
-
-
 
 def tambah_peminjaman(id_peminjam):
     
@@ -86,11 +93,7 @@ def tambah_peminjaman(id_peminjam):
     current_page = 1
     total_pages = 1
     
-    kembali = False
-    
-    mulai = True
-    
-    while mulai:
+    while True:
         core.clear()
         daftar_buku = tampilkan_daftar_buku(search_keyword, current_page, total_pages)
         with open('ui/peminjaman/pilih_buku.txt', 'r') as f:
@@ -108,7 +111,7 @@ def tambah_peminjaman(id_peminjam):
                 else:    
                     pilihan_user = input(f"apakah anda yakin memilih buku no {input_user_x} (y/t) :" )
 
-                    if pilihan_user.lower() == 'n':
+                    if pilihan_user.lower() == 't':
                         break
                     elif pilihan_user.lower() == 'y':
                         sekali = True
@@ -130,9 +133,149 @@ def tambah_peminjaman(id_peminjam):
                 exit()
             case _ :
                 input("input tidak valid!\ntekan enter untuk melanjutkan")
-                
+    
+
+def tampilkan_daftar_buku_dipinjam(current_page = 1, total_pages = 1, id_peminjam = None):
+    
+    data_peminjaman_f = core.baca_csv(db_peminjaman)
+    
+    data_peminjaman_f = core.cari_list(data_peminjaman_f, id_peminjam, 1)
     
     
+    buku_f = core.baca_csv(db_buku)
+    
+    kategori_f = core.baca_csv(db_kategori)
+    
+    peminjaman_tampil = [["No", "Judul", "Kategori", "Tgl Dipinjam", "Tenggat", "Status", "Jumlah Telat Hari", "Denda"]]
+    peminjaman = peminjaman_tampil
+    peminjaman.append("id")
+    i = 1
+    for peminjaman_perbaris in data_peminjaman_f:
+        # cari buku yg dimpinjam
+        buku = core.cari_id_list(buku_f, peminjaman_perbaris[2])
+        if len(buku) < 1:
+            print("Data Buku yang dipinjam tidak ada disistem!, ini bisa di sebabkan dihapusnya buku di database!")
+            continue
+        #cari kategori buku yng dipinjam
+        buku = buku[0]
+        kategori = core.cari_id_list(kategori_f, buku[1])
+        
+        #parse input str ke datetime objek
+        tgl_dipinjam = datetime.strptime(peminjaman_perbaris[3], "%d/%m/%Y")
+        tgl_tenggat = datetime.strptime(peminjaman_perbaris[4], "%d/%m/%Y")
+
+        status_f = "BELUM DIEMPLEMENTASI"
+
+        jumlah_tenggat_hari = datetime.today() - tgl_tenggat
+        jumlah_tenggat_hari = jumlah_tenggat_hari.days
+        
+        # data 
+        d = [i, # no
+            buku[2], # judul 
+            kategori[1], # kategori
+            tgl_dipinjam.strftime("%d %M %Y"),
+            tgl_tenggat.strftime("%d %M %Y"),
+            status_f,
+            jumlah_tenggat_hari,
+            jumlah_tenggat_hari * denda_perhari
+            ]
+        
+        peminjaman.append(d)
+        f = d
+        peminjaman_tampil.append(f.append(peminjaman_perbaris[0]))
+        
+        i += 1
+        
+    df = pd.DataFrame(peminjaman_tampil[1:], columns=peminjaman_tampil[0])
+
+    # untuk mengabaikan index bawaan pandas
+    output = df.to_string(index=False)
+    
+    hasil = ""
+    for i in output.split("\n"):
+        hasil += " "*10 + i + "\n"
+    
+    print(hasil)
+    
+    print( " "*37 + f"page {current_page} of {total_pages}")
+    
+    return peminjaman, total_pages
+    
+    
+    
+def hapus_peminjaman(id_peminjam):
+    search_keyword = ""
+    current_page = 1
+    total_pages = 1
+    while True:
+        buku_buku_yg_dipindam, total_pages = tampilkan_daftar_buku_dipinjam(current_page, total_pages, id_peminjam)
+        with open('ui/peminjaman/aksi_hapus.txt', 'r') as f:
+            print(f.read())
+            
+               
+        input_user_x = int(input("Pilih operasi (angka) : "))
+        
+        buku = core.cari_list(buku_buku_yg_dipindam[1:], input_user_x, 0, True)
+        match input_user_x:
+            case 1:
+
+                if (len(buku) == 0):
+                    print("no peminjaman yang anda pilih Tidak ada")
+                else:    
+                    pilihan_user = input(f"apakah anda yakin memilih buku no {input_user_x} (y/t) :" )
+
+                    if pilihan_user.lower() == 't':
+                        break
+                    elif pilihan_user.lower() == 'y':
+                        sekali = True
+                        input_peminjaman(buku[0][6], id_peminjam)
+                                
+                    else:
+                        input("input tidak valid!\ntekan enter untuk melanjutkan")
+            case 2:
+                if current_page > 1:
+                    current_page -= 1
+            case 3:
+                if current_page < total_pages:
+                    current_page += 1
+            case 4:
+                break
+            case 0:
+                exit()
+            case _ :
+                input("input tidak valid!\ntekan enter untuk melanjutkan")
+        
+
+def input_hapus_peminjaman(id_peminjaman):
+    while True:
+        pilihan = input("Apakah anda yakin ingin Menghapus data Peminjaman ini?, aksi ini tidak dapat dibatalkan! (y/n) \n> ").lower()
+        kuantitas = True
+        if pilihan == "y":
+            while True:
+                pilihan = input("Apakah anda juga ingin menambahkan data kuantitas (jumlah) buku yang tersimpan disistem? (y/n) \n> ").lower()
+                if pilihan == "y":
+                    kuantitas = True
+                    break
+                elif pilihan == "n":
+                    kuantitas = False
+                    break
+                else:
+                    print("Input tidak valid, hanya menerima 'y' atau 'n' saja!")
+                        
+            data_db_peminjaman = core.baca_csv(db_peminjaman)
+            data_peminjaman = core.cari_id_list(data_db_peminjaman, id_peminjaman)[0]
+            index_baris = core.cari_index_dengan_id_list(data_db_peminjaman, id_peminjaman)
+            core.hapus_baris_csv(db_peminjaman, index_baris)
+            if kuantitas:
+                update_kuantitas_buku(data_peminjaman[2], "menambahkan")
+                input("Data Telah Dihapus Tekan Enter Untuk Kembali...")
+                break
+            
+        elif pilihan == "n":
+            break
+        else:
+            print("Input tidak valid, hanya menerima 'y' atau 'n' saja!")
+        
 
 
 def tampilkan_daftar_buku(search_keyword = "", current_page = 1, total_pages = 1):
@@ -148,8 +291,6 @@ def tampilkan_daftar_buku(search_keyword = "", current_page = 1, total_pages = 1
     daftar_kategori = core.baca_csv(db_kategori)
         
     data_buku = [["No", "Nama", "Kategori", "Penulis", "Penerbit", "ISBN", "Jumlah" , "id"]]
-    
-    daftar_buku_tampil = []
     
     i = 1
     for baris in daftar_buku:
@@ -169,15 +310,13 @@ def tampilkan_daftar_buku(search_keyword = "", current_page = 1, total_pages = 1
         penerbit = baris[4]
         isbn = baris[5]
         jumlah = baris[6]
-        id_buku = baris[0]
         
-        data_buku.append([i, nama, nama_kategori, penulis, penerbit, jumlah, id_buku])
-        daftar_buku_tampil.append([i, nama, nama_kategori, penulis, penerbit, jumlah])
-        
+        data_buku.append([i, nama, nama_kategori, penulis, penerbit, jumlah])
         i += 1
 
 
-    df = pd.DataFrame(daftar_buku_tampil, columns=["No", "Nama", "Kategori", "Penulis", "Penerbit", "Jumlah"])
+
+    df = pd.DataFrame(data_buku[1:], columns=["No", "Nama", "Kategori", "Penulis", "Penerbit", "Jumlah"])
 
     # untuk mengabaikan index bawaan pandas
     output = df.to_string(index=False)
@@ -230,6 +369,11 @@ def cari_status(id_peminjam):
     today = date.today()
     status = []
 
+    def isi_status(status_list, status_str):
+        if status_str not in status_list:
+            status_list.append(status_str)
+        return status_list
+
     # menginisialisasi status peminjam awal
     meminjam = False
 
@@ -253,69 +397,19 @@ def cari_status(id_peminjam):
                 status.append("Dikembalikan")
             else:
                 raise Exception(f"Pengecualian Terdeteksi hasil diluar perkiraan!\nSTATUS di DB : {p_status}\nTanggal Dipinjam : {tanggal_peminjaman.strftime("%d %B %Y")}\nTanggal Hari ini : {date.today().strftime("%d %B %Y")}\nTanggal Deadline : {tanggal_pengembalian.strftime("%d %B %Y")}")
-
     if not meminjam:
         status.append("Tidak Meminjam")
 
+    # core.dd(status)
+    status = list(dict.fromkeys(status)) # hapus duplikasi
+
+    
     return ", ".join(status)
-    # status = ["Tidak Meminjam", "Belum Dikembalikan", "Belum Lunas", "Dikembalikan"]
-    
-    # untuk mengurangi repitisi
-    def isi_status(status_list, status_str):
-        if (status_str not in status_list):
-            status_list.append(status_str)
-        return status_list
-    
-    def gabung(status_list):
-        separator = ", "
-        return separator.join(status_list)
-    
-    today = date.today()
-    
-    status = []
-    
-    # menginisialisasi status peminjam awal
-    meminjam = False
-
-    for i in core.baca_csv(db_peminjaman):
-        
-        
-        # me skip baris kolom / header
-        if i[0] == "id":
-            continue
-        
-        
-        p_id = i[0]
-        p_id_peminjam = i[1]
-        id_buku = i[2]
-        # print(i[3])
-        tanggal_peminjaman = datetime.strptime(i[3], "%d/%m/%Y").date()
-        tanggal_pengembalian = datetime.strptime(i[4], "%d/%m/%Y").date()
-        p_status = i[5]
-        denda_terlambat = i[6]
-        
-        # jika ada data 
-        if id_peminjam == p_id_peminjam:
-
-            meminjam = True # menunjukan jika peminjam ada data peminjaman
-            if ((p_status == "belum dikembalikan") and (today <= tanggal_pengembalian)):
-                status = isi_status(status, "Belum Dikembalikan")
-            elif ((p_status == "belum dikembalikan") and (today > tanggal_pengembalian)):
-                status = isi_status(status, "Telat")
-            elif (p_status == "dikembalikan"):
-                status = isi_status(status, "Dikembalikan")
-            else:
-                raise Exception(f"Pengecualian Terdeteksi hasil diluar perkiraan!\nSTATUS di DB : {p_status}\nTanggal Dipinjam : {tanggal_peminjaman.strftime("%d %B %Y")}\nTanggal Hari ini : {date.today().strftime("%d %B %Y")}\nTanggal Deadline : {tanggal_pengembalian.strftime("%d %B %Y")}")
-                
-    if not meminjam:
-        status = isi_status(status, "Tidak Meminjam")
-    return gabung(status)
-
 
 
 def tampilkan_daftar_peminjam_dan_status(search_keyword = "", current_page = 1, total_pages = 1):
     core.clear()
-    data_peminjam = core.baca_csv(db_peminjam)
+    data_peminjam = core.baca_csv(db_peminjam)[1:]
 
     if len(search_keyword) > 0:
         data_peminjam = core.cari_list(data_peminjam, search_keyword, 1)
@@ -334,7 +428,10 @@ def tampilkan_daftar_peminjam_dan_status(search_keyword = "", current_page = 1, 
         if baris[0] == "id":
             continue # me skip baris kolom / header
         
-        status = cari_status(baris[0])
+        status = ""
+        for iterasi_status in cari_status(baris[0]):
+            status +=  iterasi_status
+            
         data.append([i, baris[1], baris[2] , status, baris[0]])
         data_tampil.append([i, baris[1], baris[2] , status])
         
@@ -359,6 +456,7 @@ def tampilkan_daftar_peminjam_dan_status(search_keyword = "", current_page = 1, 
     
     return data, current_page, total_pages
     
+
           
 def aksi_peminjaman(mode = "kelola"):  
 
@@ -368,7 +466,9 @@ def aksi_peminjaman(mode = "kelola"):
 
     while True:
         daftar_peminjam, current_page, total_pages = tampilkan_daftar_peminjam_dan_status(search_keyword, current_page, total_pages)
-        print(f"{ " "*3 }[ Silahkan Pilih Peminjam sebelum manambah peminjaman atau pilih buat peminjam baru ]")
+        if (mode == "tambah"):
+            print(f"{ " "*3 }[ Silahkan Pilih Peminjam sebelum manambah peminjaman atau pilih buat peminjam baru ]")
+
         with open('ui/peminjaman/aksi_peminjaman.txt', 'r') as f:
             print(f.read())
         input_user = int(input("Pilih operasi anda (angka) : "))
@@ -381,8 +481,8 @@ def aksi_peminjaman(mode = "kelola"):
                 kelola_peminjam()
             elif (mode == "tambah"):
                 tambah_peminjaman(id_peminjam)
-            # elif (mode =="hapus"):
-                
+            elif (mode =="hapus"):
+                hapus_peminjaman(id_peminjam)
             # elif (mode == "update"):
             
             

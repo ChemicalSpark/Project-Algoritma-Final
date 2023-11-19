@@ -15,3 +15,4 @@ id,id_peminjam,id_buku,tanggal_peminjaman,tanggal_pengembalian,status,denda_terl
 14,1,5,17/11/2023,12/12/2023,belum dikembalikan,0
 15,1,5,17/11/2023,21/07/2013,belum dikembalikan,0
 16,1,5,17/11/2023,21/12/2012,belum dikembalikan,0
+17,1,5,17/11/2023,31/01/2012,belum dikembalikan,0

@@ -54,7 +54,7 @@ def hapus_baris_csv(nama_file, indeks_baris):
 def cari_index_dengan_id_list(data, id_p):
     index = 0
     for i in data:
-        if (id_p == i[0]):
+        if (str(id_p) == str(i[0])):
             break
         index += 1
     return index
@@ -76,7 +76,7 @@ def cari_list(data, nilai, index_kolom:int, strict = False):
     for i in data:
         # print(type(i[index_kolom]))
         if (type(i[index_kolom]) != type(nilai)):
-            # print("Warning : Perbandingan memiliki tipe data yang berbeda\nmeloncati baris")
+            print("Warning : Perbandingan memiliki tipe data yang berbeda\nmeloncati baris")
             continue
         if (strict == True):
             if (nilai == i[index_kolom]):
