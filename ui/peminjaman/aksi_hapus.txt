@@ -1,0 +1,9 @@
+                    [ Pilih data Peminjaman yang ingin anda hapus ]
+                                  _________________                                   
+.________________________________/   PEMINJAMAN    \________________________________.
+|/                               [1] Pilih Peminjaman                              \| 
+|                                [4] Pindah Halaman Ke kiri                         |
+|                                [5] Pindah Halaman Ke kanan                        |
+|                                [6] Kembali                                        |
+|\                               [0] Keluar                                        /|
++-----------------------------------------------------------------------------------+
