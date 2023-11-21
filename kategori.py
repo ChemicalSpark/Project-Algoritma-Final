@@ -25,15 +25,15 @@ def list_kategori():
 def tambah_kategori(kat):
     data = core.baca_csv(nama_file)
     data_ada = []
-    for cek in data:
+    for cek in data[1:]:
         data_ada.append(cek[1])
         if kat in data_ada:
             print('+' + '='*83 + '+')
-            print('|' + '[ KATEGORI INI SUDAH ADA ]'.center(83) + '|')
+            print('|' + '-'*31 + '[ DATA ALREADY EXIST ]' + '-'*30 + '|')
             print('|' + 'Klik ENTER untuk melanjutkan!'.center(83) + '|')
             print('+' + '='*83 + '+')
             return False
-        
+
     if len(data) <= 1:
         new_id = 1
     else:
@@ -68,22 +68,25 @@ def hapus_kategori(delete):
             nomor_urut += 1
 
     if 1 <= delete <= len(nomor):
-        print(f'ID: {nomor[delete - 1][0]}')
-        print(f'Kategori: {nomor[delete - 1][1]}')     
+        print('-'*57)
+        print(f'| ID\t  : {nomor[delete - 1][0]}')
+        print(f'| Kategori: {nomor[delete - 1][1]}')     
+        print('-'*57)
         user = input('Apakah anda ingin menghapus data diatas?(y/n) ')
-        if user == 'y' or 'Y':
+        if user == 'y' or user == 'Y':
             data.remove(nomor[delete - 1])
             with open(nama_file, 'w', newline="") as file:
                 write = csv.writer(file)
                 write.writerows(data)
-                print('+' + '='*32 + '+')
-                print('|' + '[ DATA BERHASIL DIHAPUS ]'.center(32) + '|')
-                print('|' + 'Klik ENTER untuk melanjutkan!'.center(32) + '|')
-                print('+' + '='*32 + '+')
+                print('+' + '='*55 + '+')
+                print('|' + '-'*23 + '[ NOTICE ]' + '-'*22 + '|')
+                print('|' + 'Data berhasil dihapus'.center(55) + '|')
+                print('|' + 'Klik ENTER untuk melanjutkan!'.center(55) + '|')
+                print('+' + '='*55 + '+')
                 enter  = input()
         else:
             print('+' + '='*32 + '+')
-            print('|' + '[ DATA BATAL DIHAPUS ]'.center(32) + '|')
+            print('|' + '-'*37 + '[ NOTICE ]' + '-'*36 + '|')
             print('|' + 'Klik ENTER untuk melanjutkan!'.center(32) + '|')
             print('+' + '='*32 + '+')
             enter  = input()
@@ -105,7 +108,7 @@ def aksi_kategori():
                 print('+' + '='*83 + '+')
                 user = input("| Kategori: ")
                 if user:
-                    tambah_kategori(user)
+                    tambah_kategori(user.strip().title())
                     enter = input()
                 else:
                     print('+' + '='*83 + '+')
@@ -119,6 +122,7 @@ def aksi_kategori():
                 print('|' + '-'*4 + '[ DAFTAR KATEGORI BUKU ]' + '-'*4 + '|')
                 print('+' + '='*32 + '+')
                 list_kategori()
+                input('\n')
                 print('+' + '='*32 + '+')
                 print('|' + '-'*11 + '[ NOTICE ]' + '-'*11 + '|')
                 print('|' + 'Klik ENTER untuk melanjutkan!'.center(32) + '|')
@@ -137,19 +141,37 @@ def aksi_kategori():
                     if baris[0] != 'ID':
                         nomor.append(baris)
                         nomor_urut += 1
-                update = input("Masukkan Nomor urut data yang akan diperbarui: ")
-                if update.split() and update.isdigit():
+                update = input("\n| Masukkan Nomor urut data yang akan diperbarui: ")
+                if update.isdigit():
                     update = int(update)
                     if 1 <= update <= len(nomor):
-                        id = nomor[update -1][0]
+                        id = nomor[update - 1][0]
                         data = core.cari_id_list(core.baca_csv('database/kategori.csv'), id)
                         if data:
-                            print("Kategori lama :", data[0][1])
-                            kat_baru = input("Masukkan Kategori yang baru : ")
-                            kat = kat_baru if kat_baru else data[0][1]
+                            print('-'*57)
+                            print("| Kategori lama\t\t      :", data[0][1])
+                            kat_baru = input("| Masukkan Kategori yang baru : ")
+                            print('-'*57)
+                            if kat_baru:
+                                kat = kat_baru 
+
+                            else:
+                                kat = data[0][1]
+                                print('+' + '='*55 + '+')
+                                print('|' + '-'*18 + '[ DATA NOT FOUND ]' + '-'*19 + '|')
+                                print('|' + 'Klik ENTER untuk melanjutkan!'.center(55) + '|')
+                                print('+' + '='*55 + '+')
+                                enter  = input()
+                                aksi_kategori()
+
                             perbarui_baris_kategori(id, kat)
-                            print("Data telah diperbarui.")
-                            enter  = input("Klik ENTER untuk meneruskan")
+                            print('+' + '='*55 + '+') 
+                            print('|' + '-'*23 + '[ NOTICE ]' + '-'*22 + '|')
+                            print('|' + 'Data Berhasil diperbaharui'.center(55) + '|')
+                            print('|' + 'Klik ENTER untuk meneruskan'.center(55) + '|')
+                            print('+' + '='*55 + '+')
+                            enter  = input()
+                                
                         else:
                             print('+' + '='*55 + '+')
                             print('|' + '-'*18 + '[ DATA NOT FOUND ]' + '-'*19 + '|')
