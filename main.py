@@ -32,7 +32,7 @@ def mainmenu():
                 case '0':
 
                     print('+' + '='*83 + '+')
-                    print('|' + '-'*37 + '[ NOTICE ]' + '-'*36 + '|')
+                    print('|' + '[ NOTICE ]'.center(83) + '|')
                     print('|' + 'Apakah Anda yakin untuk keluar? (y/n)'.center(83) + '|')
                     print('+' + '='*83 + '+')
                     user = input(f"| > ")
