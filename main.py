@@ -1,6 +1,6 @@
 import login
 import kategori
-# import peminjaman
+import peminjaman
 import kelola_buku
 import data_peminjam
 import pengaturan_admin
@@ -26,7 +26,7 @@ def mainmenu():
                     data_peminjam.aksi_peminjam()
                 case '4':
                     core.clear()
-                    # peminjaman.aksi_utama()
+                    peminjaman.aksi_utama()
                 case '5':
                     pengaturan_admin.aksi_pengaturan()
                 case '0':
