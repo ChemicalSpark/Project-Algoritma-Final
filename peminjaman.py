@@ -63,7 +63,8 @@ def input_tambah_peminjaman(id_buku, id_peminjam):
                             tanggal_pinjam,
                             tanggal_tenggat,
                             "belum dikembalikan",
-                            0]
+                            0,
+                            "belum"]
     core.tambah_ke_csv(db_peminjaman, baris_peminjaman_baru)
     print("Data Peminjaman Telah Berhasil Ditambahkan")
     
@@ -76,21 +77,36 @@ def input_update_peminjaman(id_peminjaman):
     daftar_peminjaman_db = core.baca_csv(db_peminjaman)
     data_peminjaman = core.cari_id_list(daftar_peminjaman_db, id_peminjaman)[0]
     
+    index_baris = core.cari_index_dengan_id_list(daftar_peminjaman_db, id_peminjaman)
+
+    today = datetime.today()
     
     match (status):
         case "Belum Dikembalikan":
-                while True:
-                    pilihan = input("Apakah anda ingin mengubah status pengembalian buku (y/n) ? : ").lower()
-                    if pilihan == "y":
-                        data_peminjaman[5] = "dikembalikan"
-                        update_kuantitas_buku()
-                        break
-                    elif pilihan == "n":
-                        break
-                    else:
-                        print("Input tidak valid, hanya menerima 'y' atau 'n' saja!")
+            while True:
+                pilihan = input("Apakah anda ingin mengubah status pengembalian buku (y/n) ? : ").lower()
+                if pilihan == "y":
+                    data_peminjaman[5] = "dikembalikan"
+                    data_peminjaman[7] = today.strftime("%d/%M/%Y")
+                    core.perbarui_baris_csv(db_peminjaman, index_baris, data_peminjaman)
+                    print("Data Peminjaman Telah Diupdate!")
+                    update_kuantitas_buku(id_peminjaman, "menambah")
+                    print("Data Kuantitas telah diupdate")
+                    break
+                elif pilihan == "n":
+                    break
+                else:
+                    print("Input tidak valid, hanya menerima 'y' atau 'n' saja!")
         case "Telat":
-            
+                print("Buku yang dipinjam Telah Tenggat waktu")
+                print("Tanggal Tenggat :", )
+                pilihan = input("Apakah anda ingin mengubah status pengembalian buku (y/n) ? : ").lower()
+                if pilihan == "y":
+
+                elif pilihan == "n":
+                    break
+                else:
+                    print("Input tidak valid, hanya menerima 'y' atau 'n' saja!")
         case "Dikembalikan":
     
     
@@ -176,7 +192,7 @@ def tampilkan_daftar_buku_dipinjam(current_page = 1, total_pages = 1, id_peminja
     kategori_f = core.baca_csv(db_kategori)
     
     # variable untuk tampilan
-    peminjaman_tampil = [["No", "Judul", "Kategori", "Tgl Dipinjam", "Tenggat", "Status", "Jumlah Telat Hari", "Denda"]]
+    peminjaman_tampil = [["No", "Judul", "Kategori", "Tgl Dipinjam", "Tenggat", "Status", "Jumlah Telat Hari", "Denda", "Tgl Dikembalikan"]]
     peminjaman = peminjaman_tampil.copy()
     peminjaman[0].append("id")
     i = 1
@@ -199,7 +215,10 @@ def tampilkan_daftar_buku_dipinjam(current_page = 1, total_pages = 1, id_peminja
 
         jumlah_tenggat_hari = datetime.today() - tgl_tenggat
         jumlah_tenggat_hari = jumlah_tenggat_hari.days
-        
+        tanggal_dikembalikan = "belum"
+        if (peminjaman_perbaris[7] != "belum"):
+            tanggal_dikembalikan = datetime.strptime(peminjaman_perbaris[7], "%d/%m/%Y")
+
         # data 
         d = [i, # no
             buku[2], # judul 
@@ -208,8 +227,8 @@ def tampilkan_daftar_buku_dipinjam(current_page = 1, total_pages = 1, id_peminja
             tgl_tenggat.strftime("%d %M %Y"),
             status_f,
             jumlah_tenggat_hari,
-            jumlah_tenggat_hari * denda_perhari
-            ]
+            jumlah_tenggat_hari * denda_perhari,
+            tanggal_dikembalikan]
 
         peminjaman.append(d)
         f = d
