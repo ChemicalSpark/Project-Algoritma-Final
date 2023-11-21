@@ -36,7 +36,7 @@ def mainmenu():
                     print('|' + 'Apakah Anda yakin untuk keluar? (y/n)'.center(83) + '|')
                     print('+' + '='*83 + '+')
                     user = input(f"| > ")
-                    if user.lower() == 'y' or 'yes':
+                    if user.lower() == 'y' or user.lower() == 'yes':
                         core.clear()
                         exit()
                     else:
@@ -44,6 +44,6 @@ def mainmenu():
                         mainmenu()
                 case _:
                     core.clear()
-                    mainmenu()
+                    mainmenu() 
 if __name__ == "__main__":
     mainmenu()
