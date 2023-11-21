@@ -7,7 +7,7 @@ import pengaturan_admin
 import core
 
 core.clear()
-# login.login()
+login.login()
 
 
 def mainmenu():
