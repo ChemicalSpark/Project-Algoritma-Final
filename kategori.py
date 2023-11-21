@@ -1,13 +1,14 @@
+# import session
 import csv
 import pandas as pd
 import core
-
+# path file database kategori
 nama_file = 'database/kategori.csv'
-
+# function untuk menulis data ke database
 def tulis_csv(data):
     core.tulis_csv(nama_file, data)
 
-
+# function untuk menampilkan daftar kategori
 def list_kategori():
     kategori_file = core.baca_csv(nama_file)
     data_kategori = [['ID','Kategori']]
@@ -21,7 +22,7 @@ def list_kategori():
     df = pd.DataFrame(data_kategori[1:],columns=['No','Kategori'])
     print(df.to_string(index=False))
 
-
+# function untuk menambahkan kategori baru
 def tambah_kategori(kat):
     data = core.baca_csv(nama_file)
     data_ada = []
@@ -48,7 +49,7 @@ def tambah_kategori(kat):
     print('|' + 'Klik ENTER untuk melanjutkan!'.center(83) + '|')
     print('+' + '='*83 + '+')
 
-
+# function untuk memperbaharui kategori
 def perbarui_baris_kategori(id, kat):
     data = core.baca_csv(nama_file)
     for baris in data:
@@ -57,7 +58,7 @@ def perbarui_baris_kategori(id, kat):
             break
     tulis_csv(data)
         
-        
+# funciton untuk menghapus kategori 
 def hapus_kategori(delete):
     data = core.baca_csv(nama_file)
     nomor_urut = 0
@@ -91,7 +92,7 @@ def hapus_kategori(delete):
             print('+' + '='*32 + '+')
             enter  = input()
 
-
+# main kategori
 def aksi_kategori():
     while True:
         core.clear()
