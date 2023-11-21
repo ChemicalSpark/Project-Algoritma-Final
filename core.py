@@ -10,15 +10,6 @@ def baca_csv(nama_file):
             data.append(baris)
     return data
 
-# membaca csv dengacn format Dictionary perbaris csv
-def baca_csv_sebagai_dict(nama_file):
-    data = []
-    with open(nama_file, mode='r', newline='') as file_csv:
-        csv_reader = csv.DictReader(file_csv)
-        for baris in csv_reader:
-            data.append(baris)
-    return data
-
 
 # menulis baru seluruh data ke csv
 def tulis_csv(nama_file, data):
