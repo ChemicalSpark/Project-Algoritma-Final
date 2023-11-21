@@ -72,14 +72,14 @@ def tambah_buku():
     ulangi = 'y'
     while ulangi == 'y':
         nomor = 0
-        print('pilihan kategori :')
+        print('| Pilihan kategori :')
         print(display_kategori)
-        input_kategori = input('pilih kategori buku : ')
-        input_judul = input('masukkan judul : ')
-        input_penulis = input('masukka penulis : ')
-        input_penerbit = input('masukkan penerbit : ')
-        input_isbn = input('masukkan ISBN : ')
-        input_jumlah = input('masukkan jumlah buku : ')
+        input_kategori = input('| Pilih kategori buku : ')
+        input_judul = input('| Masukkan judul : ')
+        input_penulis = input('| Masukkan penulis : ')
+        input_penerbit = input('| Masukkan penerbit : ')
+        input_isbn = input('| Masukkan ISBN : ')
+        input_jumlah = input('| Masukkan jumlah buku : ')
         if input_kategori and input_judul and input_penulis and input_penerbit and input_isbn and input_jumlah:
             input_kategori = int(input_kategori)
             input_jumlah = int(input_jumlah)
