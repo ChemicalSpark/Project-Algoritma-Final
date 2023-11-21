@@ -30,22 +30,51 @@ def tambah_baris_peminjam(nama, nim, telp):
     print('+' + '='*40 + '+')
 
 
-
 def baca_baris_peminjam():
-    peminjam = core.baca_csv(nama_file)
-    data_peminjam = [['No','Nama','NIM','Nomor Telepon']]
-    i = 1
-    for baris in peminjam:
-        if baris[0] == 'ID':
-            continue
-        nama = baris[1]
-        nim = baris[2]
-        telp = baris[3]
-        data_peminjam.append([i,nama,nim,telp])
-        i += 1 
-    df = pd.DataFrame(data_peminjam[1:], columns=['No','Nama','NIM','Nomor Telepon'])
-    print(df.to_string(index=False))
-
+    while True:
+        core.clear()
+        peminjam = core.baca_csv(nama_file)[1:]
+        cari_katakunci=''
+        halaman_limit = 5
+        halaman_sekarang=1
+        halaman_total=1
+        if len(cari_katakunci) > 0:
+            peminjam = core.cari_list(peminjam,cari_katakunci,1)
+            halaman_sekarang = 1
+        peminjam,halaman_total = core.pagination(peminjam,halaman_limit,halaman_sekarang)
+        data_peminjam = [['No','Nama','NIM','Nomor Telepon']]
+        i = 1
+        for baris in peminjam:
+            if baris[0] == 'ID':
+                continue
+            nama = baris[1]
+            nim = baris[2]
+            telp = baris[3]
+            data_peminjam.append([i,nama,nim,telp])
+            i += 1 
+        df = pd.DataFrame(data_peminjam[1:], columns=['No','Nama','NIM','Nomor Telepon'])
+        print(df.to_string(index=False))
+        if len(data_peminjam[1:]) < 1:
+            print('+' + '='*60 + '+')
+            print('|' + '[ DATA NOT FOUND ]'.center(60) + '|')
+            print('|' + 'Klik ENTER untuk melanjutkan!'.center(60) + '|')
+            print('+' + '='*60 + '+')
+            enter  = input()
+        print(" "*23 + f'page {halaman_sekarang} to {halaman_total}')
+        pindah = input('| Pilihan: ')
+        match pindah:
+            case '1':
+                if halaman_sekarang  > 1:
+                    halaman_sekarang -= 1
+            case '2':
+                if halaman_sekarang < halaman_total:
+                    halaman_sekarang += 1
+            case '9':
+                break
+            case '0':
+                exit()
+    
+    
 
 def perbarui_baris_peminjam(id, nama, nim, telp):
     data = core.baca_csv(nama_file)
@@ -119,10 +148,10 @@ def aksi_peminjam():
                 print('|' + '[ DAFTAR DATA PEMINJAM ]'.center(60) + '|')
                 print('+' + '='*60 + '+')
                 baca_baris_peminjam()
-                print('+' + '='*60 + '+')
-                print('|' + 'Klik ENTER untuk melanjutkan!'.center(60) + '|')
-                print('+' + '='*60 + '+')
-                enter  = input()
+                # print('+' + '='*60 + '+')
+                # print('|' + 'Klik ENTER untuk melanjutkan!'.center(60) + '|')
+                # print('+' + '='*60 + '+')
+                # enter  = input()
             case '3':
                 core.clear()
                 print("Data saat ini:")
@@ -135,7 +164,7 @@ def aksi_peminjam():
                         nomor.append(baris)
                         nomor_urut += 1
                 update = input("Masukkan Nomor urut data yang akan diperbarui: ")
-                if update.split() and update.isdigit():
+                if update.isdigit():
                     update = int(update)
                     if 1 <= update <= len(nomor):
                         id = nomor[update - 1][0]
