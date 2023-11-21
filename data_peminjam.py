@@ -7,12 +7,29 @@ nama_file = 'database/data_peminjam.csv'
 def tulis_csv(data):
     core.tulis_csv(nama_file, data)
 
+
 def tambah_baris_peminjam(nama, nim, telp):
     data = core.baca_csv(nama_file)
+    data_ada = []
+    for cek in data:
+        data_ada.append(cek[2])
+        if nim in data_ada:
+            print('+' + '='*40 + '+')
+            print('|' + '[ NIM INI SUDAH ADA ]'.center(40) + '|')
+            print('|' + 'Klik ENTER untuk melanjutkan!'.center(40) + '|')
+            print('+' + '='*40 + '+')
+            return False
+        
     new_id = len(data) + 1
     new_baris = [new_id, nama, nim, telp]
     data.append(new_baris)
     tulis_csv(data)
+    print('+' + '='*40 + '+')
+    print('|' + '[ DATA TELAH DITAMBAHKAN ]'.center(40) + '|')
+    print('|' + 'Klik ENTER untuk melanjutkan!'.center(40) + '|')
+    print('+' + '='*40 + '+')
+
+
 
 def baca_baris_peminjam():
     peminjam = core.baca_csv(nama_file)
@@ -29,6 +46,7 @@ def baca_baris_peminjam():
     df = pd.DataFrame(data_peminjam[1:], columns=['No','Nama','NIM','Nomor Telepon'])
     print(df.to_string(index=False))
 
+
 def perbarui_baris_peminjam(id, nama, nim, telp):
     data = core.baca_csv(nama_file)
     for baris in data:
@@ -38,6 +56,7 @@ def perbarui_baris_peminjam(id, nama, nim, telp):
             baris[3] = telp
             break
     tulis_csv(data)
+
 
 def hapus_baris_peminjam(delete):
     data = core.baca_csv(nama_file)
@@ -83,18 +102,14 @@ def aksi_peminjam():
             case '1':
                 core.clear()
                 nama = input("Masukkan Nama: ")
-                no = input("Masukkan NIM: ")
+                nim = input("Masukkan NIM: ")
                 telp = input("Masukkan Nomor Telepon: ")
-                if no:
-                    tambah_baris_peminjam(nama, no, telp)   
-                    print('+' + '='*40 + '+')
-                    print('|' + '[ DATA TELAH DITAMBAHKAN ]'.center(40) + '|')
-                    print('|' + 'Klik ENTER untuk melanjutkan!'.center(40) + '|')
-                    print('+' + '='*40 + '+')
-                    enter  = input()
+                if nama and nim and telp:
+                    tambah_baris_peminjam(nama, nim, telp)  
+                    enter  = input() 
                 else:
                     print('+' + '='*40 + '+')
-                    print('|' + '[ INPUT NOT FOUND ]'.center(40) + '|')
+                    print('|' + '[ INPUT TIDAK LENGKAP ]'.center(40) + '|')
                     print('|' + 'Klik ENTER untuk melanjutkan!'.center(40) + '|')
                     print('+' + '='*40 + '+')
                     enter  = input()

@@ -7,6 +7,7 @@ nama_file = 'database/kategori.csv'
 def tulis_csv(data):
     core.tulis_csv(nama_file, data)
 
+
 def list_kategori():
     kategori_file = core.baca_csv(nama_file)
     data_kategori = [['ID','Kategori']]
@@ -20,8 +21,19 @@ def list_kategori():
     df = pd.DataFrame(data_kategori[1:],columns=['No','Kategori'])
     print(df.to_string(index=False))
 
+
 def tambah_kategori(kat):
     data = core.baca_csv(nama_file)
+    data_ada = []
+    for cek in data:
+        data_ada.append(cek[1])
+        if kat in data_ada:
+            print('+' + '='*83 + '+')
+            print('|' + '[ KATEGORI INI SUDAH ADA ]'.center(83) + '|')
+            print('|' + 'Klik ENTER untuk melanjutkan!'.center(83) + '|')
+            print('+' + '='*83 + '+')
+            return False
+        
     if len(data) <= 1:
         new_id = 1
     else:
@@ -30,6 +42,12 @@ def tambah_kategori(kat):
     new_baris = [new_id, kat]
     data.append(new_baris)
     tulis_csv(data)
+    print('+' + '='*83 + '+')
+    print('|' + '-'*37 + '[ NOTICE ]' + '-'*36 + '|')
+    print('|' + 'Kategori berhasil ditambahkan'.center(83) + '|')
+    print('|' + 'Klik ENTER untuk melanjutkan!'.center(83) + '|')
+    print('+' + '='*83 + '+')
+
 
 def perbarui_baris_kategori(id, kat):
     data = core.baca_csv(nama_file)
@@ -38,6 +56,7 @@ def perbarui_baris_kategori(id, kat):
             baris[1] = kat
             break
     tulis_csv(data)
+        
         
 def hapus_kategori(delete):
     data = core.baca_csv(nama_file)
@@ -87,11 +106,6 @@ def aksi_kategori():
                 user = input("| Kategori: ")
                 if user:
                     tambah_kategori(user)
-                    print('+' + '='*83 + '+')
-                    print('|' + '-'*37 + '[ NOTICE ]' + '-'*36 + '|')
-                    print('|' + 'Kategori berhasil ditambahkan'.center(83) + '|')
-                    print('|' + 'Klik ENTER untuk melanjutkan!'.center(83) + '|')
-                    print('+' + '='*83 + '+')
                     enter = input()
                 else:
                     print('+' + '='*83 + '+')

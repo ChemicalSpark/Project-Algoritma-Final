@@ -1,9 +1,9 @@
                                    _______________                                   
 ._________________________________/ DATA PEMINJAM \_________________________________.
-|/                               [1] Tambah Kategori Baru                          \|
-|                                [2] Daftar Kategori Buku                           |
-|                                [3] Perbarui Data                                  |
-|                                [4] Hapus Data                                     | 
+|/                               [1] Tambah Data Peminjam                          \|
+|                                [2] Daftar Peminjam                                |
+|                                [3] Perbarui Data Peminjam                         |
+|                                [4] Hapus Peminjam                                 | 
 |                                [9] Kembali                                        |
 |\                               [0] Keluar                                        /|
 +-----------------------------------------------------------------------------------+
