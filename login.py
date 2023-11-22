@@ -36,7 +36,7 @@ def login():
                 # UI Login Berhasil
                 greeting = f"Selamat Datang Admin {username.title()}"
                 print('+' + '='*83 + '+')
-                print('|' + '-'*32 + '[ LOGIN SUCCESFUL ]' + '-'*32 + '|')
+                print('|' + '[ LOGIN SUCCESFUL ]'.center(83) + '|')
                 print('|' + greeting.center(83) + '|')
                 print('+' + '='*83 + '+')
                 # -
@@ -50,7 +50,7 @@ def login():
         if not login_session:
             # UI Login Gagal
             print('+' + '='*83 + '+')
-            print('|' + '-'*33 + '[ LOGIN FAILED ]' + '-'*34 + '|')
+            print('|' + '[ LOGIN FAILED ]'.center(83) + '|')
             print('|' + 'Username atau Password salah!'.center(83) + '|')
             print('+' + '='*83 + '+')
             attempts += 1
@@ -58,7 +58,7 @@ def login():
             if attempts == 3 and not login_session:
                 # UI Login gagal
                 print('+' + '='*83 + '+')
-                print('|' + '-'*27 + '[ LOGIN SESSION ATTEMPT OUT ]' + '-'*27 + '|')
+                print('|' + '[ LOGIN SESSION ATTEMPT OUT ]'.center(83) + '|')
                 print('|' + 'Anda telah melebihi batas percobaan login, Silahkan jalankan ulang program!'.center(83) + '|')
                 print('+' + '='*83 + '+')
                 # Keluar dari program
