@@ -26,9 +26,21 @@ def list_kategori(cari_keyword='',halaman_sekarang=1,halaman_total=1):
         data_kategori.append([i,kategori])
         i += 1
     df = pd.DataFrame(data_kategori[1:],columns=['No','Kategori'])
-    print(df.to_string(index=False))
+    if len(data_kategori[1:]) < 1:
+        output = "* Data Kosong *"
+    else:
+        output = df.to_string(index=False)
 
-    print('\n' , " "*10 + f'page {halaman_sekarang} to {halaman_total}')
+    hasil = ""
+    if "\n" in output:
+        lines = output.split("\n")
+        for i in lines:
+            hasil += " " * 35 + i + "\n"
+    else:
+        hasil += " " * 35 + output + "\n"
+    print(hasil)
+
+    print(" "*36 + f'page {halaman_sekarang} to {halaman_total}')
     return data_kategori,halaman_sekarang,halaman_total
     
 # function untuk menambahkan kategori baru
@@ -103,6 +115,9 @@ def hapus_kategori(delete):
 
 # main kategori
 def aksi_kategori():
+    cari_keyword = ''
+    halaman_sekarang = 1
+    halaman_total = 1
     while True:
         core.clear()
         with open('ui/kategori.txt','r') as kat:
@@ -127,14 +142,11 @@ def aksi_kategori():
                     print('+' + '='*83 + '+')
                     enter  = input()
             case '2':
-                cari_keyword = ''
-                halaman_sekarang = 1
-                halaman_total = 1
                 while True:
                     core.clear()
-                    print('+' + '='*32 + '+')
-                    print('|' + '[DAFTAR KATEGORI BUKU]'.center(32) + '|')
-                    print('+' + '='*32 + '+')
+                    print(" "*25 + '+' + '='*32 + '+')
+                    print(" "*25 + '|' + '[DAFTAR KATEGORI BUKU]'.center(32) + '|')
+                    print(" "*25 + '+' + '='*32 + '+')
                     data_kategori,halaman_sekarang,halaman_total = list_kategori(cari_keyword,halaman_sekarang,halaman_total)
                     if len(data_kategori) < 1:
                         print('+' + '='*60 + '+')
@@ -161,82 +173,107 @@ def aksi_kategori():
                     # print('+' + '='*32 + '+')
                     # enter = input()
             case '3':
-                core.clear()
-                print('+' + '='*55 + '+')
-                print('|' + '[DAFTAR KATEGORI BUKU]'.center(55) + '|')
-                print('+' + '='*55 + '+')
-                list_kategori()
-                read_data = core.baca_csv(nama_file)
-                nomor_urut = 0
-                nomor = []
-                for baris in read_data:
-                    if baris[0] != 'ID':
-                        nomor.append(baris)
-                        nomor_urut += 1
-                update = input("\n| Masukkan Nomor urut data yang akan diperbarui: ")
-                if update.isdigit():
-                    update = int(update)
-                    if 1 <= update <= len(nomor):
-                        id = nomor[update - 1][0]
-                        data = core.cari_id_list(core.baca_csv('database/kategori.csv'), id)
-                        if data:
-                            print('-'*57)
-                            print("| Kategori lama\t\t      :", data[0][1])
-                            kat_baru = input("| Masukkan Kategori yang baru : ")
-                            print('-'*57)
-                            if kat_baru:
-                                kat = kat_baru 
+                while True:
+                    core.clear()
+                    print(" "*25 + '+' + '='*32 + '+')
+                    print(" "*25 + '|' + '[DAFTAR KATEGORI BUKU]'.center(32) + '|')
+                    print(" "*25 + '+' + '='*32 + '+')
+                    data_kategori,halaman_sekarang,halaman_total = list_kategori(cari_keyword,halaman_sekarang,halaman_total)
+                    pilihan = input('| Pilihlah sesuai nomor diatas: ')
+                    if pilihan == '1' and halaman_sekarang > 1:
+                        halaman_sekarang -= 1
+                    elif pilihan == '2' and halaman_sekarang < halaman_total:
+                        halaman_sekarang += 1
+                    elif pilihan == '3':
+                        read_data = core.baca_csv(nama_file)
+                        nomor_urut = 0
+                        nomor = []
+                        for baris in read_data:
+                            if baris[0] != 'ID':
+                                nomor.append(baris)
+                                nomor_urut += 1
+                        update = input("\n| Masukkan Nomor urut data yang akan diperbarui: ")
+                        if update.isdigit():
+                            update = int(update)
+                            if 1 <= update <= len(nomor):
+                                id = nomor[update - 1][0]
+                                data = core.cari_id_list(core.baca_csv('database/kategori.csv'), id)
+                                if data:
+                                    print('-'*57)
+                                    print("| Kategori lama\t\t      :", data[0][1])
+                                    kat_baru = input("| Masukkan Kategori yang baru : ")
+                                    print('-'*57)
+                                    if kat_baru:
+                                        kat = kat_baru 
+                                    else:
+                                        kat = data[0][1]
+                                        print('+' + '='*55 + '+')
+                                        print('|' + '[ DATA NOT FOUND ]'.center(55) + '|')
+                                        print('|' + 'Klik ENTER untuk melanjutkan!'.center(55) + '|')
+                                        print('+' + '='*55 + '+')
+                                        enter  = input()
+                                        aksi_kategori()
 
+                                    perbarui_baris_kategori(id, kat)
+                                    print('+' + '='*55 + '+') 
+                                    print('|' + '[ NOTICE ]'.center(55) + '|')
+                                    print('|' + 'Data Berhasil diperbaharui'.center(55) + '|')
+                                    print('|' + 'Klik ENTER untuk meneruskan'.center(55) + '|')
+                                    print('+' + '='*55 + '+')
+                                    enter  = input()
+                                        
+                                else:
+                                    print('+' + '='*55 + '+')
+                                    print('|' + '[ DATA NOT FOUND ]'.center(55) + '|')
+                                    print('|' + 'Klik ENTER untuk melanjutkan!'.center(55) + '|')
+                                    print('+' + '='*55 + '+')
+                                    enter  = input()
                             else:
-                                kat = data[0][1]
                                 print('+' + '='*55 + '+')
                                 print('|' + '[ DATA NOT FOUND ]'.center(55) + '|')
                                 print('|' + 'Klik ENTER untuk melanjutkan!'.center(55) + '|')
                                 print('+' + '='*55 + '+')
                                 enter  = input()
-                                aksi_kategori()
-
-                            perbarui_baris_kategori(id, kat)
-                            print('+' + '='*55 + '+') 
-                            print('|' + '[ NOTICE ]'.center(55) + '|')
-                            print('|' + 'Data Berhasil diperbaharui'.center(55) + '|')
-                            print('|' + 'Klik ENTER untuk meneruskan'.center(55) + '|')
-                            print('+' + '='*55 + '+')
-                            enter  = input()
-                                
                         else:
                             print('+' + '='*55 + '+')
                             print('|' + '[ DATA NOT FOUND ]'.center(55) + '|')
                             print('|' + 'Klik ENTER untuk melanjutkan!'.center(55) + '|')
                             print('+' + '='*55 + '+')
                             enter  = input()
+                    elif pilihan == '9':
+                        break
+                    elif pilihan == '0':
+                        exit()
                     else:
-                        print('+' + '='*55 + '+')
-                        print('|' + '[ DATA NOT FOUND ]'.center(55) + '|')
-                        print('|' + 'Klik ENTER untuk melanjutkan!'.center(55) + '|')
-                        print('+' + '='*55 + '+')
-                        enter  = input()
-                else:
-                    print('+' + '='*55 + '+')
-                    print('|' + '[ DATA NOT FOUND ]'.center(55) + '|')
-                    print('|' + 'Klik ENTER untuk melanjutkan!'.center(55) + '|')
-                    print('+' + '='*55 + '+')
-                    enter  = input()
+                        continue
             case '4':
-                core.clear()
-                print('+' + '='*55 + '+')
-                print('|' + '[ DAFTAR KATEGORI BUKU ]'.center(55) + '|')
-                print('+' + '='*55 + '+')
-                list_kategori()
-                user = input("\n| Pilih data yang akan dihapus: ")
-                if user.split() and user.isdigit():
-                    hapus_kategori(int(user))
-                else:
-                    print('+' + '='*55 + '+')
-                    print('|' + '[ DATA NOT FOUND ]'.center(55) + '|')
-                    print('|' + 'Klik ENTER untuk melanjutkan!'.center(55) + '|')
-                    print('+' + '='*55 + '+')
-                    enter  = input()
+                while True:
+                    core.clear()
+                    print(" "*25 + '+' + '='*32 + '+')
+                    print(" "*25 + '|' + '[DAFTAR KATEGORI BUKU]'.center(32) + '|')
+                    print(" "*25 + '+' + '='*32 + '+')
+                    data_kategori,halaman_sekarang,halaman_total = list_kategori(cari_keyword,halaman_sekarang,halaman_total)
+                    pilihan = input('| Pilihlah sesuai nomor diatas: ')
+                    if pilihan == '1' and halaman_sekarang > 1:
+                        halaman_sekarang -= 1
+                    elif pilihan == '2' and halaman_sekarang < halaman_total:
+                        halaman_sekarang += 1
+                    elif pilihan == '3':
+                        user = input("\n| Pilih data yang akan dihapus: ")
+                        if user.isdigit():
+                            hapus_kategori(int(user))
+                        else:
+                            print('+' + '='*55 + '+')
+                            print('|' + '[ DATA NOT FOUND ]'.center(55) + '|')
+                            print('|' + 'Klik ENTER untuk melanjutkan!'.center(55) + '|')
+                            print('+' + '='*55 + '+')
+                            enter  = input()
+                    elif pilihan == '9':
+                        break
+                    elif pilihan == '0':
+                        exit()
+                    else:
+                        continue
             case '9':
                 core.clear()
                 break
