@@ -183,8 +183,7 @@ def tambah_peminjaman(id_peminjam):
                     if pilihan_user.lower() == 't':
                         break
                     elif pilihan_user.lower() == 'y':
-                        core.dd(buku)
-                        input_tambah_peminjaman(buku[0][5], id_peminjam)
+                        input_tambah_peminjaman(buku[0][6], id_peminjam)
                                 
                     else:
                         input("input tidak valid!\ntekan enter untuk melanjutkan")
@@ -206,7 +205,8 @@ def tambah_peminjaman(id_peminjam):
 
 def tampilkan_daftar_buku_dipinjam(current_page = 1, total_pages = 1, id_peminjam = 0):
     if type(id_peminjam) == 0:
-        raise Exception("argumen ke 3 id_peminjam harus di isi")
+        print("argumen ke 3 id_peminjam harus di isi")
+        exit()
     
     # core.dd(id_peminjam)
     data_peminjaman_f = core.baca_csv(db_peminjaman)
@@ -384,9 +384,10 @@ def tampilkan_daftar_buku(search_keyword = "", current_page = 1, total_pages = 1
     daftar_buku, total_pages = core.pagination(daftar_buku, limit_per_page, current_page)
     
     daftar_kategori = core.baca_csv(db_kategori)
-        
-    data_buku = [["No", "Nama", "Kategori", "Penulis", "Penerbit", "ISBN", "Jumlah" , "id"]]
     
+    data_buku = [["No", "Nama", "Kategori", "Penulis", "Penerbit", "ISBN", "Jumlah" , "id"]]
+    data_buku_tampil = data_buku.copy()
+    data_buku_tampil[0].pop(7)
     i = 1
     for baris in daftar_buku:
         # me skip baris kolom / header
@@ -403,14 +404,15 @@ def tampilkan_daftar_buku(search_keyword = "", current_page = 1, total_pages = 1
             
         penulis = baris[3]
         penerbit = baris[4]
-        jumlah = baris[6]
-        
-        data_buku.append([i, nama, nama_kategori, penulis, penerbit, jumlah])
+        jumlah = baris[5]
+
+        data_buku.append([i, nama, nama_kategori, penulis, penerbit, jumlah, baris[0]])
+        data_buku_tampil.append([i, nama, nama_kategori, penulis, penerbit, jumlah])
         i += 1
 
 
 
-    df = pd.DataFrame(data_buku[1:], columns=["No", "Nama", "Kategori", "Penulis", "Penerbit", "Jumlah"])
+    df = pd.DataFrame(data_buku_tampil[1:], columns=["No", "Nama", "Kategori", "Penulis", "Penerbit", "Jumlah"])
 
     # untuk mengabaikan index bawaan pandas
     output = df.to_string(index=False)
@@ -427,6 +429,8 @@ def tampilkan_daftar_buku(search_keyword = "", current_page = 1, total_pages = 1
     print(hasil)
     
     print( " "*37 + f"page {current_page} of {total_pages}")
+    
+    # core.dd(data_buku)
     
     return data_buku
 
@@ -474,14 +478,15 @@ def cari_status_peminjaman(id_peminjaman):
     status = data_peminjaman[5]
     
     if status == "belum dikembalikan":
-        if today <= datetime.strptime(tanggal_pengembalian, "%d/%m/%Y").date():
+        if datetime.strptime(tanggal_pengembalian, "%d/%m/%Y").date() <= today:
             return "Belum Dikembalikan"
         else:
             return "Telat"
     elif status == "dikembalikan":
         return "Dikembalikan"
     else:
-        raise Exception("Pengecualian Terdeteksi hasil diluar perkiraan!\nSTATUS di DB : " , status , "\nTanggal Dipinjam : " , tanggal_peminjaman.strftime("%d %B %Y") , "\nTanggal Hari ini : " , date.today().strftime("%d %B %Y") ,"\nTanggal Deadline : " , tanggal_pengembalian.strftime("%d %B %Y"))
+        print("Pengecualian Terdeteksi hasil diluar perkiraan!\nSTATUS di DB : " , status , "\nTanggal Dipinjam : " , tanggal_peminjaman.strftime("%d %B %Y") , "\nTanggal Hari ini : " , date.today().strftime("%d %B %Y") ,"\nTanggal Deadline : " , tanggal_pengembalian.strftime("%d %B %Y"))
+        exit()
 
 
 
