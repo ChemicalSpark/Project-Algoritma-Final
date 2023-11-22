@@ -624,7 +624,6 @@ def aksi_utama():
 ####################
 # Area Setelah memlihi peminjam
 
-aksi_utama()    
 
 if __name__ == "__main__":
     aksi_utama()
