@@ -136,7 +136,12 @@ def input_update_peminjaman(id_peminjaman):
 def update_kuantitas_buku(id_buku, mode="mengurangi"):
     data_buku_db = core.baca_csv(db_buku)
 
-    buku_d = core.cari_id_list(data_buku_db, id_buku)[0]
+    buku_d = core.cari_id_list(data_buku_db, id_buku)
+    if len(buku_d) < 1:
+        print("GAGAL MENGUBAH kuantitas BUKU, data buku yg dicari tidak ada, pastikan id buku ada")
+        core.dd(buku_d)
+        exit()
+    buku_d = buku_d[0]
     jumlah = int(buku_d[6])
     if mode == "mengurangi":
         jumlah -= 1
@@ -165,19 +170,21 @@ def tambah_peminjaman(id_peminjam):
                
         input_user_x = int(input("Pilih operasi (angka) : "))
         
-        buku = core.cari_list(daftar_buku[1:], input_user_x, 0, True)
         match input_user_x:
             case 1:
+                input_user_y = int(input("Silahkan Pilih Buku berdasarkan no urut : "))
+                buku = core.cari_list(daftar_buku[1:], input_user_y, 0, True)
 
                 if (len(buku) == 0):
-                    print("no buku yang anda pilih Tidak ada")
+                    input("no buku yang anda pilih Tidak ada\nTekan Enter untuk kembali...")
                 else:    
                     pilihan_user = input(f"apakah anda yakin memilih buku no {input_user_x} (y/t) :" )
 
                     if pilihan_user.lower() == 't':
                         break
                     elif pilihan_user.lower() == 'y':
-                        input_tambah_peminjaman(buku[0][6], id_peminjam)
+                        core.dd(buku)
+                        input_tambah_peminjaman(buku[0][5], id_peminjam)
                                 
                     else:
                         input("input tidak valid!\ntekan enter untuk melanjutkan")
@@ -373,7 +380,7 @@ def tampilkan_daftar_buku(search_keyword = "", current_page = 1, total_pages = 1
     if len(search_keyword) > 0:
         daftar_buku = core.cari_list(daftar_buku, search_keyword, 2)
         current_page = 1
-
+    
     daftar_buku, total_pages = core.pagination(daftar_buku, limit_per_page, current_page)
     
     daftar_kategori = core.baca_csv(db_kategori)
@@ -592,8 +599,8 @@ def aksi_utama():
 
     while True:
         core.clear()
-        with open('ui/catalibra.txt', 'r') as f:
-            print(f.read())
+        # with open('ui/catalibra.txt', 'r') as f:
+        #     print(f.read())
         with open('ui/peminjaman/aksi_utama.txt', 'r') as f:
             print(f.read())
         
@@ -621,6 +628,4 @@ aksi_utama()
 
 if __name__ == "__main__":
     aksi_utama()
-    aksi_peminjaman()
-    tambah_peminjaman()
-    hapus_peminjaman()
+

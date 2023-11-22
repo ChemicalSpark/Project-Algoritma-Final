@@ -85,17 +85,28 @@ def dd(data):
     exit()
     
 def pagination(data, limit, offset):
-    hasil = {}
-    index = 1
+    hasil = [[]]  # Indeks 0 berisi array kosong
+    index = 1 # merepresentasikan halaman yang akan disi data 
+    count = 0 # menghitung jumlah data yang di masukan ke halaman
 
-    for i in data:
-        if len(hasil.get(index, [])) < limit:
-            hasil.setdefault(index, []).append(i)
-        else:
-            index += 1
-            hasil.setdefault(index, []).append(i)
+    hasil.append([])
+    
+    for i in data: # iterasi data ke per baris
+        if count == limit:
+            count = 0 # mengeset perhitungan data per halaman kembali ke no
+            index += 1 # pindah halaman selanjutnya (mengubah target)
+            hasil.append([])  # naambah array kosong untuk indeks berikutnya
+        
+        hasil[index].append(i) #menambahkan data ke target
+        
+        count += 1
 
-    return hasil.get(offset, []), len(hasil)
+    total_halaman = len(hasil) - 1
+
+
+
+    return hasil[offset], total_halaman  # Mengembalikan hasil dan jumlah indeks
+
 
 # data = [['1', 'Fauzan', '232410102011', '0888888888'],['2', 'Fauzan', '232410102011', '0888888888']]
 # print(pagination(data, 1, 0))

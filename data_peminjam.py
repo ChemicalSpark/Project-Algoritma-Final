@@ -29,51 +29,30 @@ def tambah_baris_peminjam(nama, nim, telp):
     print('|' + 'Klik ENTER untuk melanjutkan!'.center(40) + '|')
     print('+' + '='*40 + '+')
 
-
-def baca_baris_peminjam():
-    while True:
-        core.clear()
-        peminjam = core.baca_csv(nama_file)[1:]
-        cari_katakunci=''
-        halaman_limit = 5
-        halaman_sekarang=1
-        halaman_total=1
-        if len(cari_katakunci) > 0:
-            peminjam = core.cari_list(peminjam,cari_katakunci,1)
-            halaman_sekarang = 1
-        peminjam,halaman_total = core.pagination(peminjam,halaman_limit,halaman_sekarang)
-        data_peminjam = [['No','Nama','NIM','Nomor Telepon']]
-        i = 1
-        for baris in peminjam:
-            if baris[0] == 'ID':
-                continue
-            nama = baris[1]
-            nim = baris[2]
-            telp = baris[3]
-            data_peminjam.append([i,nama,nim,telp])
-            i += 1 
-        df = pd.DataFrame(data_peminjam[1:], columns=['No','Nama','NIM','Nomor Telepon'])
-        print(df.to_string(index=False))
-        if len(data_peminjam[1:]) < 1:
-            print('+' + '='*60 + '+')
-            print('|' + '[ DATA NOT FOUND ]'.center(60) + '|')
-            print('|' + 'Klik ENTER untuk melanjutkan!'.center(60) + '|')
-            print('+' + '='*60 + '+')
-            enter  = input()
-        print(" "*23 + f'page {halaman_sekarang} to {halaman_total}')
-        pindah = input('| Pilihan: ')
-        match pindah:
-            case '1':
-                if halaman_sekarang  > 1:
-                    halaman_sekarang -= 1
-            case '2':
-                if halaman_sekarang < halaman_total:
-                    halaman_sekarang += 1
-            case '9':
-                break
-            case '0':
-                exit()
+halaman_limit = 5
+def baca_baris_peminjam(cari_katakunci='',halaman_sekarang=1,halaman_total=1):
+    # core.clear()
+    peminjam = core.baca_csv(nama_file)
     
+    if len(cari_katakunci) > 0:
+        peminjam = core.cari_list(peminjam,cari_katakunci,1)
+        halaman_sekarang = 1
+    peminjam,halaman_total = core.pagination(peminjam,halaman_limit,halaman_sekarang)
+    data_peminjam = [['No','Nama','NIM','Nomor Telepon']]
+    i = 1
+    for baris in peminjam:
+        if baris[0] == 'ID':
+            continue
+        nama = baris[1]
+        nim = baris[2]
+        telp = baris[3]
+        data_peminjam.append([i,nama,nim,telp])
+        i += 1 
+    df = pd.DataFrame(data_peminjam[1:], columns=['No','Nama','NIM','Nomor Telepon'])
+    print(df.to_string(index=False))
+    
+    print(" "*23 + f'page {halaman_sekarang} to {halaman_total}')
+    return data_peminjam,halaman_sekarang,halaman_total
     
 
 def perbarui_baris_peminjam(id, nama, nim, telp):
@@ -143,15 +122,39 @@ def aksi_peminjam():
                     print('+' + '='*40 + '+')
                     enter  = input()
             case '2':
-                core.clear()
-                print('+' + '='*60 + '+')
-                print('|' + '[ DAFTAR DATA PEMINJAM ]'.center(60) + '|')
-                print('+' + '='*60 + '+')
-                baca_baris_peminjam()
-                # print('+' + '='*60 + '+')
-                # print('|' + 'Klik ENTER untuk melanjutkan!'.center(60) + '|')
-                # print('+' + '='*60 + '+')
-                # enter  = input()
+                cari_katakunci= ''
+                halaman_sekarang= 1
+                halaman_total= 1
+                while True:
+                    core.clear()
+                    print(halaman_sekarang)
+                    print(halaman_total)
+                    print('+' + '='*60 + '+')
+                    print('|' + '[ DAFTAR DATA PEMINJAM ]'.center(60) + '|')
+                    print('+' + '='*60 + '+')
+                    data_peminjam,halaman_sekarang,halaman_total = baca_baris_peminjam(cari_katakunci,halaman_sekarang,halaman_total)
+
+                    if len(data_peminjam[1:]) < 1:
+                        print('+' + '='*60 + '+')
+                        print('|' + '[ DATA NOT FOUND ]'.center(60) + '|')
+                        print('|' + 'Klik ENTER untuk melanjutkan!'.center(60) + '|')
+                        print('+' + '='*60 + '+')
+                        enter  = input()
+                    else:
+                        pilihan = input('| Pilihan: ')
+                        if pilihan == "1" and halaman_sekarang < halaman_total:
+                            halaman_sekarang += 1
+                        elif pilihan == "2" and halaman_sekarang > 1:
+                            halaman_sekarang -= 1
+                        elif pilihan == "3":
+                            print("Terima kasih! Keluar.")
+                            break
+                        else:
+                            print("Pilihan tidak valid.")
+                    # print('+' + '='*60 + '+')
+                    # print('|' + 'Klik ENTER untuk melanjutkan!'.center(60) + '|')
+                    # print('+' + '='*60 + '+')
+                    # enter  = input()
             case '3':
                 core.clear()
                 print("Data saat ini:")
