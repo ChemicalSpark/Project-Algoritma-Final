@@ -71,7 +71,7 @@ def tambah_buku():
         nomor = 0
         print('| Pilihan kategori :')
         print(display_kategori)
-        input_kategori = input('\n| Pilih kategori buku\t: ')
+        input_kategori = int(input('| Pilih kategori buku\t: '))
         input_judul = input('| Masukkan judul\t: ')
         input_penulis = input('| Masukkan penulis\t: ')
         input_penerbit = input('| Masukkan penerbit\t: ')
@@ -105,9 +105,13 @@ def tambah_buku():
             else:
                 nomor += 1
         if nomor == len(data_buku):
-            with open(db_buku, mode='a', encoding='cp1252', newline='') as tambah_data:
-                write = csv.writer(tambah_data)
-                write.writerow([id_bk,list_kategori[input_kategori-1][0],input_judul,input_penulis,input_penerbit,input_isbn,input_jumlah])
+            nama_file = db_buku
+            new_baris = [id_bk,list_kategori[input_kategori][0],input_judul,input_penulis,input_penerbit,input_isbn,input_jumlah]
+            # data.append(new_baris)
+            core.tambah_ke_csv(nama_file, new_baris)
+            # with open(db_buku, mode='a', newline='') as tambah_data:
+            #     writ = csv.writer(tambah_data)
+            #     writ.writerow([id_bk,list_kategori[input_kategori][0],input_judul,input_penulis,input_penerbit,input_isbn,input_jumlah])
             ulangi = input('| Ingin menambahkan buku lagi(y/n) ? : ')
     print('+' + '='*60 + '+')
     print('|' + '[ DATA BERHASIL DITAMBAHKAN ]'.center(60) + '|')
@@ -227,13 +231,15 @@ def hapus_buku():
                 print('|' + '[ DATA BATAL DIHAPUS ]'.center(60) + '|')
                 print('|' + 'Klik ENTER untuk melanjutkan!'.center(60) + '|')
                 print('+' + '='*60 + '+')
+                enter  = input()
+                kondisi = False
             index_hapus += 1
             
 def aksi_buku():
         while True:
             core.clear()
             with open('ui/kelola_buku.txt','r') as buku:
-                display = buku.read()
+                display = buku.read() 
                 print(display)
                 pilihan = input("| Pilihan : ")
                 match pilihan:
