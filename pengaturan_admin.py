@@ -111,11 +111,16 @@ Masukkan password yang berisi:
     print('+' + '='*39 + '+')
     enter = input()  
 
-def list_data():
+def list_data(cari_keyword,halaman_sekarang=1,halaman_total=1):
     # data_admin = load_data()
     # df = pd.DataFrame(data_admin, columns=["ID", "Username", "Password"])
     # print(df.to_string(index=False))
     admin = core.baca_csv(user_file)
+    halaman_limit = 5
+    if len(cari_keyword) > 0:
+        admin = core.cari_list(admin,cari_keyword,1)
+        halaman_sekarang = 1
+    admin,halaman_total = core.pagination(admin,halaman_limit,halaman_sekarang)
     data_admin = [['No','Username','Password']]
     i = 1
     for baris in admin:
@@ -126,7 +131,20 @@ def list_data():
         data_admin.append([i,username,password])
         i += 1
     df = pd.DataFrame(data_admin[1:], columns=['No','Username','Password'])
-    print(df.to_string(index=False))
+    output = df.to_string(index=False)
+    if len(data_admin[1:]) < 1:
+        output = "* Data Kosong *"
+        
+    hasil = ""
+    if "\n" in output:
+        lines = output.split("\n")
+        for i in lines:
+            hasil += " " * 31 + i + "\n"
+    else:
+        hasil += " " * 31 + output + "\n"
+    print(hasil)
+    print('\n' , " "*36 + f'page {halaman_sekarang} to {halaman_total}')
+    return data_admin,halaman_sekarang,halaman_total
 
 def hapus_akun(id_to_delete):
     # data_admin = load_data()
@@ -158,7 +176,7 @@ def hapus_akun(id_to_delete):
         print(f'Username: {nomor[id_to_delete - 1][1]}')   
         print(f'Password: {nomor[id_to_delete - 1][2]}')  
         user = input('Apakah anda ingin menghapus data diatas?(y/n) ')
-        if user == 'y' or 'Y':
+        if user == 'y' or user == 'Y':
             data.remove(nomor[id_to_delete - 1])
             with open(user_file, 'w', newline="") as file:
                 write = csv.writer(file)
@@ -175,7 +193,11 @@ def hapus_akun(id_to_delete):
             print('+' + '='*38 + '+')
             enter  = input()
 
+
 def aksi_pengaturan():
+    cari_keyword = ''
+    halaman_sekarang = 1
+    halaman_total = 1
     while True:
         core.clear()
         with open('ui/kelola_akun_admin.txt','r') as settings_admin :
@@ -186,16 +208,36 @@ def aksi_pengaturan():
             core.clear()
             register()
         elif pilihan == '2':
-            core.clear()
-            print('+' + '='*38 + '+')
-            print('|' + '[ DAFTAR AKUN ADMIN ]'.center(38) + '|')
-            print('+' + '='*38 + '+')
-            list_data()
-            print('+' + '='*38 + '+')
-            print('|' + '[ NOTICE ]'.center(38) + '|')
-            print('|' + 'Klik ENTER untuk melanjutkan!'.center(38) + '|')
-            print('+' + '='*38 + '+')
-            enter = input()
+            while True:
+                core.clear()
+                print(" "*23 + '+' + '='*38 + '+')
+                print(" "*23 + '|' + '[ DAFTAR AKUN ADMIN ]'.center(38) + '|')
+                print(" "*23 + '+' + '='*38 + '+')
+                data_admin,halaman_sekarang,halaman_total = list_data(cari_keyword,halaman_sekarang,halaman_total)
+                if len(data_admin[1:]) < 1:
+                    print('+' + '='*60 + '+')
+                    print('|' + '[ DATA NOT FOUND ]'.center(60) + '|')
+                    print('|' + 'Klik ENTER untuk melanjutkan!'.center(60) + '|')
+                    print('+' + '='*60 + '+')
+                    enter  = input()
+                else:
+                    with open('ui/page.txt','r') as page :
+                        display = page.read()
+                        print(display)
+                    pilihan = input('| Pilihlah sesuai nomor diatas: ')
+                    if pilihan == '1' and halaman_sekarang > 1:
+                        halaman_sekarang -= 1
+                    elif pilihan == '2' and halaman_sekarang < halaman_total:
+                        halaman_sekarang += 1
+                    elif pilihan == '9':
+                        break
+                    else:
+                        continue 
+                # print('+' + '='*38 + '+')
+                # print('|' + '[ NOTICE ]'.center(38) + '|')
+                # print('|' + 'Klik ENTER untuk melanjutkan!'.center(38) + '|')
+                # print('+' + '='*38 + '+')
+                # enter = input()
         elif pilihan == '3':
             # core.clear()
             # print("Data saat ini:")
@@ -214,20 +256,31 @@ def aksi_pengaturan():
             #     print('|' + 'Klik ENTER untuk melanjutkan!'.center(36) + '|')
             #     print('+' + '='*36 + '+')
             #     enter  = input()
-            core.clear()
-            print('+' + '='*38 + '+')
-            print('|' + '[ DAFTAR AKUN ADMIN ]'.center(38) + '|')
-            print('+' + '='*38 + '+')
-            list_data()
-            user = input("\n| Pilih Nomor urut data yang akan dihapus: ")
-            if user.split() and user.isdigit():
-                hapus_akun(int(user))
-            else:
-                print('+' + '='*38 + '+')
-                print('|' + '[ DATA NOT FOUND ]'.center(38) + '|')
-                print('|' + 'Klik ENTER untuk melanjutkan!'.center(38) + '|')
-                print('+' + '='*38 + '+')
-                enter  = input()
+            while True:
+                core.clear()
+                print(" "*23 + '+' + '='*38 + '+')
+                print(" "*23 + '|' + '[ DAFTAR AKUN ADMIN ]'.center(38) + '|')
+                print(" "*23 + '+' + '='*38 + '+')
+                list_data(cari_keyword,halaman_sekarang,halaman_total)
+                pilihan = input('| Pilihlah sesuai nomor diatas: ')
+                if pilihan == '1' and halaman_sekarang > 1:
+                    halaman_sekarang -= 1
+                elif pilihan == '2' and halaman_sekarang < halaman_total:
+                    halaman_sekarang += 1
+                elif pilihan == '3':
+                    user = input("\n| Pilih Nomor urut data yang akan dihapus: ")
+                    if user.isdigit():
+                        hapus_akun(int(user))
+                    else:
+                        print('+' + '='*38 + '+')
+                        print('|' + '[ DATA NOT FOUND ]'.center(38) + '|')
+                        print('|' + 'Klik ENTER untuk melanjutkan!'.center(38) + '|')
+                        print('+' + '='*38 + '+')
+                        enter  = input()
+                elif pilihan == '9':
+                    break
+                else:
+                    continue     
         elif pilihan == '9':
             core.clear()
             break

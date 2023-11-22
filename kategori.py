@@ -9,8 +9,14 @@ def tulis_csv(data):
     core.tulis_csv(nama_file, data)
 
 # function untuk menampilkan daftar kategori
-def list_kategori():
-    kategori_file = core.baca_csv(nama_file)
+def list_kategori(cari_keyword='',halaman_sekarang=1,halaman_total=1):
+    kategori_file = core.baca_csv(nama_file)[1:]
+    halaman_limit = 20
+    
+    if len(cari_keyword) > 1:
+        kategori_file = core.cari_list(kategori_file,cari_keyword,1)
+        halaman_sekarang = 1
+    kategori_file, halaman_total = core.pagination(kategori_file,halaman_limit,halaman_sekarang)
     data_kategori = [['ID','Kategori']]
     i = 1
     for baris in kategori_file:
@@ -22,6 +28,9 @@ def list_kategori():
     df = pd.DataFrame(data_kategori[1:],columns=['No','Kategori'])
     print(df.to_string(index=False))
 
+    print('\n' , " "*10 + f'page {halaman_sekarang} to {halaman_total}')
+    return data_kategori,halaman_sekarang,halaman_total
+    
 # function untuk menambahkan kategori baru
 def tambah_kategori(kat):
     data = core.baca_csv(nama_file)
@@ -118,16 +127,39 @@ def aksi_kategori():
                     print('+' + '='*83 + '+')
                     enter  = input()
             case '2':
-                core.clear()
-                print('+' + '='*32 + '+')
-                print('|' + '[DAFTAR KATEGORI BUKU]'.center(32) + '|')
-                print('+' + '='*32 + '+')
-                list_kategori()
-                print('\n+' + '='*32 + '+')
-                print('|' + '[NOTICE]'.center(32) + '|')
-                print('|' + 'Klik ENTER untuk melanjutkan!'.center(32) + '|')
-                print('+' + '='*32 + '+')
-                enter = input()
+                cari_keyword = ''
+                halaman_sekarang = 1
+                halaman_total = 1
+                while True:
+                    core.clear()
+                    print('+' + '='*32 + '+')
+                    print('|' + '[DAFTAR KATEGORI BUKU]'.center(32) + '|')
+                    print('+' + '='*32 + '+')
+                    data_kategori,halaman_sekarang,halaman_total = list_kategori(cari_keyword,halaman_sekarang,halaman_total)
+                    if len(data_kategori) < 1:
+                        print('+' + '='*60 + '+')
+                        print('|' + '[ DATA NOT FOUND ]'.center(60) + '|')
+                        print('|' + 'Klik ENTER untuk melanjutkan!'.center(60) + '|')
+                        print('+' + '='*60 + '+')
+                        enter  = input()
+                    else:
+                        with open('ui/page.txt','r') as page :
+                            display = page.read()
+                            print(display)
+                        pilihan = input('| Pilihlah sesuai nomor diatas: ')
+                        if pilihan == '1' and halaman_sekarang > 1:
+                            halaman_sekarang -= 1
+                        elif pilihan == '2' and halaman_sekarang < halaman_total:
+                            halaman_sekarang += 1
+                        elif pilihan == '9':
+                            break
+                        else:
+                            continue 
+                    # print('\n+' + '='*32 + '+')
+                    # print('|' + '[NOTICE]'.center(32) + '|')
+                    # print('|' + 'Klik ENTER untuk melanjutkan!'.center(32) + '|')
+                    # print('+' + '='*32 + '+')
+                    # enter = input()
             case '3':
                 core.clear()
                 print('+' + '='*55 + '+')

@@ -2,7 +2,7 @@
 .________________________________/   PEMINJAMAN    \________________________________.
 |/                               [1] Pilih Peminjam                                \| 
 |                                [2] Cari Peminjam                                  |
-|                                [3] Tambah Peminjam (konsol)                       |
+|                                [3] Tambah Peminjam                                |
 |                                [4] Pindah Halaman Ke kiri                         |
 |                                [5] Pindah Halaman Ke kanan                        |
 |                                [6] Kembali                                        |
