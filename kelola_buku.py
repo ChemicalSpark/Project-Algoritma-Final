@@ -28,30 +28,25 @@ def dtframe_buku():
             continue
         
         nama_kategori = ""
-        
         nama = baris[2]
-        
         kategori = core.cari_id_list(daftar_kategori, baris[1])
         if (len(kategori) > 0):
             nama_kategori = kategori[0][1]
             
         penulis = baris[3]
         penerbit = baris[4]
-        isbn = baris[5]
+        # isbn = baris[5]
         jumlah = baris[6]
         
         data_buku.append([i, nama, nama_kategori, penulis, penerbit, jumlah])
         i += 1
-
-
-
+    # if len(data_buku) == 11:
     # membuat data frame dengan data buku dimulai dari index (me skip header)
     df = pd.DataFrame(data_buku[1:], columns=["No", "Nama", "Kategori", "Penulis", "Penerbit", "Jumlah"])
 
     # untuk mengabaikan index bawaan pandas
     output = df.to_string(index=False)
     print(output)
-    
     
 
 def kategori_buku():
@@ -184,11 +179,20 @@ def update_buku():
                 nilai += 1
 
             if nilai == len(baca_buku):
+<<<<<<< HEAD
                 core.clear()
                 print('+' + '='*60 + '+')
                 print('|' + '[ DATA NOT FOUND ]'.center(60) + '|')
                 print('|' + 'Klik ENTER untuk melanjutkan!'.center(60) + '|')
                 print('+' + '='*60 + '+')
+=======
+                print('+' + '='*55 + '+')
+                print('|' + '[ DATA NOT FOUND ]'.center(55) + '|')
+                print('|' + 'Klik ENTER untuk melanjutkan!'.center(55) + '|')
+                print('+' + '='*55 + '+')
+                enter  = input()
+                kondisi = False
+>>>>>>> bb2880cbd33a241e47827805931f03b135ee698a
 
 
 def hapus_buku():
@@ -227,10 +231,19 @@ def hapus_buku():
             else:
                 nilai += 1   
             if nilai == len(data_buku):
+<<<<<<< HEAD
                 print('+' + '='*60 + '+')
                 print('|' + '[ DATA BATAL DIHAPUS ]'.center(60) + '|')
                 print('|' + 'Klik ENTER untuk melanjutkan!'.center(60) + '|')
                 print('+' + '='*60 + '+')
+=======
+                print('+' + '='*55 + '+')
+                print('|' + '[ DATA NOT FOUND ]'.center(55) + '|')
+                print('|' + 'Klik ENTER untuk melanjutkan!'.center(55) + '|')
+                print('+' + '='*55 + '+')
+                enter  = input()
+                kondisi = False
+>>>>>>> bb2880cbd33a241e47827805931f03b135ee698a
             index_hapus += 1
             
 def aksi_buku():
