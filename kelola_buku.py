@@ -179,20 +179,12 @@ def update_buku():
                 nilai += 1
 
             if nilai == len(baca_buku):
-<<<<<<< HEAD
-                core.clear()
                 print('+' + '='*60 + '+')
                 print('|' + '[ DATA NOT FOUND ]'.center(60) + '|')
                 print('|' + 'Klik ENTER untuk melanjutkan!'.center(60) + '|')
                 print('+' + '='*60 + '+')
-=======
-                print('+' + '='*55 + '+')
-                print('|' + '[ DATA NOT FOUND ]'.center(55) + '|')
-                print('|' + 'Klik ENTER untuk melanjutkan!'.center(55) + '|')
-                print('+' + '='*55 + '+')
-                enter  = input()
+                input()
                 kondisi = False
->>>>>>> bb2880cbd33a241e47827805931f03b135ee698a
 
 
 def hapus_buku():
@@ -231,19 +223,10 @@ def hapus_buku():
             else:
                 nilai += 1   
             if nilai == len(data_buku):
-<<<<<<< HEAD
                 print('+' + '='*60 + '+')
                 print('|' + '[ DATA BATAL DIHAPUS ]'.center(60) + '|')
                 print('|' + 'Klik ENTER untuk melanjutkan!'.center(60) + '|')
                 print('+' + '='*60 + '+')
-=======
-                print('+' + '='*55 + '+')
-                print('|' + '[ DATA NOT FOUND ]'.center(55) + '|')
-                print('|' + 'Klik ENTER untuk melanjutkan!'.center(55) + '|')
-                print('+' + '='*55 + '+')
-                enter  = input()
-                kondisi = False
->>>>>>> bb2880cbd33a241e47827805931f03b135ee698a
             index_hapus += 1
             
 def aksi_buku():
