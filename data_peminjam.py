@@ -32,13 +32,12 @@ def tambah_baris_peminjam(nama, nim, telp):
 #fungsi untuk membaca data_peminjam dan memberikan pagination 
 def baca_baris_peminjam(cari_keyword='',halaman_sekarang=1,halaman_total=1):
     peminjam = core.baca_csv(nama_file)[1:]
-    halaman_limit = 10
+    halaman_limit = 5
     
+    data_peminjam = [['No','Nama','NIM','Nomor Telepon']]
     if len(cari_keyword) > 0:
         peminjam = core.cari_list(peminjam,cari_keyword,1)
         halaman_sekarang = 1
-    peminjam,halaman_total = core.pagination(peminjam,halaman_limit,halaman_sekarang)
-    data_peminjam = [['No','Nama','NIM','Nomor Telepon']]
     i = 1
     for baris in peminjam:
         if baris[0] == 'ID':
@@ -48,6 +47,7 @@ def baca_baris_peminjam(cari_keyword='',halaman_sekarang=1,halaman_total=1):
         telp = baris[3]
         data_peminjam.append([i,nama,nim,telp])
         i += 1 
+    data_peminjam,halaman_total = core.pagination(data_peminjam,halaman_limit,halaman_sekarang)
     df = pd.DataFrame(data_peminjam[1:], columns=['No','Nama','NIM','Nomor Telepon'])
     # output = print(df.to_string(index=False))
     if len(data_peminjam[1:]) < 1:
@@ -89,11 +89,11 @@ def hapus_baris_peminjam(delete):
             nomor_urut += 1
 
     if 1 <= delete <= len(nomor):
-        print(f'ID: {nomor[delete - 1][0]}')
-        print(f'Nama: {nomor[delete - 1][1]}')
-        print(f'NIM: {nomor[delete - 1][2]}')
-        print(f'Nomor Telepon: {nomor[delete - 1][3]}')     
-        user = input('Apakah anda ingin menghapus data diatas?(y/n) ')
+        print(f'| ID: {nomor[delete - 1][0]}')
+        print(f'| Nama: {nomor[delete - 1][1]}')
+        print(f'| NIM: {nomor[delete - 1][2]}')
+        print(f'| Nomor Telepon: {nomor[delete - 1][3]}')     
+        user = input('| Apakah anda ingin menghapus data diatas?(y/n) ')
         if user.lower() == 'y':
             data.remove(nomor[delete - 1])
             with open(nama_file, 'w', newline="") as file:
@@ -126,11 +126,11 @@ def aksi_peminjam():
             case '1':
                 while True:
                     core.clear()
-                    loop = input('Apakah anda ingin menambahkan peminjam?(y/n): ')
+                    loop = input('| Apakah anda ingin menambahkan peminjam?(y/n): ')
                     if loop == 'y':
-                        nama = input("Masukkan Nama: ")
-                        nim = input("Masukkan NIM: ")
-                        telp = input("Masukkan Nomor Telepon: ")
+                        nama = input("| Masukkan Nama: ")
+                        nim = input("| Masukkan NIM: ")
+                        telp = input("| Masukkan Nomor Telepon: ")
                         if nama and nim and telp:
                             tambah_baris_peminjam(nama, nim, telp) 
                             enter  = input() 
@@ -161,7 +161,7 @@ def aksi_peminjam():
                         print('+' + '='*60 + '+')
                         enter  = input()
                     else:
-                        with open('ui/page.txt','r') as page :
+                        with open('ui/page.txt','r') as page:
                             print(page.read())
                         pilihan = input('| Pilihlah sesuai nomor diatas: ')
                         if pilihan == "1" and halaman_sekarang > 1:

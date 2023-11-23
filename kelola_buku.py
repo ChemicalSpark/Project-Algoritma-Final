@@ -22,7 +22,6 @@ def dtframe_buku(cari_keyword='',halaman_sekarang=1,halaman_total=1):
     if len(cari_keyword) > 1:
         daftar_buku = core.cari_list(daftar_buku,cari_keyword,1)
         halaman_sekarang = 1
-    daftar_buku,halaman_total = core.pagination(daftar_buku,halaman_limit,halaman_sekarang)
     data_buku = [["No", "Judul", "Kategori", "Penulis", "Penerbit", "ISBN", "Jumlah" , "id"]]
     
     i = 1
@@ -46,6 +45,7 @@ def dtframe_buku(cari_keyword='',halaman_sekarang=1,halaman_total=1):
         i += 1
     # if len(data_buku) == 11:
     # membuat data frame dengan data buku dimulai dari index (me skip header)
+    data_buku,halaman_total = core.pagination(daftar_buku,halaman_limit,halaman_sekarang)
     df = pd.DataFrame(data_buku[1:], columns=["No", "Nama", "Kategori", "Penulis", "Penerbit", "Jumlah"])
 
     # untuk mengabaikan index bawaan pandas
@@ -289,6 +289,8 @@ def aksi_buku():
                                     halaman_sekarang += 1
                                 elif pilihan == '9':
                                     break
+                                elif pilihan == '0':
+                                    exit()
                                 else:
                                     continue 
                             # print('+' + '='*120 + '+')
@@ -320,6 +322,8 @@ def aksi_buku():
                                     update_buku()
                                 elif pilihan == '9':
                                     break
+                                elif pilihan == '0':
+                                    exit()
                                 else:
                                     continue 
                     case '4':
@@ -347,6 +351,8 @@ def aksi_buku():
                                     hapus_buku()
                                 elif pilihan == '9':
                                     break
+                                elif pilihan == '0':
+                                    exit()
                                 else:
                                     continue 
                     case '9':

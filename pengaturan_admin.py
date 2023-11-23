@@ -116,11 +116,10 @@ def list_data(cari_keyword,halaman_sekarang=1,halaman_total=1):
     # df = pd.DataFrame(data_admin, columns=["ID", "Username", "Password"])
     # print(df.to_string(index=False))
     admin = core.baca_csv(user_file)
-    halaman_limit = 5
+    halaman_limit = 10
     if len(cari_keyword) > 0:
         admin = core.cari_list(admin,cari_keyword,1)
         halaman_sekarang = 1
-    admin,halaman_total = core.pagination(admin,halaman_limit,halaman_sekarang)
     data_admin = [['No','Username','Password']]
     i = 1
     for baris in admin:
@@ -130,6 +129,7 @@ def list_data(cari_keyword,halaman_sekarang=1,halaman_total=1):
         password = baris[2]
         data_admin.append([i,username,password])
         i += 1
+    data_admin,halaman_total = core.pagination(admin,halaman_limit,halaman_sekarang)
     df = pd.DataFrame(data_admin[1:], columns=['No','Username','Password'])
     output = df.to_string(index=False)
     if len(data_admin[1:]) < 1:
@@ -203,7 +203,7 @@ def aksi_pengaturan():
         with open('ui/kelola_akun_admin.txt','r') as settings_admin :
             display = settings_admin.read()
             print(display)
-        pilihan = input('Masukkan pilihan: ')
+        pilihan = input('| Masukkan pilihan: ')
         if pilihan == '1':
             core.clear()
             register()
@@ -231,6 +231,8 @@ def aksi_pengaturan():
                         halaman_sekarang += 1
                     elif pilihan == '9':
                         break
+                    elif pilihan == '0':
+                        exit()
                     else:
                         continue 
                 # print('+' + '='*38 + '+')
@@ -262,6 +264,8 @@ def aksi_pengaturan():
                 print(" "*23 + '|' + '[ DAFTAR AKUN ADMIN ]'.center(38) + '|')
                 print(" "*23 + '+' + '='*38 + '+')
                 list_data(cari_keyword,halaman_sekarang,halaman_total)
+                with open('ui/page.txt','r') as page :
+                        print(page.read())
                 pilihan = input('| Pilihlah sesuai nomor diatas: ')
                 if pilihan == '1' and halaman_sekarang > 1:
                     halaman_sekarang -= 1
@@ -279,6 +283,8 @@ def aksi_pengaturan():
                         enter  = input()
                 elif pilihan == '9':
                     break
+                elif pilihan == '0':
+                    exit()
                 else:
                     continue     
         elif pilihan == '9':
