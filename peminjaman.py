@@ -454,7 +454,7 @@ def cari_status_peminjaman(id_peminjaman):
     elif status == "dikembalikan":
         return "Dikembalikan"
     else:
-        print("Pengecualian Terdeteksi hasil diluar perkiraan!\nSTATUS di DB : " , status , "\nTanggal Dipinjam : " , tanggal_peminjaman.strftime("%d %B %Y") , "\nTanggal Hari ini : " , date.today().strftime("%d %B %Y") ,"\nTanggal Deadline : " , tanggal_pengembalian.strftime("%d %B %Y"))
+        print("Pengecualian Terdeteksi hasil diluar perkiraan!\nSTATUS di DB : " , status , "\nTanggal Dipinjam : " , tanggal_peminjaman.strftime("%d %B %Y") , "\nTanggal Hari ini : " , date.today().strftime("%d %B %Y") ,"\nTanggal Deadline : " , tanggal_tenggat.strftime("%d %B %Y"))
         exit()
 
 
@@ -477,7 +477,7 @@ def tampilkan_daftar_peminjam_dan_status(search_keyword = "", current_page = 1, 
     data_tampil = [["No", "Nama", "NIM", "Status"]]
     
     for baris in data_peminjam:
-        if baris[0] == "id":
+        if baris[0] == "ID":
             continue # me skip baris kolom / header
         
         status = ""
