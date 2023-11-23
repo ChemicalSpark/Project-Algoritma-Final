@@ -47,10 +47,10 @@ def baca_baris_peminjam(cari_keyword='',halaman_sekarang=1,halaman_total=1):
         telp = baris[3]
         data_peminjam.append([i,nama,nim,telp])
         i += 1 
-    data_peminjam,halaman_total = core.pagination(data_peminjam,halaman_limit,halaman_sekarang)
-    df = pd.DataFrame(data_peminjam[1:], columns=['No','Nama','NIM','Nomor Telepon'])
+    data_peminjam,halaman_total = core.pagination(data_peminjam[1:],halaman_limit,halaman_sekarang)
+    df = pd.DataFrame(data_peminjam, columns=['No','Nama','NIM','Nomor Telepon'])
     # output = print(df.to_string(index=False))
-    if len(data_peminjam[1:]) < 1:
+    if len(data_peminjam) < 1:
         output = "* Data Kosong *"
     else:
         output = df.to_string(index=False)

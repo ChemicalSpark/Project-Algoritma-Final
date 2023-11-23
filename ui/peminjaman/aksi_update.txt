@@ -1,4 +1,4 @@
-                    [ Pilih data Peminjaman yang ingin anda hapus ]
+                  [ Pilih data Peminjaman yang ingin anda Update]
                                   _________________                                   
 .________________________________/   PEMINJAMAN    \________________________________.
 |/                               [1] Pilih Peminjaman                              \| 

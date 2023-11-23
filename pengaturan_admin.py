@@ -116,7 +116,7 @@ def list_data(cari_keyword,halaman_sekarang=1,halaman_total=1):
     # df = pd.DataFrame(data_admin, columns=["ID", "Username", "Password"])
     # print(df.to_string(index=False))
     admin = core.baca_csv(user_file)
-    halaman_limit = 10
+    halaman_limit = 5
     if len(cari_keyword) > 0:
         admin = core.cari_list(admin,cari_keyword,1)
         halaman_sekarang = 1
@@ -129,10 +129,10 @@ def list_data(cari_keyword,halaman_sekarang=1,halaman_total=1):
         password = baris[2]
         data_admin.append([i,username,password])
         i += 1
-    data_admin,halaman_total = core.pagination(admin,halaman_limit,halaman_sekarang)
-    df = pd.DataFrame(data_admin[1:], columns=['No','Username','Password'])
+    data_admin,halaman_total = core.pagination(data_admin[1:],halaman_limit,halaman_sekarang)
+    df = pd.DataFrame(data_admin, columns=['No','Username','Password'])
     output = df.to_string(index=False)
-    if len(data_admin[1:]) < 1:
+    if len(data_admin) < 1:
         output = "* Data Kosong *"
         
     hasil = ""
