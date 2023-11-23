@@ -75,6 +75,7 @@ def input_update_peminjaman(id_peminjaman):
     status = cari_status_peminjaman(id_peminjaman)
     daftar_peminjaman_db = core.baca_csv(db_peminjaman)
     data_peminjaman = core.cari_id_list(daftar_peminjaman_db, id_peminjaman)[0]
+    id_buku = data_peminjaman[2]
     
     index_baris = core.cari_index_dengan_id_list(daftar_peminjaman_db, id_peminjaman)
     tgl_tenggat = datetime.strptime(data_peminjaman[4], "%d/%m/%Y")
@@ -94,7 +95,7 @@ def input_update_peminjaman(id_peminjaman):
                     data_peminjaman[7] = today.strftime("%d/%m/%Y")
                     core.perbarui_baris_csv(db_peminjaman, index_baris, data_peminjaman)
                     print("Data Peminjaman Telah Diupdate!")
-                    update_kuantitas_buku(id_peminjaman, "menambah")
+                    update_kuantitas_buku(id_buku, "menambah")
                     print("Kuantitas Buku telah Ditambahkan")
                     input("Tekan Enter Untuk Kembali...")
                     break
@@ -115,7 +116,7 @@ def input_update_peminjaman(id_peminjaman):
                         data_peminjaman[7] = today.strftime("%d/%m/%Y")
                         core.perbarui_baris_csv(db_peminjaman, index_baris, data_peminjaman)
                         print("Data Peminjaman Telah Diupdate!")
-                        update_kuantitas_buku(id_peminjaman, "menambah")
+                        update_kuantitas_buku(id_buku, "menambah")
                         print("Data Kuantitas telah diupdate")
                         input("Tekan Enter Untuk Kembali...")
                         break
