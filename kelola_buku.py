@@ -71,7 +71,7 @@ def tambah_buku():
         nomor = 0
         print('| Pilihan kategori :')
         print(display_kategori)
-        input_kategori = int(input('| Pilih kategori buku\t: '))
+        input_kategori = input('\n| Pilih kategori buku\t: ')
         input_judul = input('| Masukkan judul\t: ')
         input_penulis = input('| Masukkan penulis\t: ')
         input_penerbit = input('| Masukkan penerbit\t: ')
