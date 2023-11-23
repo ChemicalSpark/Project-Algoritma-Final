@@ -1,5 +1,8 @@
                                  __________________                             
 ._______________________________/  KELOLA HALAMAN  \_______________________________.
-|/              [1] Halaman Sebelumnya        [2] Halaman Sekarang                \|
-|\              [9] Kembali                   [0] Keluar                          /|
+|/                              [1] Halaman Sebelumnya                            \|
+|                               [2] Halaman Selanjutnya                            |
+|                               [3] Aksi (Jika Ada)                                |
+|                               [9] Kembali                                        |
+|\                              [0] Keluar                                        /|
 +----------------------------------------------------------------------------------+

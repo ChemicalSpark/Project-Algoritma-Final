@@ -32,7 +32,7 @@ def tambah_baris_peminjam(nama, nim, telp):
 #fungsi untuk membaca data_peminjam dan memberikan pagination 
 def baca_baris_peminjam(cari_keyword='',halaman_sekarang=1,halaman_total=1):
     peminjam = core.baca_csv(nama_file)[1:]
-    halaman_limit = 4
+    halaman_limit = 10
     
     if len(cari_keyword) > 0:
         peminjam = core.cari_list(peminjam,cari_keyword,1)

@@ -12,13 +12,17 @@ def list_buku():
         baca_buku = list(csv.reader(list_data))
         return baca_buku
     
-def dtframe_buku():
+def dtframe_buku(cari_keyword='',halaman_sekarang=1,halaman_total=1):
     '''fungsi menampilkan data frame buku'''
     
-    daftar_buku = core.baca_csv(db_buku)
-    
-    daftar_kategori = core.baca_csv(db_kategori)
+    daftar_buku = core.baca_csv(db_buku)[1:]
+    daftar_kategori = core.baca_csv(db_kategori)[1:]
+    halaman_limit = 10
         
+    if len(cari_keyword) > 1:
+        daftar_buku = core.cari_list(daftar_buku,cari_keyword,1)
+        halaman_sekarang = 1
+    daftar_buku,halaman_total = core.pagination(daftar_buku,halaman_limit,halaman_sekarang)
     data_buku = [["No", "Judul", "Kategori", "Penulis", "Penerbit", "ISBN", "Jumlah" , "id"]]
     
     i = 1
@@ -45,8 +49,21 @@ def dtframe_buku():
     df = pd.DataFrame(data_buku[1:], columns=["No", "Nama", "Kategori", "Penulis", "Penerbit", "Jumlah"])
 
     # untuk mengabaikan index bawaan pandas
-    output = df.to_string(index=False)
-    print(output)
+    if len(data_buku[1:]) < 1:
+        output = "* Data Kosong *"
+    else:
+        output = df.to_string(index=False)
+
+    hasil = ""
+    if "\n" in output:
+        lines = output.split("\n")
+        for i in lines:
+            hasil += i + "\n"
+    else:
+        hasil += output + "\n"
+    print(hasil)
+    print(" "*36 + f'page {halaman_sekarang} to {halaman_total}')
+    return data_buku,halaman_sekarang,halaman_total
     
 
 def kategori_buku():
@@ -126,7 +143,7 @@ def update_buku():
     kondisi = True
     while kondisi == True:
         nilai = 0
-        input_judul = input('\n| Masukkan judul buku : ')
+        input_judul = input('| Masukkan judul buku : ')
         for i in baca_buku:
             if i[2]==input_judul:
                 print('rincian :')
@@ -199,7 +216,7 @@ def hapus_buku():
     while kondisi == True :
         nilai = 0
         index_hapus = 0
-        input_judul = input('\n| Masukkan judul : ')
+        input_judul = input('| Masukkan judul : ')
         for i in data_buku:
             if i[2] == input_judul:
                 print('rincian :')
@@ -236,6 +253,9 @@ def hapus_buku():
             index_hapus += 1
             
 def aksi_buku():
+        cari_keyword=''
+        halaman_sekarang=1
+        halaman_total=1
         while True:
             core.clear()
             with open('ui/kelola_buku.txt','r') as buku:
@@ -247,29 +267,88 @@ def aksi_buku():
                         core.clear()
                         tambah_buku()
                     case '2':
-                        core.clear()
-                        print('+' + '='*120 + '+')
-                        print('|' + '[ DAFTAR BUKU ]'.center(120) + '|')
-                        print('+' + '='*120 + '+')
-                        dtframe_buku()
-                        print('+' + '='*120 + '+')
-                        print('|' + 'Klik ENTER untuk melanjutkan!'.center(120) + '|')
-                        print('+' + '='*120 + '+')
-                        enter  = input()
+                        while True:
+                            core.clear()
+                            print('+' + '='*120 + '+')
+                            print('|' + '[ DAFTAR BUKU ]'.center(120) + '|')
+                            print('+' + '='*120 + '+')
+                            data_buku,halaman_sekarang,halaman_total = dtframe_buku(cari_keyword,halaman_sekarang,halaman_total)
+                            if len(data_buku) < 1:
+                                print('+' + '='*120 + '+')
+                                print('|' + '[ DATA NOT FOUND ]'.center(120) + '|')
+                                print('|' + 'Klik ENTER untuk melanjutkan!'.center(120) + '|')
+                                print('+' + '='*120 + '+')
+                                enter  = input()
+                            else:
+                                with open('ui/page.txt','r') as page :
+                                    print(page.read())
+                                pilihan = input('| Pilihlah sesuai nomor diatas: ')
+                                if pilihan == '1' and halaman_sekarang > 1:
+                                    halaman_sekarang -= 1
+                                elif pilihan == '2' and halaman_sekarang < halaman_total:
+                                    halaman_sekarang += 1
+                                elif pilihan == '9':
+                                    break
+                                else:
+                                    continue 
+                            # print('+' + '='*120 + '+')
+                            # print('|' + 'Klik ENTER untuk melanjutkan!'.center(120) + '|')
+                            # print('+' + '='*120 + '+')
+                            # enter  = input()
                     case '3':
-                        core.clear()
-                        print('+' + '='*120 + '+')
-                        print('|' + '[ DAFTAR BUKU ]'.center(120) + '|')
-                        print('+' + '='*120 + '+')
-                        dtframe_buku()
-                        update_buku()
+                        while True:
+                            core.clear()
+                            print('+' + '='*120 + '+')
+                            print('|' + '[ DAFTAR BUKU ]'.center(120) + '|')
+                            print('+' + '='*120 + '+')
+                            data_buku,halaman_sekarang,halaman_total = dtframe_buku(cari_keyword,halaman_sekarang,halaman_total)
+                            if len(data_buku) < 1:
+                                print('+' + '='*120 + '+')
+                                print('|' + '[ DATA NOT FOUND ]'.center(120) + '|')
+                                print('|' + 'Klik ENTER untuk melanjutkan!'.center(120) + '|')
+                                print('+' + '='*120 + '+')
+                                enter  = input()
+                            else:
+                                with open('ui/page.txt','r') as page :
+                                    print(page.read())
+                                pilihan = input('| Pilihlah sesuai nomor diatas: ')
+                                if pilihan == '1' and halaman_sekarang > 1:
+                                    halaman_sekarang -= 1
+                                elif pilihan == '2' and halaman_sekarang < halaman_total:
+                                    halaman_sekarang += 1
+                                elif pilihan == '3':
+                                    update_buku()
+                                elif pilihan == '9':
+                                    break
+                                else:
+                                    continue 
                     case '4':
-                        core.clear()
-                        print('+' + '='*120 + '+')
-                        print('|' + '[ DAFTAR BUKU ]'.center(120) + '|')
-                        print('+' + '='*120 + '+')
-                        dtframe_buku()
-                        hapus_buku()
+                        while True:
+                            core.clear()
+                            print('+' + '='*120 + '+')
+                            print('|' + '[ DAFTAR BUKU ]'.center(120) + '|')
+                            print('+' + '='*120 + '+')
+                            data_buku,halaman_sekarang,halaman_total = dtframe_buku(cari_keyword,halaman_sekarang,halaman_total)
+                            if len(data_buku) < 1:
+                                print('+' + '='*120 + '+')
+                                print('|' + '[ DATA NOT FOUND ]'.center(120) + '|')
+                                print('|' + 'Klik ENTER untuk melanjutkan!'.center(120) + '|')
+                                print('+' + '='*120 + '+')
+                                enter  = input()
+                            else:
+                                with open('ui/page.txt','r') as page :
+                                    print(page.read())
+                                pilihan = input('| Pilihlah sesuai nomor diatas: ')
+                                if pilihan == '1' and halaman_sekarang > 1:
+                                    halaman_sekarang -= 1
+                                elif pilihan == '2' and halaman_sekarang < halaman_total:
+                                    halaman_sekarang += 1
+                                elif pilihan == '3':
+                                    hapus_buku()
+                                elif pilihan == '9':
+                                    break
+                                else:
+                                    continue 
                     case '9':
                         core.clear()
                         break

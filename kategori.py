@@ -11,7 +11,7 @@ def tulis_csv(data):
 # function untuk menampilkan daftar kategori
 def list_kategori(cari_keyword='',halaman_sekarang=1,halaman_total=1):
     kategori_file = core.baca_csv(nama_file)[1:]
-    halaman_limit = 20
+    halaman_limit = 10
     
     if len(cari_keyword) > 1:
         kategori_file = core.cari_list(kategori_file,cari_keyword,1)
@@ -163,8 +163,7 @@ def aksi_kategori():
                         enter  = input()
                     else:
                         with open('ui/page.txt','r') as page :
-                            display = page.read()
-                            print(display)
+                            print(page.read())
                         pilihan = input('| Pilihlah sesuai nomor diatas: ')
                         if pilihan == '1' and halaman_sekarang > 1:
                             halaman_sekarang -= 1
@@ -186,6 +185,8 @@ def aksi_kategori():
                     print(" "*25 + '|' + '[DAFTAR KATEGORI BUKU]'.center(32) + '|')
                     print(" "*25 + '+' + '='*32 + '+')
                     data_kategori,halaman_sekarang,halaman_total = list_kategori(cari_keyword,halaman_sekarang,halaman_total)
+                    with open('ui/page.txt','r') as page :
+                            print(page.read())
                     pilihan = input('| Pilihlah sesuai nomor diatas: ')
                     if pilihan == '1' and halaman_sekarang > 1:
                         halaman_sekarang -= 1
@@ -260,6 +261,8 @@ def aksi_kategori():
                     print(" "*25 + '|' + '[DAFTAR KATEGORI BUKU]'.center(32) + '|')
                     print(" "*25 + '+' + '='*32 + '+')
                     data_kategori,halaman_sekarang,halaman_total = list_kategori(cari_keyword,halaman_sekarang,halaman_total)
+                    with open('ui/page.txt','r') as page :
+                            print(page.read())
                     pilihan = input('| Pilihlah sesuai nomor diatas: ')
                     if pilihan == '1' and halaman_sekarang > 1:
                         halaman_sekarang -= 1
