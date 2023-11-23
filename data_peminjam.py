@@ -94,7 +94,7 @@ def hapus_baris_peminjam(delete):
         print(f'NIM: {nomor[delete - 1][2]}')
         print(f'Nomor Telepon: {nomor[delete - 1][3]}')     
         user = input('Apakah anda ingin menghapus data diatas?(y/n) ')
-        if user == 'y' or user == 'Y':
+        if user.lower() == 'y':
             data.remove(nomor[delete - 1])
             with open(nama_file, 'w', newline="") as file:
                 write = csv.writer(file)
@@ -124,19 +124,28 @@ def aksi_peminjam():
         pilih = input("| Pilihan: ")
         match pilih:
             case '1':
-                core.clear()
-                nama = input("Masukkan Nama: ")
-                nim = input("Masukkan NIM: ")
-                telp = input("Masukkan Nomor Telepon: ")
-                if nama and nim and telp:
-                    tambah_baris_peminjam(nama, nim, telp)  
-                    enter  = input() 
-                else:
-                    print('+' + '='*40 + '+')
-                    print('|' + '[ INPUT TIDAK LENGKAP ]'.center(40) + '|')
-                    print('|' + 'Klik ENTER untuk melanjutkan!'.center(40) + '|')
-                    print('+' + '='*40 + '+')
-                    enter  = input()
+                while True:
+                    core.clear()
+                    loop = input('Apakah anda ingin menambahkan peminjam?(y/n): ')
+                    if loop == 'y':
+                        nama = input("Masukkan Nama: ")
+                        nim = input("Masukkan NIM: ")
+                        telp = input("Masukkan Nomor Telepon: ")
+                        if nama and nim and telp:
+                            tambah_baris_peminjam(nama, nim, telp) 
+                            enter  = input() 
+                            continue
+                        else:
+                            print('+' + '='*40 + '+')
+                            print('|' + '[ INPUT TIDAK LENGKAP ]'.center(40) + '|')
+                            print('|' + 'Klik ENTER untuk melanjutkan!'.center(40) + '|')
+                            print('+' + '='*40 + '+')
+                            enter  = input()
+                            continue
+                    elif loop == 'n':
+                        break
+                    else:
+                        continue
             case '2':
                 while True:
                     core.clear()
@@ -153,8 +162,7 @@ def aksi_peminjam():
                         enter  = input()
                     else:
                         with open('ui/page.txt','r') as page :
-                            display = page.read()
-                            print(display)
+                            print(page.read())
                         pilihan = input('| Pilihlah sesuai nomor diatas: ')
                         if pilihan == "1" and halaman_sekarang > 1:
                             halaman_sekarang -= 1
@@ -188,6 +196,7 @@ def aksi_peminjam():
                             if baris[0] != 'ID':
                                 nomor.append(baris)
                                 nomor_urut += 1
+
                         update = input("| Masukkan Nomor urut data yang akan diperbarui: ")
                         if update.isdigit():
                             update = int(update)
@@ -207,14 +216,13 @@ def aksi_peminjam():
                                     telp_baru = input("Masukkan Nomor Telepon yang baru : ")
                                     telp = telp_baru if telp_baru else data[0][3]
                                     perbarui_baris_peminjam(id, nama, nim, telp)
-                                    print("Data telah diperbarui.")
-                                    enter  = input("Klik ENTER untuk meneruskan")
-                                else:
-                                    print('+' + '='*60 + '+')
-                                    print('|' + '[ DATA NOT FOUND ]'.center(60) + '|')
-                                    print('|' + 'Klik ENTER untuk melanjutkan!'.center(60) + '|')
+                                    print('+' + '='*60 + '+') 
+                                    print('|' + '[ NOTICE ]'.center(60) + '|')
+                                    print('|' + 'Data Berhasil diperbaharui'.center(60) + '|')
+                                    print('|' + 'Klik ENTER untuk meneruskan'.center(60) + '|')
                                     print('+' + '='*60 + '+')
                                     enter  = input()
+
                             else:
                                 print('+' + '='*60 + '+')
                                 print('|' + '[ DATA NOT FOUND ]'.center(60) + '|')
@@ -240,6 +248,8 @@ def aksi_peminjam():
                     print(" "*12 + '|' + '[ DAFTAR DATA PEMINJAM ]'.center(60) + '|')
                     print(" "*12 + '+' + '='*60 + '+')
                     data_peminjam,halaman_sekarang,halaman_total = baca_baris_peminjam(cari_keyword,halaman_sekarang,halaman_total)
+                    with open('ui/page.txt','r') as page:
+                        print(page.read())
                     pilihan = input('| Pilihlah sesuai nomor diatas: ')
                     if pilihan == '1' and halaman_sekarang > 1:
                         halaman_sekarang -= 1
@@ -249,12 +259,14 @@ def aksi_peminjam():
                         user = input("| Masukkan Nomor urut data yang akan dihapus: ")
                         if user.isdigit():
                             hapus_baris_peminjam(int(user))
+                            continue
                         else:
                             print('+' + '='*60 + '+')
                             print('|' + '[ DATA NOT FOUND ]'.center(60) + '|')
                             print('|' + 'Klik ENTER untuk melanjutkan!'.center(60) + '|')
                             print('+' + '='*60 + '+')
                             enter  = input()
+                            continue
                     elif pilihan == '9':
                         break
                     elif pilihan == '0':

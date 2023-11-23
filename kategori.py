@@ -126,21 +126,28 @@ def aksi_kategori():
         user = input("| Pilihan: ")
         match user:
             case '1':
-                core.clear()
-                print('+' + '='*83 + '+')
-                print('|' + '[ NOTICE ]'.center(83) + '|')
-                print('|' + 'Masukkan kategori baru!'.center(83) + '|')
-                print('+' + '='*83 + '+')
-                user = input("| Kategori: ")
-                if user:
-                    tambah_kategori(user.strip().title())
-                    enter = input()
-                else:
-                    print('+' + '='*83 + '+')
-                    print('|' + '[ INPUT ERROR ]'.center(83) + '|')
-                    print('|' + 'Klik ENTER untuk melanjutkan!'.center(83) + '|')
-                    print('+' + '='*83 + '+')
-                    enter  = input()
+                while True:
+                    core.clear()
+                    loop = input('Apakah anda ingin menambahkan kategori?(y/n): ')
+                    if loop == 'y':
+                        print('+' + '='*83 + '+')
+                        print('|' + '[ NOTICE ]'.center(83) + '|')
+                        print('|' + 'Masukkan kategori baru!'.center(83) + '|')
+                        print('+' + '='*83 + '+')
+                        user = input("| Kategori: ")
+                        if user:
+                            tambah_kategori(user.strip().title())
+                            enter = input()
+                        else:
+                            print('+' + '='*83 + '+')
+                            print('|' + '[ INPUT ERROR ]'.center(83) + '|')
+                            print('|' + 'Klik ENTER untuk melanjutkan!'.center(83) + '|')
+                            print('+' + '='*83 + '+')
+                            enter  = input()
+                    elif loop == 'n':
+                        break
+                    else:
+                        continue
             case '2':
                 while True:
                     core.clear()
@@ -192,7 +199,7 @@ def aksi_kategori():
                             if baris[0] != 'ID':
                                 nomor.append(baris)
                                 nomor_urut += 1
-                        update = input("\n| Masukkan Nomor urut data yang akan diperbarui: ")
+                        update = input("| Masukkan Nomor urut data yang akan diperbarui: ")
                         if update.isdigit():
                             update = int(update)
                             if 1 <= update <= len(nomor):
