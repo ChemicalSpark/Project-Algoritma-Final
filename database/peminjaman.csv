@@ -1,1 +1,2 @@
 id,id_peminjam,id_buku,tanggal_peminjaman,tanggal_tenggat,status,denda_terlambat,tanggal_pengembalian
+1,2,9,23/11/2023,23/01/2024,belum dikembalikan,0,belum
