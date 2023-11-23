@@ -28,20 +28,20 @@ def tambah_ke_csv(nama_file, data_baru):
 def perbarui_baris_csv(nama_file, indeks_baris, data_baris_baru):
     data = baca_csv(nama_file)
     data[indeks_baris] = data_baris_baru
-    tulis_csv(nama_file, data)
+    tulis_csv(nama_file, data) #menimpa seluruh data 
 
 
 def hapus_baris_csv(nama_file, indeks_baris):
     data = baca_csv(nama_file)
-    if 0 <= indeks_baris < len(data):
+    if 0 <= indeks_baris < len(data): # mengecek jika target index baris harus ada di data
         del data[indeks_baris]
-        tulis_csv(nama_file, data)
+        tulis_csv(nama_file, data) # menimpa seluruh data ke 
         return True
     else:
         return False
 
 
-# mengembalikan nilai index baris dari id yg ditemukan
+# mengembalikan nilai index baris dari id (list kolom index ke 0) yg ditemukan
 def cari_index_dengan_id_list(data, id_p):
     index = 0
     for i in data:
@@ -89,7 +89,6 @@ def pagination(data, limit, offset):
     index = 1 # merepresentasikan halaman yang akan disi data 
     count = 0 # menghitung jumlah data yang di masukan ke halaman
 
-    hasil.append([])
     
     for i in data: # iterasi data ke per baris
         if count == limit:
@@ -97,6 +96,9 @@ def pagination(data, limit, offset):
             index += 1 # pindah halaman selanjutnya (mengubah target)
             hasil.append([])  # naambah array kosong untuk indeks berikutnya
         
+        if not check_jika_index(hasil, index): # mengecek jika target tidak ada
+            hasil.append([])  # naambah array kosong untuk indeks berikutnya
+            
         hasil[index].append(i) #menambahkan data ke target
         
         count += 1
@@ -107,6 +109,13 @@ def pagination(data, limit, offset):
 
     return hasil[offset], total_halaman  # Mengembalikan hasil dan jumlah indeks
 
+
+def check_jika_index(data_list, index):
+    try:
+        data_list[index]
+    except IndexError:
+        return False
+    return True
 
 # data = [['1', 'Fauzan', '232410102011', '0888888888'],['2', 'Fauzan', '232410102011', '0888888888']]
 # print(pagination(data, 1, 0))
