@@ -16,7 +16,6 @@ def list_kategori(cari_keyword='',halaman_sekarang=1,halaman_total=1):
     if len(cari_keyword) > 1:
         kategori_file = core.cari_list(kategori_file,cari_keyword,1)
         halaman_sekarang = 1
-    kategori_file, halaman_total = core.pagination(kategori_file,halaman_limit,halaman_sekarang)
     data_kategori = [['ID','Kategori']]
     i = 1
     for baris in kategori_file:
@@ -25,8 +24,10 @@ def list_kategori(cari_keyword='',halaman_sekarang=1,halaman_total=1):
         kategori = baris[1]
         data_kategori.append([i,kategori])
         i += 1
-    df = pd.DataFrame(data_kategori[1:],columns=['No','Kategori'])
-    if len(data_kategori[1:]) < 1:
+
+    data_kategori, halaman_total = core.pagination(data_kategori[1:],halaman_limit,halaman_sekarang)
+    df = pd.DataFrame(data_kategori,columns=['No','Kategori'])
+    if len(data_kategori) < 1:
         output = "* Data Kosong *"
     else:
         output = df.to_string(index=False)
@@ -171,6 +172,8 @@ def aksi_kategori():
                             halaman_sekarang += 1
                         elif pilihan == '9':
                             break
+                        elif pilihan == '0':
+                            exit()
                         else:
                             continue 
                     # print('\n+' + '='*32 + '+')
