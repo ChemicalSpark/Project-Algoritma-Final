@@ -101,17 +101,17 @@ def hapus_kategori(delete):
             with open(nama_file, 'w', newline="") as file:
                 write = csv.writer(file)
                 write.writerows(data)
-                print('+' + '='*55 + '+')
-                print('|' + '[ NOTICE ]'.center(55) + '|')
-                print('|' + 'Data berhasil dihapus'.center(55) + '|')
-                print('|' + 'Klik ENTER untuk melanjutkan!'.center(55) + '|')
-                print('+' + '='*55 + '+')
+                print('+' + '='*83 + '+')
+                print('|' + '[ NOTICE ]'.center(83) + '|')
+                print('|' + 'Data berhasil dihapus'.center(83) + '|')
+                print('|' + 'Klik ENTER untuk melanjutkan!'.center(83) + '|')
+                print('+' + '='*83 + '+')
                 enter  = input()
         else:
-            print('+' + '='*55 + '+')
-            print('|' + '[ DATA GAGAL DIHAPUS ]'.center(55) + '|')
-            print('|' + 'Klik ENTER untuk melanjutkan!'.center(55) + '|')
-            print('+' + '='*55 + '+')
+            print('+' + '='*83 + '+')
+            print('|' + '[ DATA GAGAL DIHAPUS ]'.center(83) + '|')
+            print('|' + 'Klik ENTER untuk melanjutkan!'.center(83) + '|')
+            print('+' + '='*83 + '+')
             enter  = input()
 
 # main kategori
