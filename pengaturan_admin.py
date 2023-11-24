@@ -145,32 +145,31 @@ def list_data(cari_keyword,halaman_sekarang=1,halaman_total=1):
 def hapus_akun(id_to_delete):
     data = core.baca_csv(user_file)
     nomor_urut = 0
-    nomor = []
+    array = []
     for baris in data:
         if baris[0] != 'ID':
-            nomor.append(baris)
+            array.append(baris)
             nomor_urut += 1
 
-    if 1 <= id_to_delete <= len(nomor):
-        print(f'ID: {nomor[id_to_delete - 1][0]}')
-        print(f'Username: {nomor[id_to_delete - 1][1]}')   
-        print(f'Password: {nomor[id_to_delete - 1][2]}')  
-        user = input('Apakah anda ingin menghapus data diatas?(y/n) ')
+    if len(array) >= id_to_delete >= 1:
+        print(f'| ID: {array[id_to_delete - 1][0]}')
+        print(f'| Username: {array[id_to_delete - 1][1]}')     
+        user = input('| Apakah anda ingin menghapus data diatas?(y/n) ')
         if user.lower() == 'y':
-            data.remove(nomor[id_to_delete - 1])
+            data.remove(array[id_to_delete - 1])
             with open(user_file, 'w', newline="") as file:
                 write = csv.writer(file)
                 write.writerows(data)
-                print('+' + '='*38 + '+')
-                print('|' + '[ DATA BERHASIL DIHAPUS ]'.center(38) + '|')
-                print('|' + 'Klik ENTER untuk melanjutkan!'.center(38) + '|')
-                print('+' + '='*38 + '+')
+                print('+' + '='*40 + '+')
+                print('|' + '[ DATA BERHASIL DIHAPUS ]'.center(40) + '|')
+                print('|' + 'Klik ENTER untuk melanjutkan!'.center(40) + '|')
+                print('+' + '='*40 + '+')
                 enter  = input()
         else:
-            print('+' + '='*38 + '+')
-            print('|' + '[ DATA BATAL DIHAPUS ]'.center(38) + '|')
-            print('|' + 'Klik ENTER untuk melanjutkan!'.center(38) + '|')
-            print('+' + '='*38 + '+')
+            print('+' + '='*40 + '+')
+            print('|' + '[ DATA BATAL DIHAPUS ]'.center(40) + '|')
+            print('|' + 'Klik ENTER untuk melanjutkan!'.center(40) + '|')
+            print('+' + '='*40 + '+')
             enter  = input()
 
 
@@ -194,7 +193,7 @@ def aksi_pengaturan():
                 print(" "*23 + '|' + '[ DAFTAR AKUN ADMIN ]'.center(38) + '|')
                 print(" "*23 + '+' + '='*38 + '+')
                 data_admin,halaman_sekarang,halaman_total = list_data(cari_keyword,halaman_sekarang,halaman_total)
-                if len(data_admin[1:]) < 1:
+                if len(data_admin) < 1:
                     print('+' + '='*60 + '+')
                     print('|' + '[ DATA NOT FOUND ]'.center(60) + '|')
                     print('|' + 'Klik ENTER untuk melanjutkan!'.center(60) + '|')

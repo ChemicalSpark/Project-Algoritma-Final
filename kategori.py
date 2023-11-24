@@ -84,34 +84,31 @@ def perbarui_baris_kategori(id, kat):
 def hapus_kategori(delete):
     data = core.baca_csv(nama_file)
     nomor_urut = 0
-    nomor = []
+    array = []
     for baris in data:
         if baris[0] != 'ID':
-            nomor.append(baris)
+            array.append(baris)
             nomor_urut += 1
 
-    if 1 <= delete <= len(nomor):
-        print('-'*57)
-        print(f'| ID\t  : {nomor[delete - 1][0]}')
-        print(f'| Kategori: {nomor[delete - 1][1]}')     
-        print('-'*57)
+    if len(array) >= delete >= 1:
+        print(f'| ID: {array[delete - 1][0]}')
+        print(f'| Kategori: {array[delete - 1][1]}')
         user = input('| Apakah anda ingin menghapus data diatas?(y/n) ')
         if user.lower() == 'y':
-            data.remove(nomor[delete - 1])
+            data.remove(array[delete - 1])
             with open(nama_file, 'w', newline="") as file:
                 write = csv.writer(file)
                 write.writerows(data)
-                print('+' + '='*83 + '+')
-                print('|' + '[ NOTICE ]'.center(83) + '|')
-                print('|' + 'Data berhasil dihapus'.center(83) + '|')
-                print('|' + 'Klik ENTER untuk melanjutkan!'.center(83) + '|')
-                print('+' + '='*83 + '+')
+                print('+' + '='*40 + '+')
+                print('|' + '[ DATA BERHASIL DIHAPUS ]'.center(40) + '|')
+                print('|' + 'Klik ENTER untuk melanjutkan!'.center(40) + '|')
+                print('+' + '='*40 + '+')
                 enter  = input()
         else:
-            print('+' + '='*83 + '+')
-            print('|' + '[ DATA GAGAL DIHAPUS ]'.center(83) + '|')
-            print('|' + 'Klik ENTER untuk melanjutkan!'.center(83) + '|')
-            print('+' + '='*83 + '+')
+            print('+' + '='*40 + '+')
+            print('|' + '[ DATA BATAL DIHAPUS ]'.center(40) + '|')
+            print('|' + 'Klik ENTER untuk melanjutkan!'.center(40) + '|')
+            print('+' + '='*40 + '+')
             enter  = input()
 
 # main kategori

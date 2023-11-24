@@ -82,20 +82,20 @@ def perbarui_baris_peminjam(id, nama, nim, telp):
 def hapus_baris_peminjam(delete):
     data = core.baca_csv(nama_file)
     nomor_urut = 0
-    nomor = []
+    array = []
     for baris in data:
         if baris[0] != 'ID':
-            nomor.append(baris)
+            array.append(baris)
             nomor_urut += 1
 
-    if 1 <= delete <= len(nomor):
-        print(f'| ID: {nomor[delete - 1][0]}')
-        print(f'| Nama: {nomor[delete - 1][1]}')
-        print(f'| NIM: {nomor[delete - 1][2]}')
-        print(f'| Nomor Telepon: {nomor[delete - 1][3]}')     
+    if len(array) >= delete >= 1:
+        print(f'| ID: {array[delete - 1][0]}')
+        print(f'| Nama: {array[delete - 1][1]}')
+        print(f'| NIM: {array[delete - 1][2]}')
+        print(f'| Nomor Telepon: {array[delete - 1][3]}')     
         user = input('| Apakah anda ingin menghapus data diatas?(y/n) ')
         if user.lower() == 'y':
-            data.remove(nomor[delete - 1])
+            data.remove(array[delete - 1])
             with open(nama_file, 'w', newline="") as file:
                 write = csv.writer(file)
                 write.writerows(data)
@@ -147,7 +147,7 @@ def aksi_peminjam():
                     print(" "*12 + '+' + '='*60 + '+')
                     data_peminjam,halaman_sekarang,halaman_total = baca_baris_peminjam(cari_keyword,halaman_sekarang,halaman_total)
 
-                    if len(data_peminjam[1:]) < 1:
+                    if len(data_peminjam) < 1:
                         print('+' + '='*60 + '+')
                         print('|' + '[ DATA NOT FOUND ]'.center(60) + '|')
                         print('|' + 'Klik ENTER untuk melanjutkan!'.center(60) + '|')
