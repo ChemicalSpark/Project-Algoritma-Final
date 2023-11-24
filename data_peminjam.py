@@ -163,6 +163,8 @@ def aksi_peminjam():
                             halaman_sekarang += 1
                         elif pilihan == "9":
                             break
+                        elif pilihan == "0":
+                            exit()
                         else:
                             continue
                     # print('+' + '='*60 + '+')
