@@ -45,11 +45,11 @@ def dtframe_buku(cari_keyword='',halaman_sekarang=1,halaman_total=1):
         i += 1
     # if len(data_buku) == 11:
     # membuat data frame dengan data buku dimulai dari index (me skip header)
-    data_buku,halaman_total = core.pagination(daftar_buku,halaman_limit,halaman_sekarang)
-    df = pd.DataFrame(data_buku[1:], columns=["No", "Nama", "Kategori", "Penulis", "Penerbit", "Jumlah"])
+    data_buku,halaman_total = core.pagination(data_buku[1:],halaman_limit,halaman_sekarang)
+    df = pd.DataFrame(data_buku, columns=["No", "Nama", "Kategori", "Penulis", "Penerbit", "Jumlah"])
 
     # untuk mengabaikan index bawaan pandas
-    if len(data_buku[1:]) < 1:
+    if len(data_buku) < 1:
         output = "* Data Kosong *"
     else:
         output = df.to_string(index=False)
@@ -143,7 +143,7 @@ def update_buku():
     kondisi = True
     while kondisi == True:
         nilai = 0
-        input_judul = input('| Masukkan judul buku : ')
+        input_judul = input('| Masukkan judul buku : ').strip().title()
         for i in baca_buku:
             if i[2]==input_judul:
                 print('rincian :')
@@ -216,7 +216,7 @@ def hapus_buku():
     while kondisi == True :
         nilai = 0
         index_hapus = 0
-        input_judul = input('| Masukkan judul : ')
+        input_judul = input('| Masukkan judul : ').strip().title()
         for i in data_buku:
             if i[2] == input_judul:
                 print('rincian :')

@@ -4,6 +4,6 @@
 |/                               [1] Buat Peminjaman Baru                          \| 
 |                                [2] Update Peminjaman                              |
 |                                [3] Hapus Peminjaman                               |
-|                                [4] Kembali                                        |
+|                                [9] Kembali                                        |
 |\                               [0] Keluar                                        /|
 +-----------------------------------------------------------------------------------+

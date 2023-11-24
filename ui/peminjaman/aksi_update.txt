@@ -4,6 +4,6 @@
 |/                               [1] Pilih Peminjaman                              \| 
 |                                [2] Pindah Halaman Ke kiri                         |
 |                                [3] Pindah Halaman Ke kanan                        |
-|                                [4] Kembali                                        |
+|                                [9] Kembali                                        |
 |\                               [0] Keluar                                        /|
 +-----------------------------------------------------------------------------------+

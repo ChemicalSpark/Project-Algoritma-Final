@@ -112,25 +112,21 @@ Masukkan password yang berisi:
     enter = input()  
 
 def list_data(cari_keyword,halaman_sekarang=1,halaman_total=1):
-    # data_admin = load_data()
-    # df = pd.DataFrame(data_admin, columns=["ID", "Username", "Password"])
-    # print(df.to_string(index=False))
     admin = core.baca_csv(user_file)
     halaman_limit = 5
     if len(cari_keyword) > 0:
         admin = core.cari_list(admin,cari_keyword,1)
         halaman_sekarang = 1
-    data_admin = [['No','Username','Password']]
+    data_admin = [['No','Username']]
     i = 1
     for baris in admin:
         if baris[0] == 'ID':
             continue
         username = baris[1]
-        password = baris[2]
-        data_admin.append([i,username,password])
+        data_admin.append([i,username])
         i += 1
     data_admin,halaman_total = core.pagination(data_admin[1:],halaman_limit,halaman_sekarang)
-    df = pd.DataFrame(data_admin, columns=['No','Username','Password'])
+    df = pd.DataFrame(data_admin, columns=['No','Username'])
     output = df.to_string(index=False)
     if len(data_admin) < 1:
         output = "* Data Kosong *"
@@ -139,30 +135,14 @@ def list_data(cari_keyword,halaman_sekarang=1,halaman_total=1):
     if "\n" in output:
         lines = output.split("\n")
         for i in lines:
-            hasil += " " * 31 + i + "\n"
+            hasil += " " * 35 + i + "\n"
     else:
-        hasil += " " * 31 + output + "\n"
+        hasil += " " * 35 + output + "\n"
     print(hasil)
     print('\n' , " "*36 + f'page {halaman_sekarang} to {halaman_total}')
     return data_admin,halaman_sekarang,halaman_total
 
 def hapus_akun(id_to_delete):
-    # data_admin = load_data()
-
-    # found = False
-    # for admin in data_admin:
-    #     if admin[0] == id_to_delete:
-    #         data_admin.remove(admin)
-    #         found = True
-    #         break
-
-    # if found:
-    #     save_data(data_admin)
-    #     print(f"Akun dengan ID {id_to_delete} berhasil dihapus.")
-    #     enter = input('Klik ENTER untuk melanjutkan')
-    # else:
-    #     print(f"Akun dengan ID {id_to_delete} tidak ditemukan.")    
-    #     enter = input('Klik ENTER untuk melanjutkan')
     data = core.baca_csv(user_file)
     nomor_urut = 0
     nomor = []
@@ -176,7 +156,7 @@ def hapus_akun(id_to_delete):
         print(f'Username: {nomor[id_to_delete - 1][1]}')   
         print(f'Password: {nomor[id_to_delete - 1][2]}')  
         user = input('Apakah anda ingin menghapus data diatas?(y/n) ')
-        if user == 'y' or user == 'Y':
+        if user.lower() == 'y':
             data.remove(nomor[id_to_delete - 1])
             with open(user_file, 'w', newline="") as file:
                 write = csv.writer(file)
@@ -235,29 +215,7 @@ def aksi_pengaturan():
                         exit()
                     else:
                         continue 
-                # print('+' + '='*38 + '+')
-                # print('|' + '[ NOTICE ]'.center(38) + '|')
-                # print('|' + 'Klik ENTER untuk melanjutkan!'.center(38) + '|')
-                # print('+' + '='*38 + '+')
-                # enter = input()
         elif pilihan == '3':
-            # core.clear()
-            # print("Data saat ini:")
-            # list_data()
-            # id_to_delete = input('Masukkan ID admin yang akan dihapus: ')
-            # if id_to_delete:
-            #     user = input('Apakah anda ingin menghapus data diatas?(y/n) ')
-            #     if user == 'y':
-            #         hapus_akun(id_to_delete)
-            #     else:
-            #         print('Data batal dihapus')
-            #         enter  = input("Klik ENTER untuk meneruskan")
-            # else:
-            #     print('+' + '='*36 + '+')
-            #     print('|' + '[ DATA NOT FOUND ]'.center(36) + '|')
-            #     print('|' + 'Klik ENTER untuk melanjutkan!'.center(36) + '|')
-            #     print('+' + '='*36 + '+')
-            #     enter  = input()
             while True:
                 core.clear()
                 print(" "*23 + '+' + '='*38 + '+')

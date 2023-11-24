@@ -1,12 +1,12 @@
 id,id_kategori,judul,penulis,penerbit,isbn,jumlah
-5,6,Sapi Terbang,fauzan,unej media,0856-0668,0
-6,1,dongeng bakso sapi,ozi S.Pdf,PT. Kunci Ilmu,0856-0668-9642,7
-7,4,fakta luar angkasa,prof. thobiq,thobiq media,3839382-999-9,9
+5,6,Sapi Terbang,fauzan,unej media,0856-0668,6
+6,1,Dongeng Bakso Sapi,ozi S.Pdf,PT. Kunci Ilmu,0856-0668-9642,7
+7,4,Fakta Luar Angkasa,prof. thobiq,thobiq media,3839382-999-9,9
 8,1,One Piece,Eiichiro Oda,Elex Media,0942454-35352,100
-9,3,Hyouka,Yonezawa Honobu,Haru Group,078952-35255,6
+9,3,Hyouka,Yonezawa Honobu,Haru Group,078952-35255,7
 10,1,The Promised Neverland,Kaiu Shirai / Posuka Demizu,Elex Media,05454-67886,30
 13,3,Bumi,Tere Liye,Gramedia Pustaka Utama,983042-42242,10
 14,3,Bulan,Tere Liye,Gramedia Pustaka Utama,98303-2319,5
-15,6,Kamus Besar Bahasa Arab Jepang,Gus Mullet,Anomaly Media,177018-21212,1
+15,6,Kamus Besar Bahasa Arab Jepang,Gus Mullet,Anomaly Media,177018-21212,0
 16,8,Sebuah Seni Untuk Bersikap Bodo Amat,Mark Mason,Grasindo,03230-43425,10
 17,2,Testing aja si,Rangga-kun,UNEJ,1212,2

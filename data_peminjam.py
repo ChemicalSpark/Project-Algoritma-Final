@@ -183,6 +183,8 @@ def aksi_peminjam():
                     print(" "*12 + '|' + '[ DAFTAR DATA PEMINJAM ]'.center(60) + '|')
                     print(" "*12 + '+' + '='*60 + '+')
                     data_peminjam,halaman_sekarang,halaman_total = baca_baris_peminjam(cari_keyword,halaman_sekarang,halaman_total)
+                    with open('ui/page.txt','r') as page:
+                        print(page.read())
                     pilihan = input('| Pilihlah sesuai nomor diatas: ')
                     if pilihan == "1" and halaman_sekarang > 1:
                         halaman_sekarang -= 1
