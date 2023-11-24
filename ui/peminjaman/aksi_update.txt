@@ -2,8 +2,8 @@
                                   _________________                                   
 .________________________________/   PEMINJAMAN    \________________________________.
 |/                               [1] Pilih Peminjaman                              \| 
-|                                [2] Pindah Halaman Ke kiri                         |
-|                                [3] Pindah Halaman Ke kanan                        |
+|                                [2] Pindah Ke Halaman Sebelumnya                   |
+|                                [3] Pindah Ke Halaman Selanjutnya                  |
 |                                [9] Kembali                                        |
 |\                               [0] Keluar                                        /|
 +-----------------------------------------------------------------------------------+

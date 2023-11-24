@@ -24,13 +24,14 @@ def tambah_ke_csv(nama_file, data_baru):
         csv_writer.writerow(data_baru)
 
 # menulis data baru ke baris index 
-# nilai argumen harus list contoh : 
+# nilai argumen harus list contoh : ['2', 'Fauzan', '232410102011', '0888888888']
 def perbarui_baris_csv(nama_file, indeks_baris, data_baris_baru):
     data = baca_csv(nama_file)
     data[indeks_baris] = data_baris_baru
     tulis_csv(nama_file, data) #menimpa seluruh data 
 
 
+# menghapus baris csv menggunakan index baris 
 def hapus_baris_csv(nama_file, indeks_baris):
     data = baca_csv(nama_file)
     if 0 <= indeks_baris < len(data): # mengecek jika target index baris harus ada di data
@@ -58,59 +59,65 @@ def cari_id_list(data, nilai_id):
     return cari_list(data, nilai_id, 0, True)
 
 
-# adalaha fungsi search untuk list, yang dimana mengiterasi kolom setiap baris,
-# disini memiliki 2 mode, strict (ketat) apa tidak, yang dimana ketat harus sama persis 
+# adalah fungsi search untuk list, yang dimana mengiterasi kolom setiap baris,
+# disini memiliki 2 mode, strict (ketat) apa tidak, yang dimana ketat harus sama persis ( == )
 # yang dicari (cocok untuk mencari id) (yang dimana merupaan 2 perbandingan string), 
 # jika non strict digunakan untuk mencari jika kolom memiliki karakter yang bersangkutan
 def cari_list(data, nilai, index_kolom:int, strict = False):
     hasil = []
     for i in data:
         # print(type(i[index_kolom]))
-        if (type(i[index_kolom]) != type(nilai)):
+        if (type(i[index_kolom]) != type(nilai)): # mengecek jika perbandingan 
             print("Warning : Perbandingan memiliki tipe data yang berbeda\nmeloncati baris")
             continue
         if (strict == True):
             if (nilai == i[index_kolom]):
                 hasil.append(i)
                 break
-        elif (strict == False):
+        elif (strict == False): # jika mode strict
             if (nilai in i[index_kolom]) and (strict == False):
                 hasil.append(i)
 
     return hasil
 
-
+# adalah singkatan dari dump die, yang dimana merupakan fungsi untuk menampilkan isi variable dan mematikan 
 def dd(data):
     print(data)
     exit()
-    
+
+
+# memecah data menjadi beberapa halaman
+# limit : berguna sebagai batas jumlah data per halaman
+# offset : dipakai untuk mengambil data dari target halaman
 def pagination(data, limit, offset):
-    hasil = [[]]  # Indeks 0 berisi array kosong
-    index = 1 # merepresentasikan halaman yang akan disi data 
+    hasil = [[]]  # Indeks 0 berisi array kosong untuk dummy, karena kelemahan list tidak boleh ada index 
+    index = 1 # merepresentasikan halaman yang akan disi data (target halaman)
     count = 0 # menghitung jumlah data yang di masukan ke halaman
 
     
     for i in data: # iterasi data ke per baris
-        if count == limit:
+        if count == limit: # jika perhitungan jumlah data perbaris sama dengan limit (batas data per halaman)
             count = 0 # mengeset perhitungan data per halaman kembali ke no
             index += 1 # pindah halaman selanjutnya (mengubah target)
             hasil.append([])  # naambah array kosong untuk indeks berikutnya
         
-        if not check_jika_index(hasil, index): # mengecek jika target tidak ada
+        if not check_jika_index_ada(hasil, index): # mengecek jika target tidak ada
             hasil.append([])  # naambah array kosong untuk indeks berikutnya
             
         hasil[index].append(i) #menambahkan data ke target
         
-        count += 1
+        count += 1 # menambahkan perhitungan jumlah data ke perhalaman
 
-    total_halaman = len(hasil) - 1
+    total_halaman = len(hasil) - 1 # dipakai untuk menghitung 
 
-
+    # mengecek jika target halaman tidak ada
+    if not check_jika_index_ada(hasil, offset):
+        return [], 1
 
     return hasil[offset], total_halaman  # Mengembalikan hasil dan jumlah indeks
 
-
-def check_jika_index(data_list, index):
+# fungsi ini untuk mengecek jika index di list ada
+def check_jika_index_ada(data_list, index):
     try:
         data_list[index]
     except IndexError:
@@ -121,11 +128,11 @@ def check_jika_index(data_list, index):
 # print(pagination(data, 1, 0))
 
     
-    
+# fungsi untuk clear console untuk bisa berfungsi di 2 tipe Sistem operasi
 def clear():
-    if os.name == 'posix':
+    if os.name == 'posix': # jika os tipe unix
         os.system('clear')
-    elif os.name == 'nt':
+    elif os.name == 'nt': # jika os tipe windows
         os.system('cls')
     else:
         print("Sistem operasi tidak didukung.")

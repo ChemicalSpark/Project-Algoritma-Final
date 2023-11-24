@@ -56,12 +56,8 @@ def baca_baris_peminjam(cari_keyword='',halaman_sekarang=1,halaman_total=1):
         output = df.to_string(index=False)
 
     hasil = ""
-    if "\n" in output:
-        lines = output.split("\n")
-        for i in lines:
-            hasil += " " * 15 + i + "\n"
-    else:
-        hasil += " " * 15 + output + "\n"
+    for i in output.split("\n"):
+        hasil += " "*15 + i + "\n" 
     print(hasil)
 
     print(" "*36 + f'page {halaman_sekarang} to {halaman_total}')
@@ -163,6 +159,8 @@ def aksi_peminjam():
                             halaman_sekarang += 1
                         elif pilihan == "9":
                             break
+                        elif pilihan == "0":
+                            exit()
                         else:
                             continue
                     # print('+' + '='*60 + '+')
