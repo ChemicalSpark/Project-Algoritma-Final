@@ -130,7 +130,7 @@ def aksi_kategori():
                 while True:
                     core.clear()
                     loop = input('Apakah anda ingin menambahkan kategori?(y/n): ')
-                    if loop == 'y':
+                    if loop.lower() == 'y':
                         print('+' + '='*83 + '+')
                         print('|' + '[ NOTICE ]'.center(83) + '|')
                         print('|' + 'Masukkan kategori baru!'.center(83) + '|')
@@ -145,7 +145,7 @@ def aksi_kategori():
                             print('|' + 'Klik ENTER untuk melanjutkan!'.center(83) + '|')
                             print('+' + '='*83 + '+')
                             enter  = input()
-                    elif loop == 'n':
+                    elif loop.lower() == 'n':
                         break
                     else:
                         continue

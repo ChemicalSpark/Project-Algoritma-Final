@@ -127,12 +127,12 @@ def aksi_peminjam():
                 while True:
                     core.clear()
                     loop = input('| Apakah anda ingin menambahkan peminjam?(y/n): ')
-                    if loop == 'y':
+                    if loop.lower() == 'y':
                         nama = input("| Masukkan Nama: ")
                         nim = input("| Masukkan NIM: ")
                         telp = input("| Masukkan Nomor Telepon: ")
                         if nama and nim and telp:
-                            tambah_baris_peminjam(nama, nim, telp) 
+                            tambah_baris_peminjam(nama.strip().title(), nim, telp) 
                             enter  = input() 
                             continue
                         else:
@@ -142,7 +142,7 @@ def aksi_peminjam():
                             print('+' + '='*40 + '+')
                             enter  = input()
                             continue
-                    elif loop == 'n':
+                    elif loop.lower() == 'n':
                         break
                     else:
                         continue
@@ -205,25 +205,24 @@ def aksi_peminjam():
                             if 1 <= update <= len(nomor):
                                 id = nomor[update - 1][0]
                                 data = core.cari_id_list(core.baca_csv(nama_file),id)
-                                if data:
-                                    print("Nama lama :", data[0][1])
-                                    nama_baru = input("Masukkan Nama yang baru : ")
-                                    nama = nama_baru if nama_baru else data[0][1]
-                                    
-                                    print("NIM lama :", data[0][2])
-                                    nim_baru = input("Masukkan NIM yang baru : ")
-                                    nim = nim_baru if nim_baru else data[0][2]
-                                    
-                                    print("Nomor Telepon lama :", data[0][3])
-                                    telp_baru = input("Masukkan Nomor Telepon yang baru : ")
-                                    telp = telp_baru if telp_baru else data[0][3]
-                                    perbarui_baris_peminjam(id, nama, nim, telp)
-                                    print('+' + '='*60 + '+') 
-                                    print('|' + '[ NOTICE ]'.center(60) + '|')
-                                    print('|' + 'Data Berhasil diperbaharui'.center(60) + '|')
-                                    print('|' + 'Klik ENTER untuk meneruskan'.center(60) + '|')
-                                    print('+' + '='*60 + '+')
-                                    enter  = input()
+                                print("Nama lama :", data[0][1])
+                                nama_baru = input("Masukkan Nama yang baru : ").strip().title()
+                                nama = nama_baru if nama_baru else data[0][1]
+                                
+                                print("NIM lama :", data[0][2])
+                                nim_baru = input("Masukkan NIM yang baru : ")
+                                nim = nim_baru if nim_baru else data[0][2]
+                                
+                                print("Nomor Telepon lama :", data[0][3])
+                                telp_baru = input("Masukkan Nomor Telepon yang baru : ")
+                                telp = telp_baru if telp_baru else data[0][3]
+                                perbarui_baris_peminjam(id, nama, nim, telp)
+                                print('+' + '='*60 + '+') 
+                                print('|' + '[ NOTICE ]'.center(60) + '|')
+                                print('|' + 'Data Berhasil diperbaharui'.center(60) + '|')
+                                print('|' + 'Klik ENTER untuk meneruskan'.center(60) + '|')
+                                print('+' + '='*60 + '+')
+                                enter  = input()
 
                             else:
                                 print('+' + '='*60 + '+')
