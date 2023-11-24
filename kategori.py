@@ -33,13 +33,19 @@ def list_kategori(cari_keyword='',halaman_sekarang=1,halaman_total=1):
     else:
         output = df.to_string(index=False)
 
+    # hasil = ""
+    # if "\n" in output:
+    #     lines = output.split("\n")
+    #     for i in lines:
+    #         hasil += " " * 35 + i + "\n"
+    # else:
+    #     hasil += " " * 35 + output + "\n"
+
     hasil = ""
-    if "\n" in output:
-        lines = output.split("\n")
-        for i in lines:
-            hasil += " " * 35 + i + "\n"
-    else:
-        hasil += " " * 35 + output + "\n"
+    for i in output.split("\n"):
+        hasil += " "*35 + i + "\n"
+    
+
     print(hasil)
 
     print(" "*36 + f'page {halaman_sekarang} to {halaman_total}')
