@@ -13,10 +13,10 @@ def list_kategori(cari_keyword='',halaman_sekarang=1,halaman_total=1):
     kategori_file = core.baca_csv(nama_file)[1:]
     halaman_limit = 10
     
-    if len(cari_keyword) > 1:
+    data_kategori = [['No,','kategori']]
+    if len(cari_keyword) > 0:
         kategori_file = core.cari_list(kategori_file,cari_keyword,1)
         halaman_sekarang = 1
-    data_kategori = []
     i = 1
     for baris in kategori_file:
         if baris[0] == 'ID':
@@ -25,7 +25,7 @@ def list_kategori(cari_keyword='',halaman_sekarang=1,halaman_total=1):
         data_kategori.append([i,kategori])
         i += 1
 
-    data_kategori, halaman_total = core.pagination(data_kategori,halaman_limit,halaman_sekarang)
+    data_kategori, halaman_total = core.pagination(data_kategori[1:],halaman_limit,halaman_sekarang)
     df = pd.DataFrame(data_kategori,columns=['No','Kategori'])
     if len(data_kategori) < 1:
         output = "* Data Kosong *"
@@ -96,7 +96,7 @@ def hapus_kategori(delete):
         print(f'| Kategori: {nomor[delete - 1][1]}')     
         print('-'*57)
         user = input('| Apakah anda ingin menghapus data diatas?(y/n) ')
-        if user == 'y' or user == 'Y':
+        if user.lower() == 'y':
             data.remove(nomor[delete - 1])
             with open(nama_file, 'w', newline="") as file:
                 write = csv.writer(file)
@@ -127,28 +127,21 @@ def aksi_kategori():
         user = input("| Pilihan: ")
         match user:
             case '1':
-                while True:
-                    core.clear()
-                    loop = input('Apakah anda ingin menambahkan kategori?(y/n): ')
-                    if loop.lower() == 'y':
-                        print('+' + '='*83 + '+')
-                        print('|' + '[ NOTICE ]'.center(83) + '|')
-                        print('|' + 'Masukkan kategori baru!'.center(83) + '|')
-                        print('+' + '='*83 + '+')
-                        user = input("| Kategori: ")
-                        if user:
-                            tambah_kategori(user.strip().title())
-                            enter = input()
-                        else:
-                            print('+' + '='*83 + '+')
-                            print('|' + '[ INPUT ERROR ]'.center(83) + '|')
-                            print('|' + 'Klik ENTER untuk melanjutkan!'.center(83) + '|')
-                            print('+' + '='*83 + '+')
-                            enter  = input()
-                    elif loop.lower() == 'n':
-                        break
-                    else:
-                        continue
+                core.clear()
+                print('+' + '='*83 + '+')
+                print('|' + '[ NOTICE ]'.center(83) + '|')
+                print('|' + 'Masukkan kategori baru!'.center(83) + '|')
+                print('+' + '='*83 + '+')
+                user = input("| Kategori: ")
+                if user:
+                    tambah_kategori(user.strip().title())
+                    enter = input()
+                else:
+                    print('+' + '='*83 + '+')
+                    print('|' + '[ INPUT ERROR ]'.center(83) + '|')
+                    print('|' + 'Klik ENTER untuk melanjutkan!'.center(83) + '|')
+                    print('+' + '='*83 + '+')
+                    enter  = input()
             case '2':
                 while True:
                     core.clear()
@@ -275,12 +268,14 @@ def aksi_kategori():
                         user = input("\n| Pilih data yang akan dihapus: ")
                         if user.isdigit():
                             hapus_kategori(int(user))
+                            continue
                         else:
                             print('+' + '='*55 + '+')
                             print('|' + '[ DATA NOT FOUND ]'.center(55) + '|')
                             print('|' + 'Klik ENTER untuk melanjutkan!'.center(55) + '|')
                             print('+' + '='*55 + '+')
                             enter  = input()
+                            continue
                     elif pilihan == '9':
                         break
                     elif pilihan == '0':

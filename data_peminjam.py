@@ -32,7 +32,7 @@ def tambah_baris_peminjam(nama, nim, telp):
 #fungsi untuk membaca data_peminjam dan memberikan pagination 
 def baca_baris_peminjam(cari_keyword='',halaman_sekarang=1,halaman_total=1):
     peminjam = core.baca_csv(nama_file)[1:]
-    halaman_limit = 5
+    halaman_limit = 7
     
     data_peminjam = [['No','Nama','NIM','Nomor Telepon']]
     if len(cari_keyword) > 0:
@@ -124,28 +124,21 @@ def aksi_peminjam():
         pilih = input("| Pilihan: ")
         match pilih:
             case '1':
-                while True:
-                    core.clear()
-                    loop = input('| Apakah anda ingin menambahkan peminjam?(y/n): ')
-                    if loop.lower() == 'y':
-                        nama = input("| Masukkan Nama: ")
-                        nim = input("| Masukkan NIM: ")
-                        telp = input("| Masukkan Nomor Telepon: ")
-                        if nama and nim and telp:
-                            tambah_baris_peminjam(nama.strip().title(), nim, telp) 
-                            enter  = input() 
-                            continue
-                        else:
-                            print('+' + '='*40 + '+')
-                            print('|' + '[ INPUT TIDAK LENGKAP ]'.center(40) + '|')
-                            print('|' + 'Klik ENTER untuk melanjutkan!'.center(40) + '|')
-                            print('+' + '='*40 + '+')
-                            enter  = input()
-                            continue
-                    elif loop.lower() == 'n':
-                        break
-                    else:
-                        continue
+                core.clear()
+                nama = input("| Masukkan Nama: ")
+                nim = input("| Masukkan NIM: ")
+                telp = input("| Masukkan Nomor Telepon: ")
+                if nama and nim and telp:
+                    tambah_baris_peminjam(nama.strip().title(), nim, telp) 
+                    enter  = input() 
+                    continue
+                else:
+                    print('+' + '='*40 + '+')
+                    print('|' + '[ INPUT TIDAK LENGKAP ]'.center(40) + '|')
+                    print('|' + 'Klik ENTER untuk melanjutkan!'.center(40) + '|')
+                    print('+' + '='*40 + '+')
+                    enter  = input()
+                    continue
             case '2':
                 while True:
                     core.clear()
