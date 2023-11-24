@@ -1,4 +1,3 @@
-                      [ Silahkan Pilih Operasi yang anda inginkan ]
                                   _________________
 .________________________________/   PEMINJAMAN    \________________________________.
 |/                               [1] Buat Peminjaman Baru                          \| 
@@ -7,3 +6,4 @@
 |                                [9] Kembali                                        |
 |\                               [0] Keluar                                        /|
 +-----------------------------------------------------------------------------------+
+                      [ Silahkan Pilih Operasi yang anda inginkan ]

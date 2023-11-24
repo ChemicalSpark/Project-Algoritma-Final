@@ -111,12 +111,14 @@ Masukkan password yang berisi:
     print('+' + '='*39 + '+')
     enter = input()  
 
-def list_data(cari_keyword,halaman_sekarang=1,halaman_total=1):
+def list_data(cari_keyword="",halaman_sekarang=1,halaman_total=1):
     admin = core.baca_csv(user_file)
     halaman_limit = 5
+    #masih belum digunakan karena search belum ada
     if len(cari_keyword) > 0:
         admin = core.cari_list(admin,cari_keyword,1)
         halaman_sekarang = 1
+        
     data_admin = [['No','Username']]
     i = 1
     for baris in admin:
@@ -132,12 +134,9 @@ def list_data(cari_keyword,halaman_sekarang=1,halaman_total=1):
         output = "* Data Kosong *"
         
     hasil = ""
-    if "\n" in output:
-        lines = output.split("\n")
-        for i in lines:
-            hasil += " " * 35 + i + "\n"
-    else:
-        hasil += " " * 35 + output + "\n"
+    for i in output.split("\n"):
+        hasil += " "*35 + i + "\n"
+    
     print(hasil)
     print('\n' , " "*36 + f'page {halaman_sekarang} to {halaman_total}')
     return data_admin,halaman_sekarang,halaman_total
