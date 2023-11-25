@@ -12,23 +12,6 @@ limit_per_page = 10
 
 denda_perhari = 1000
 
-# UNTUK BAGIAN JALUR NAMBAH PEMINJAMAN SETELAH
-
-# def tambah_peminjam():
-#     nama = input("Masukkan Nama: ")
-#     no = input("Masukkan NIM: ")
-#     telp = input("Masukkan Nomor Telepon: ")
-#     id_peminjam_baru = pnjm.tambah_baris_peminjam(nama, no, telp)
-#     print("Data telah ditambahkan."+'\n')
-#     while True:
-#         pilihan = input("Apakah anda ingin langsung memilih Peminjam ini (y/n) ? : ").lower()
-#         if pilihan == "y":
-#             input_tambah_peminjaman(id_peminjam_baru)
-#             break
-#         elif pilihan == "n":
-#             break
-#         else:
-#             print("Input tidak valid, hanya menerima 'y' atau 'n' saja!")
 
 def validasi_tanggal(tanggal_string):
     try:
@@ -88,7 +71,6 @@ def input_update_peminjaman(id_peminjaman):
     
     match (status):
         case "Belum Dikembalikan":
-            while True:
                 pilihan = input("Apakah anda ingin mengubah status pengembalian buku (y/n) ? : ").lower()
                 if pilihan == "y":
                     data_peminjaman[5] = "dikembalikan"
@@ -98,8 +80,6 @@ def input_update_peminjaman(id_peminjaman):
                     update_kuantitas_buku(id_buku, "menambah")
                     print("Kuantitas Buku telah Ditambahkan")
                     input("Tekan Enter Untuk Kembali...")
-                    break
-
         case "Telat":
                 denda = jumlah_tenggat_hari * denda_perhari
 
@@ -109,21 +89,17 @@ def input_update_peminjaman(id_peminjaman):
                 print("Jumlah Telat Hari:", jumlah_tenggat_hari)
                 print("Denda : ", denda)
                 print("denda = jumlah_tenggat_hari * denda_perhari")
-                while True:
-                    pilihan = input("Apakah anda ingin mengubah status pengembalian buku (y/n) ? : ").lower()
-                    if pilihan.lower() == "y":
-                        data_peminjaman[5] = "dikembalikan"
-                        data_peminjaman[7] = today.strftime("%d/%m/%Y")
-                        core.perbarui_baris_csv(db_peminjaman, index_baris, data_peminjaman)
-                        print("Data Peminjaman Telah Diupdate!")
-                        update_kuantitas_buku(id_buku, "menambah")
-                        print("Data Kuantitas telah diupdate")
-                        input("Tekan Enter Untuk Kembali...")
-                        break
-                    elif pilihan.lower() == "n":
-                        break
-                    else:
-                        continue
+                
+                pilihan = input("Apakah anda ingin mengubah status pengembalian buku (y/n) ? : ").lower()
+                if pilihan.lower() == "y":
+                    data_peminjaman[5] = "dikembalikan"
+                    data_peminjaman[7] = today.strftime("%d/%m/%Y")
+                    core.perbarui_baris_csv(db_peminjaman, index_baris, data_peminjaman)
+                    print("Data Peminjaman Telah Diupdate!")
+                    update_kuantitas_buku(id_buku, "menambah")
+                    print("Data Kuantitas telah diupdate")
+                    input("Tekan Enter Untuk Kembali...")
+
                         # print("Input tidak valid, hanya menerima 'y' atau 'n' saja!")
         case "Dikembalikan":
             input("Buku Telah Dikembalikan!\nTekan Enter Untuk Kembali...")
@@ -240,15 +216,15 @@ def tampilkan_daftar_buku_dipinjam(current_page=1, total_pages=1, id_peminjam=0)
 
         jumlah_tenggat_hari = (datetime.today() - tgl_tenggat).days
         jumlah_tenggat_hari = jumlah_tenggat_hari if (jumlah_tenggat_hari) > 0 else 0 # bruh
-        tanggal_dikembalikan = datetime.strptime(peminjaman_perbaris[7], "%d/%m/%Y") if peminjaman_perbaris[7] != "belum" else "belum"
+        tanggal_dikembalikan = datetime.strptime(peminjaman_perbaris[7], "%d/%m/%Y").strftime("%d/%b/%Y") if peminjaman_perbaris[7] != "belum" else "belum"
 
         jumlah_denda = (jumlah_tenggat_hari * denda_perhari) if status == "Telat" else 0
 
         data_baris =    [i, 
                         buku[2], 
                         kategori[0][1], 
-                        tgl_dipinjam.strftime("%d/%m/%Y"), 
-                        tgl_tenggat.strftime("%d/%m/%Y"), 
+                        tgl_dipinjam.strftime("%d/%b/%Y"), 
+                        tgl_tenggat.strftime("%d/%b/%Y"), 
                         status, 
                         f"{jumlah_tenggat_hari} Hari", 
                         jumlah_denda, 
@@ -285,7 +261,6 @@ def tampilkan_daftar_buku(search_keyword = "", current_page = 1, total_pages = 1
         current_page = 1
     
     
-    daftar_buku, total_pages = core.pagination(daftar_buku, limit_per_page, current_page)
     daftar_kategori = core.baca_csv(db_kategori)
     
     data_buku = [["No", "Nama", "Kategori", "Penulis", "Penerbit", "ISBN", "Jumlah" , "id"]]
@@ -315,7 +290,9 @@ def tampilkan_daftar_buku(search_keyword = "", current_page = 1, total_pages = 1
 
 
 
-    df = pd.DataFrame(data_buku_tampil[1:], columns=["No", "Nama", "Kategori", "Penulis", "Penerbit", "Jumlah"])
+    data_buku_tampil, total_pages = core.pagination(data_buku_tampil[1:], limit_per_page, current_page)
+    
+    df = pd.DataFrame(data_buku_tampil, columns=["No", "Nama", "Kategori", "Penulis", "Penerbit", "Jumlah"])
 
     # untuk mengabaikan index bawaan pandas
     output = df.to_string(index=False)
@@ -345,7 +322,6 @@ def tampilkan_daftar_peminjam_dan_status(search_keyword = "", current_page = 1, 
         data_peminjam = core.cari_list(data_peminjam, search_keyword, 1)
         current_page = 1
 
-    data_peminjam, total_pages = core.pagination(data_peminjam, limit_per_page, current_page)
     
     
     i = 1
@@ -367,10 +343,11 @@ def tampilkan_daftar_peminjam_dan_status(search_keyword = "", current_page = 1, 
         
         i += 1
         
+    data_tampil, total_pages = core.pagination(data_tampil[1:], limit_per_page, current_page)
     
 
     # membmode == uat dataframe dan me-set kolom custom
-    df = pd.DataFrame(data_tampil[1:], columns=['No.', 'Nama', 'NIM', 'Status'])
+    df = pd.DataFrame(data_tampil, columns=['No.', 'Nama', 'NIM', 'Status'])
 
 
     # untuk mengabaikan index bawaan pandas

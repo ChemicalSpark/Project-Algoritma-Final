@@ -7,6 +7,8 @@ def baca_csv(nama_file):
     with open(nama_file, mode='r', newline='') as file_csv:
         csv_reader = csv.reader(file_csv)
         for baris in csv_reader:
+            if len(baris) < 2:
+                continue
             data.append(baris)
     return data
 
