@@ -42,7 +42,7 @@ def dtframe_buku(cari_keyword='',halaman_sekarang=1,halaman_total=1):
         jumlah = baris[6]
         harga = baris[7]
         
-        data_buku.append([i, nama, nama_kategori, penulis, penerbit, jumlah])
+        data_buku.append([i, nama, nama_kategori, penulis, penerbit, jumlah, harga])
         i += 1
     # if len(data_buku) == 11:
     # membuat data frame dengan data buku dimulai dari index (me skip header)
@@ -95,7 +95,7 @@ def tambah_buku():
         input_penerbit = input('| Masukkan penerbit\t: ')
         input_isbn = input('| Masukkan ISBN\t\t: ')
         input_jumlah = input('| Masukkan jumlah buku\t: ')
-        input_jumlah = input('| Masukkan harga buku\t: ')
+        input_harga = input('| Masukkan harga buku\t: ')
         
         if input_kategori and input_judul and input_penulis and input_penerbit and input_isbn and input_jumlah:
             input_kategori = int(input_kategori)
@@ -126,7 +126,7 @@ def tambah_buku():
                 nomor += 1
         if nomor == len(data_buku):
             nama_file = db_buku
-            new_baris = [id_bk,list_kategori[input_kategori][0],input_judul,input_penulis,input_penerbit,input_isbn,input_jumlah]
+            new_baris = [id_bk,list_kategori[input_kategori][0],input_judul,input_penulis,input_penerbit,input_isbn,input_jumlah, input_harga]
             # data.append(new_baris)
             core.tambah_ke_csv(nama_file, new_baris)
             # with open(db_buku, mode='a', newline='') as tambah_data:
@@ -155,7 +155,7 @@ def update_buku():
                 confirm = input('yakin ingin update data ? y/n :')
                 if confirm == 'y':
                     print('pilih data yang akan diubah :')
-                    print('[1] kategori [2] judul [3] penulis [4] penerbit [5] ISBN [6] jumlah [99] semua')
+                    print('[1] kategori [2] judul [3] penulis [4] penerbit [5] ISBN [6] jumlah [7] harga [99] semua')
                     pilihan = input('masukkan pilihan : ')
                     match pilihan :
                         case '1':
@@ -172,7 +172,9 @@ def update_buku():
                         case '5':
                             i[5] = input('masukkan ISBN baru : ')      
                         case '6':
-                            i[6] = input('masukkan jumlah baru : ')     
+                            i[6] = input('masukkan jumlah baru : ')   
+                        case '7':
+                            i[6] = input('masukkan harga baru : ')    
                         case '99':
                             print('| Pilihan kategori :')
                             print(display_kategori)

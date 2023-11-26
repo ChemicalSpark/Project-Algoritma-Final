@@ -66,13 +66,18 @@ def input_update_peminjaman(id_peminjaman):
     daftar_peminjaman_db = core.baca_csv(db_peminjaman)
     data_peminjaman = core.cari_id_list(daftar_peminjaman_db, id_peminjaman)[0]
     id_buku = data_peminjaman[2]
-    harga_buku = 
+    buku = core.baca_csv(db_buku)
+    buku = core.cari_id_list(buku, id_buku)[0]
+    
+    harga_buku = buku[7]
+    
+    harga_buku = int(harga_buku)
+    
+    denda = 0  
     index_baris = core.cari_index_dengan_id_list(daftar_peminjaman_db, id_peminjaman)
     tgl_tenggat = datetime.strptime(data_peminjaman[4], "%d/%m/%Y")
 
     today = datetime.today()
-
-    denda = 0
 
     jumlah_tenggat_hari = today - tgl_tenggat
     jumlah_tenggat_hari = jumlah_tenggat_hari.days
@@ -80,69 +85,101 @@ def input_update_peminjaman(id_peminjaman):
     
     match (status):
         case "Belum Dikembalikan":
-            pilihan = input("Apakah anda ingin mengubah status pengembalian buku (y/n) ? : ").lower()
-            if pilihan == "y":
-                hilang = input("Apakah buku hilang? (y/n) : ").lower()
-                if hilang == "y":
-                    # Tandai buku sebagai hilang
-                    data_peminjaman[5] = "hilang"
-                    data_peminjaman[7] = today.strftime("%d/%m/%Y")
-                    core.perbarui_baris_csv(db_peminjaman, index_baris, data_peminjaman)
-                    print("Buku Telah Ditandai sebagai Hilang!")
-                    print("===================================")
-                    print
-                    print("Data Peminjaman Telah Diupdate!")
-                    
-                elif "y" == input("Apakah buku mengalami kerusakan? (y/n) : ").lower():           
-                    persen_kerusakan = float(input("Masukkan persentase kerusakan buku (misal 10 untuk 10%): "))
-                    denda += (persen_kerusakan / 100) * denda  # Denda dihitung berdasarkan persentase kerusakan
-                    data_peminjaman[5] = "dikembalikan"
-                    data_peminjaman[7] = today.strftime("%d/%m/%Y")
-                    
-                else:
-                    core.perbarui_baris_csv(db_peminjaman, index_baris, data_peminjaman)
-                    print("Data Peminjaman Telah Diupdate!")
-                    update_kuantitas_buku(id_buku, "menambah")
-                    print("Kuantitas Buku telah Ditambahkan")
-                input("Tekan Enter Untuk Kembali...")
-
-        case "Telat":
-            denda_perhari = 1000  # Ganti dengan nilai denda per hari yang sesuai
-            denda = jumlah_tenggat_hari * denda_perhari
-
-            print("Buku yang dipinjam Telah Tenggat waktu")
-            print("Tanggal Tenggat :", data_peminjaman[4])
-            print("Jumlah Telat Hari:", jumlah_tenggat_hari)
-            print("Denda : ", denda)
 
             hilang = input("Apakah buku hilang? (y/n) : ").lower()
             if hilang == "y":
                 # Tandai buku sebagai hilang
                 data_peminjaman[5] = "hilang"
                 data_peminjaman[7] = today.strftime("%d/%m/%Y")
-                core.perbarui_baris_csv(db_peminjaman, index_baris, data_peminjaman)
-                print("Buku Telah Ditandai sebagai Hilang!")
+                data_peminjaman[6] = harga_buku
+                print("Buku Ditandai sebagai Hilang!")
+                
+                print("===================================")
+                print("Denda Yang harus dibayar : Rp. ", harga_buku)
+                if "y" == input("Apakah anda ingin mengubah status pengembalian buku ini? (y/n) :" ):
+                    core.perbarui_baris_csv(db_peminjaman, index_baris, data_peminjaman)
+                    print("Data Peminjaman Telah Diupdate!")
+                
+            elif "y" == input("Apakah buku mengalami kerusakan? (y/n) : ").lower():           
+                persen_kerusakan = input("Masukkan persentase kerusakan buku (misal 10 untuk 10%): ")
+                if persen_kerusakan.isdigit():
+                    persen_kerusakan = float(persen_kerusakan)
+                    denda += (persen_kerusakan / 100) * harga_buku
+                    data_peminjaman[5] = "dikembalikan"
+                    data_peminjaman[6] = denda
+                    data_peminjaman[7] = today.strftime("%d/%m/%Y")
+                    print("===================================")
+                    print("Denda Yang harus dibayar : Rp. ", denda)
+                    if "y" == input("Apakah anda ingin mengubah status pengembalian buku ini? (y/n) :" ):
+                        core.perbarui_baris_csv(db_peminjaman, index_baris, data_peminjaman)
+                        print("Data Peminjaman Telah Diupdate!")
+                        if "y" == input("Apakah anda ingin menambah kuantitas buku di sistem? (y/n)"):
+                            update_kuantitas_buku(id_buku, "menambah")
+                            print("Kuantitas Buku telah Ditambahkan")
+                else:
+                    print("input harus berupa angka!")
             else:
-                # Pengecekan kerusakan buku
-                kerusakan = input("Apakah buku mengalami kerusakan? (y/n) : ").lower()
-                if kerusakan == "y":
-                    persen_kerusakan = float(input("Masukkan persentase kerusakan buku (misal 10 untuk 10%): "))
-                    denda += (persen_kerusakan / 100) * denda  # Denda dihitung berdasarkan persentase kerusakan
+                if "y" == input("Apakah anda ingin mengubah status pengembalian buku ini? (y/n) :" ):
+                    core.perbarui_baris_csv(db_peminjaman, index_baris, data_peminjaman)
+                    print("Data Peminjaman Telah Diupdate!")
+                    update_kuantitas_buku(id_buku, "menambah")
+                    print("Kuantitas Buku telah Ditambahkan")
+            input("Tekan Enter Untuk Kembali...")
 
-                data_peminjaman[5] = "dikembalikan"
+        case "Telat":
+            denda = jumlah_tenggat_hari * denda_perhari
+
+            print("Buku yang dipinjam Telah Tenggat waktu")
+            print("Tanggal Tenggat :", data_peminjaman[4])
+            print("Jumlah Telat Hari:", jumlah_tenggat_hari)
+            print("Denda Telat : ", denda)
+
+            hilang = input("Apakah buku hilang? (y/n) : ").lower()
+            if hilang == "y":
+                # Tandai buku sebagai hilang
+                denda += denda + harga_buku
+                data_peminjaman[5] = "hilang"
                 data_peminjaman[7] = today.strftime("%d/%m/%Y")
-                core.perbarui_baris_csv(db_peminjaman, index_baris, data_peminjaman)
-                print("Data Peminjaman Telah Diupdate!")
+                data_peminjaman[6] = denda
+                print("Buku Ditandai sebagai Hilang!")
+                
+                print("===================================")
+                print("Denda Hilang : Rp. ", harga_buku)
+                print("Total Denda yang harus dibayar : Rp. " . denda)
+                if "y" == input("Apakah anda ingin mengubah status pengembalian buku ini? (y/n) :" ):
+                    core.perbarui_baris_csv(db_peminjaman, index_baris, data_peminjaman)
+                    print("Data Peminjaman Telah Diupdate!")
+            
 
-                if kerusakan == "y":
-                    print("Denda akibat kerusakan buku : ", (persen_kerusakan / 100) * denda)
+            elif "y" == input("Apakah buku mengalami kerusakan? (y/n) : ").lower():           
+                persen_kerusakan = input("Masukkan persentase kerusakan buku (misal 10 untuk 10%): ")
+                if persen_kerusakan.isdigit():
+                    persen_kerusakan = float(persen_kerusakan)
+                    denda_kerusakan = (persen_kerusakan / 100) * harga_buku 
+                    denda += denda_kerusakan # Denda dihitung berdasarkan persentase kerusakan
 
-                update_kuantitas_buku(id_buku, "menambah")
-                print("Data Kuantitas telah diupdate")
-                input("Tekan Enter Untuk Kembali...")
-
+                    data_peminjaman[5] = "dikembalikan"
+                    data_peminjaman[7] = today.strftime("%d/%m/%Y")
+                    print("===================================")
+                    print("Denda kerusakan : Rp. ", denda_kerusakan)
+                    print("Total Denda yang harus dibayar : Rp. " , denda)
+                    if "y" == input("Apakah anda ingin mengubah status pengembalian buku ini? (y/n) :" ):
+                        core.perbarui_baris_csv(db_peminjaman, index_baris, data_peminjaman)
+                        print("Data Peminjaman Telah Diupdate!")
+                        if "y" == input("Apakah anda ingin menambah kuantitas buku di sistem? (y/n)"):
+                            update_kuantitas_buku(id_buku, "menambah")
+                            print("Kuantitas Buku telah Ditambahkan")
+            else:
+                if "y" == input("Apakah anda ingin mengubah status pengembalian buku ini? (y/n) :" ):
+                    core.perbarui_baris_csv(db_peminjaman, index_baris, data_peminjaman)
+                    print("Data Peminjaman Telah Diupdate!")
+                    update_kuantitas_buku(id_buku, "menambah")
+                    print("Kuantitas Buku telah Ditambahkan")
+            input("Tekan Enter Untuk Kembali...")
         case "Dikembalikan":
             input("Buku Telah Dikembalikan!\nTekan Enter Untuk Kembali...")
+        case "Hilang":
+            input("Peminjman ini telah tuntas!\nTekan Enter Untuk Kembali...")
 
         
     
@@ -239,7 +276,7 @@ def tampilkan_daftar_buku_dipinjam(current_page=1, total_pages=1, id_peminjam=0)
     buku_f = core.baca_csv(db_buku)
     kategori_f = core.baca_csv(db_kategori)
 
-    peminjaman_tampil = [["No", "Judul", "Kategori", "Tgl Dipinjam", "Tenggat", "Status", "Jumlah Telat Hari", "Denda", "Tgl Dikembalikan"]]
+    peminjaman_tampil = [["No", "Judul", "Kategori", "Tgl Dipinjam", "Tenggat", "Status", "Jumlah Telat Hari", "Denda", "Tgl Tuntas/Dikembalikan"]]
     peminjaman = [["No", "Judul", "Kategori", "Tgl Dipinjam", "Tenggat", "Status", "Jumlah Telat Hari", "Denda", "Tgl Dikembalikan", "id"]]
     i = 1
 
@@ -261,7 +298,8 @@ def tampilkan_daftar_buku_dipinjam(current_page=1, total_pages=1, id_peminjam=0)
         jumlah_tenggat_hari = jumlah_tenggat_hari if (jumlah_tenggat_hari) > 0 else 0 # bruh
         tanggal_dikembalikan = datetime.strptime(peminjaman_perbaris[7], "%d/%m/%Y").strftime("%d/%b/%Y") if peminjaman_perbaris[7] != "belum" else "belum"
 
-        jumlah_denda = (jumlah_tenggat_hari * denda_perhari) if status == "Telat" else 0
+        jumlah_denda = (jumlah_tenggat_hari * denda_perhari) if status == "Telat" else peminjaman_perbaris[6]
+        
 
         data_baris =    [i, 
                         buku[2], 
@@ -538,8 +576,6 @@ def cari_status_peminjaman(id_peminjaman):
             return "Belum Dikembalikan"
     elif status == "dikembalikan":
         return "Dikembalikan"
-    elif status == "rusak":
-        return "Rusak"
     elif status == "hilang":
         return "Hilang"
     else:
@@ -592,10 +628,6 @@ def aksi_peminjaman(mode = "tambah"):
                 "Input tidak valid"  
         elif (input_user ==  '2'):
             search_keyword = input("Masukan Nama : ")
-            if search_keyword:
-                continue
-            else:
-                aksi_peminjaman(mode = "tambah")
         elif (input_user ==  '3'):
             pnjm.aksi_peminjam()
         elif (input_user ==  '4') and current_page > 1:
