@@ -27,10 +27,14 @@ def list_kategori(cari_keyword='',halaman_sekarang=1,halaman_total=1):
         i += 1
 
     data_kategori, halaman_total = core.pagination(data_kategori[1:],halaman_limit,halaman_sekarang)
-    df = pd.DataFrame(data_kategori,columns=['No','Kategori'])
+    
     if len(data_kategori) < 1:
         output = "* Data Kosong *"
+    elif "" in kategori_file[len(kategori_file) - 1]:
+        df = pd.DataFrame(data_kategori[:len(data_kategori) - 1],columns=['No','Kategori'])
+        output = df.to_string(index=False)
     else:
+        df = pd.DataFrame(data_kategori,columns=['No','Kategori'])
         output = df.to_string(index=False)
 
     # hasil = ""
@@ -66,6 +70,9 @@ def tambah_kategori(kat):
 
     if len(data) <= 1:
         new_id = 1
+    elif "" in data[len(data) - 1]:
+        new_id = int(data[len(data) - 1][0]) + 1
+        data.remove(data[len(data) - 1])
     else:
         new_id = int(data[len(data) - 1][0]) + 1
 
@@ -102,21 +109,31 @@ def hapus_kategori(delete):
         print(f'| Kategori: {array[delete - 1][1]}')
         user = input('| Apakah anda ingin menghapus data diatas?(y/n) ')
         if user.lower() == 'y':
-            data.remove(array[delete - 1])
-            with open(nama_file, 'w', newline="") as file:
-                write = csv.writer(file)
-                write.writerows(data)
-                print('+' + '='*40 + '+')
-                print('|' + '[ DATA BERHASIL DIHAPUS ]'.center(40) + '|')
-                print('|' + 'Klik ENTER untuk melanjutkan!'.center(40) + '|')
-                print('+' + '='*40 + '+')
-                enter  = input()
+            if delete == len(array):
+                index_id = [array[len(array)-1][0],""]
+                data.remove(array[delete - 1])
+                data.append(index_id)
+                with open(nama_file, 'w', newline="") as file:
+                    write = csv.writer(file)
+                    write.writerows(data)
+
+            else:
+                data.remove(array[delete - 1])
+                with open(nama_file, 'w', newline="") as file:
+                    write = csv.writer(file)
+                    write.writerows(data)
+            print('+' + '='*40 + '+')
+            print('|' + '[ DATA BERHASIL DIHAPUS ]'.center(40) + '|')
+            print('|' + 'Klik ENTER untuk melanjutkan!'.center(40) + '|')
+            print('+' + '='*40 + '+')
+            enter  = input()
         else:
             print('+' + '='*40 + '+')
             print('|' + '[ DATA BATAL DIHAPUS ]'.center(40) + '|')
             print('|' + 'Klik ENTER untuk melanjutkan!'.center(40) + '|')
             print('+' + '='*40 + '+')
             enter  = input()
+
 
 # main kategori
 def aksi_kategori():
