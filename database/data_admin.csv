@@ -1,8 +1,9 @@
-ID,username,password
-1,admin,admin123
-2,rangga,emyu1234
-3,fauzan,Mulet123
-4,thobiq,K0pling
-5,zaky,Celsi123
-8,boshi,nanatsuboshi
-12,safaat,awasjatoh123
+ID,username,password,role
+1,cata libra,akuCRUD123,super admin
+2,rangg,emyu1234,admin
+3,fauzan,Mulet123,admin
+4,thobiq,K0pling,admin
+5,zaky,Celsi123,admin
+8,boshi,nanatsuboshi,admin
+12,safaat,Awasjatoh123,admin
+13,admin,admin123,admin

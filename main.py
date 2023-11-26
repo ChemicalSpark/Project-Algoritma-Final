@@ -1,10 +1,10 @@
+import core
 import login
 import kategori
 import peminjaman
 import kelola_buku
 import data_peminjam
 import pengaturan_admin
-import core
 
 core.clear()
 login.login()
@@ -29,6 +29,9 @@ def mainmenu():
                     peminjaman.aksi_utama()
                 case '5':
                     pengaturan_admin.aksi_pengaturan()
+                case '9':
+                    core.clear()
+                    login.login()
                 case '0':
 
                     print('+' + '='*83 + '+')
