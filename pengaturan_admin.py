@@ -1,6 +1,7 @@
 import csv
-import pandas as pd
 import core
+import pandas as pd
+import login
 
 user_file = "database/data_admin.csv"
 
@@ -17,7 +18,7 @@ def save_data(data):
         writer = csv.writer(file)
         writer.writerows(data)
 
-def tambah_csv(username, password):
+def tambah_csv(username, password, role):
     data = load_data()
     
     if data:
@@ -33,7 +34,7 @@ def tambah_csv(username, password):
             print('Username ini sudah ada!')
             return False
 
-    data_baru = [str(id_baru), username, password]
+    data_baru = [str(id_baru), username, password, role]
     data.append(data_baru)
 
     save_data(data)
@@ -42,7 +43,7 @@ def tambah_csv(username, password):
 
 def kriteria_password(password):
     if len(password) < 8:
-        print('pasword minimal 8 karakter!')
+        print('Password minimal 8 karakter!')
         enter = input('Klik ENTER untuk melanjutkan') 
         return False
          
@@ -59,18 +60,22 @@ def kriteria_password(password):
             number = True
 
     if upper and lower and number:
-        print("Password ini aman.") 
+        print("Password ini aman.\n") 
         return True
     else:
-        print("Password tidak sesuai kriteria!.")
-        enter = input('Klik ENTER untuk melanjutkan')  
+        print('+' + '='*39 + '+')
+        print('|' + '[ NOTICE ]'.center(39) + '|')
+        print('|' + f'Password tidak sesuai kriteria!'.center(39) + '|')
+        print('|' + 'Klik ENTER untuk melanjutkan!'.center(39) + '|')
+        print('+' + '='*39 + '+')  
+        enter = input()  
         return False
 
 def register():
-    username = input('Masukkan username baru: ')
+    username = input('| Masukkan username baru: ')
     if not username:
-        print("Username tidak boleh kosong!")
-        enter = input('Klik ENTER untuk melanjutkan') 
+        print("| Username tidak boleh kosong!")
+        enter = input('| Klik ENTER untuk melanjutkan') 
         return False 
     print('''
 Masukkan password yang berisi:
@@ -79,31 +84,37 @@ Masukkan password yang berisi:
 - Setidaknya satu huruf besar
 - Setidaknya satu angka
         ''')
-    password = input('Masukkan password baru: ')
+    password = input('| Masukkan password: ')
     if not password:
-        print('Password tidak boleh kosong!')
-        enter = input('Klik ENTER untuk melanjutkan')  
+        print('| Password tidak boleh kosong!')
+        enter = input('| Klik ENTER untuk melanjutkan')  
         return False
 
     pengecekan = kriteria_password(password)
     if pengecekan != True:
         print(pengecekan)
         return False
-
+    
+    role = "admin"
+    
     data_admin = []
 
-    with open("database/data_admin.csv", "r") as data:
+    with open(user_file, "r") as data:
         csvr = csv.reader(data, delimiter=",")
         for i in csvr:
-            data_admin.append({"id": i[0], "username": i[1], "password": i[2]})
+            data_admin.append({"id": i[0], "username": i[1], "password": i[2], "role": i[3]})
 
     for admin in data_admin:
         if username == admin['username']:
-            print('Username ini sudah ada!')
-            enter = input('Klik ENTER untuk melanjutkan')  
+            print('+' + '='*39 + '+')
+            print('|' + '[ NOTICE ]'.center(39) + '|')
+            print('|' + f'Username ini sudah ada!'.center(39) + '|')
+            print('|' + 'Klik ENTER untuk melanjutkan!'.center(39) + '|')
+            print('+' + '='*39 + '+')  
+            enter = input()
             return False
     
-    id_baru = tambah_csv(username, password)
+    id_baru = tambah_csv(username, password, role)
     print('+' + '='*39 + '+')
     print('|' + '[ NOTICE ]'.center(39) + '|')
     print('|' + f'Admin dengan ID {id_baru} berhasil ditambahkan'.center(38) + '|')
@@ -119,26 +130,27 @@ def list_data(cari_keyword="",halaman_sekarang=1,halaman_total=1):
         admin = core.cari_list(admin,cari_keyword,1)
         halaman_sekarang = 1
         
-    data_admin = [['No','Username']]
+    data_admin = [['No','Username','Role']]
     i = 1
     for baris in admin:
         if baris[0] == 'ID':
             continue
         username = baris[1]
-        data_admin.append([i,username])
+        role = baris[3]
+        data_admin.append([i,username.title(),role.title()])
         i += 1
     data_admin,halaman_total = core.pagination(data_admin[1:],halaman_limit,halaman_sekarang)
-    df = pd.DataFrame(data_admin, columns=['No','Username'])
+    df = pd.DataFrame(data_admin, columns=['No','Username','Role'])
     output = df.to_string(index=False)
     if len(data_admin) < 1:
         output = "* Data Kosong *"
         
     hasil = ""
     for i in output.split("\n"):
-        hasil += " "*35 + i + "\n"
+        hasil += " "*30 + i + "\n"
     
     print(hasil)
-    print('\n' , " "*36 + f'page {halaman_sekarang} to {halaman_total}')
+    print(" "*36 + f'page {halaman_sekarang} to {halaman_total}')
     return data_admin,halaman_sekarang,halaman_total
 
 def hapus_akun(id_to_delete):
@@ -153,22 +165,29 @@ def hapus_akun(id_to_delete):
     if len(array) >= id_to_delete >= 1:
         print(f'| ID: {array[id_to_delete - 1][0]}')
         print(f'| Username: {array[id_to_delete - 1][1]}')     
-        user = input('| Apakah anda ingin menghapus data diatas?(y/n) ')
-        if user.lower() == 'y':
+        print(f'| Role: {array[id_to_delete - 1][3]}')
+        user = input('| Apakah anda ingin menghapus akun diatas?(y/n): ')
+        if user.lower() == 'y' and array[id_to_delete - 1][3] != "super admin":
             data.remove(array[id_to_delete - 1])
             with open(user_file, 'w', newline="") as file:
                 write = csv.writer(file)
                 write.writerows(data)
-                print('+' + '='*40 + '+')
-                print('|' + '[ DATA BERHASIL DIHAPUS ]'.center(40) + '|')
-                print('|' + 'Klik ENTER untuk melanjutkan!'.center(40) + '|')
-                print('+' + '='*40 + '+')
+                print('+' + '='*45 + '+')
+                print('|' + '[ DATA BERHASIL DIHAPUS ]'.center(45) + '|')
+                print('|' + 'Klik ENTER untuk melanjutkan!'.center(45) + '|')
+                print('+' + '='*45 + '+')
                 enter  = input()
-        else:
-            print('+' + '='*40 + '+')
-            print('|' + '[ DATA BATAL DIHAPUS ]'.center(40) + '|')
-            print('|' + 'Klik ENTER untuk melanjutkan!'.center(40) + '|')
-            print('+' + '='*40 + '+')
+        elif user.lower() == 'y' and array[id_to_delete - 1][3] == "super admin":
+            print('+' + '='*45 + '+')
+            print('|' + '[ AKUN SUPER ADMIN TIDAK BISA DIHAPUS! ]'.center(45) + '|')
+            print('|' + 'Klik ENTER untuk melanjutkan!'.center(45) + '|')
+            print('+' + '='*45 + '+')
+            enter  = input()
+        else:    
+            print('+' + '='*45 + '+')
+            print('|' + '[ AKUN BATAL DIHAPUS ]'.center(45) + '|')
+            print('|' + 'Klik ENTER untuk melanjutkan!'.center(45) + '|')
+            print('+' + '='*45 + '+')
             enter  = input()
 
 
@@ -179,8 +198,7 @@ def aksi_pengaturan():
     while True:
         core.clear()
         with open('ui/kelola_akun_admin.txt','r') as settings_admin :
-            display = settings_admin.read()
-            print(display)
+            print(settings_admin.read())
         pilihan = input('| Masukkan pilihan: ')
         if pilihan == '1':
             core.clear()
@@ -214,35 +232,47 @@ def aksi_pengaturan():
                     else:
                         continue 
         elif pilihan == '3':
-            while True:
-                core.clear()
-                print(" "*23 + '+' + '='*38 + '+')
-                print(" "*23 + '|' + '[ DAFTAR AKUN ADMIN ]'.center(38) + '|')
-                print(" "*23 + '+' + '='*38 + '+')
-                list_data(cari_keyword,halaman_sekarang,halaman_total)
-                with open('ui/page.txt','r') as page :
-                        print(page.read())
-                pilihan = input('| Pilihlah sesuai nomor diatas: ')
-                if pilihan == '1' and halaman_sekarang > 1:
-                    halaman_sekarang -= 1
-                elif pilihan == '2' and halaman_sekarang < halaman_total:
-                    halaman_sekarang += 1
-                elif pilihan == '3':
-                    user = input("\n| Pilih Nomor urut data yang akan dihapus: ")
-                    if user.isdigit():
-                        hapus_akun(int(user))
+            sesi = login.superlogin()
+            if sesi:
+                while True:
+                    core.clear()
+                    print(" "*23 + '+' + '='*38 + '+')
+                    print(" "*23 + '|' + '[ DAFTAR AKUN ADMIN ]'.center(38) + '|')
+                    print(" "*23 + '+' + '='*38 + '+')
+                    data_admin,halaman_sekarang,halaman_total = list_data(cari_keyword,halaman_sekarang,halaman_total)
+                    with open('ui/page.txt','r') as page :
+                            print(page.read())
+                    pilihan = input('| Pilihlah sesuai nomor diatas: ')
+                    if pilihan == '1' and halaman_sekarang > 1:
+                        halaman_sekarang -= 1
+                    elif pilihan == '2' and halaman_sekarang < halaman_total:
+                        halaman_sekarang += 1
+                    elif pilihan == '3':
+                            user = input("| Pilih Nomor urut data yang akan dihapus: ")
+                            if user.isdigit():
+                                hapus_akun(int(user))
+                                continue
+                            else:
+                                print('+' + '='*38 + '+')
+                                print('|' + '[ DATA NOT FOUND ]'.center(38) + '|')
+                                print('|' + 'Klik ENTER untuk melanjutkan!'.center(38) + '|')
+                                print('+' + '='*38 + '+')
+                                enter  = input()
+                                continue
+                    elif pilihan == '9':
+                        break
+                    elif pilihan == '0':
+                        exit()
                     else:
-                        print('+' + '='*38 + '+')
-                        print('|' + '[ DATA NOT FOUND ]'.center(38) + '|')
-                        print('|' + 'Klik ENTER untuk melanjutkan!'.center(38) + '|')
-                        print('+' + '='*38 + '+')
-                        enter  = input()
-                elif pilihan == '9':
-                    break
-                elif pilihan == '0':
-                    exit()
-                else:
-                    continue     
+                        continue
+            elif not sesi:
+                print('+' + '='*40 + '+')
+                print('|' + '[ AKUN TIDAK ADA ]'.center(40) + '|')
+                print('|' + 'ATAU'.center(40) + '|')
+                print('|' + '[ BUKAN AKUN SUPER ADMIN! ]'.center(40) + '|')
+                print('|' + 'Klik ENTER untuk melanjutkan!'.center(40) + '|')
+                print('+' + '='*40 + '+')
+                enter = input()
         elif pilihan == '9':
             core.clear()
             break
