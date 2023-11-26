@@ -1,5 +1,6 @@
 id,id_peminjam,id_buku,tanggal_peminjaman,tanggal_tenggat,status,denda_terlambat,tanggal_pengembalian
 1,2,9,23/11/2023,23/01/2024,belum dikembalikan,0,belum
-
-
-
+2,1,8,25/11/2023,13/08/2013,dikembalikan,0,25/11/2023
+3,1,5,25/11/2023,12/03/2024,belum dikembalikan,0,belum
+4,1,8,25/11/2023,12/09/2027,belum dikembalikan,0,belum
+5,1,5,25/11/2023,12/08/2025,belum dikembalikan,0,belum

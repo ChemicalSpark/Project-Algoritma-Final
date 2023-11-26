@@ -40,13 +40,14 @@ def dtframe_buku(cari_keyword='',halaman_sekarang=1,halaman_total=1):
         penerbit = baris[4]
         # isbn = baris[5]
         jumlah = baris[6]
+        harga = baris[7]
         
         data_buku.append([i, nama, nama_kategori, penulis, penerbit, jumlah])
         i += 1
     # if len(data_buku) == 11:
     # membuat data frame dengan data buku dimulai dari index (me skip header)
     data_buku,halaman_total = core.pagination(data_buku[1:],halaman_limit,halaman_sekarang)
-    df = pd.DataFrame(data_buku, columns=["No", "Nama", "Kategori", "Penulis", "Penerbit", "Jumlah"])
+    df = pd.DataFrame(data_buku, columns=["No", "Nama", "Kategori", "Penulis", "Penerbit", "Jumlah", "Harga"])
 
     # untuk mengabaikan index bawaan pandas
     if len(data_buku) < 1:
@@ -94,6 +95,8 @@ def tambah_buku():
         input_penerbit = input('| Masukkan penerbit\t: ')
         input_isbn = input('| Masukkan ISBN\t\t: ')
         input_jumlah = input('| Masukkan jumlah buku\t: ')
+        input_jumlah = input('| Masukkan harga buku\t: ')
+        
         if input_kategori and input_judul and input_penulis and input_penerbit and input_isbn and input_jumlah:
             input_kategori = int(input_kategori)
             input_jumlah = int(input_jumlah)
