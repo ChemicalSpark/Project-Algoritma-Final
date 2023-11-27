@@ -1,10 +1,11 @@
 #Sesi import
 import csv
 import core
+import getpass
     
 def superlogin():
-        password = input('| Password Super Admin: ')
-
+        password = getpass.getpass(prompt='| Password Super Admin: ')
+        # hidden_password = '*' * len(password)
         with open('database/data_admin.csv', 'r') as data:
             csvr = csv.reader(data, delimiter=',')
             for row in csvr:
@@ -38,7 +39,7 @@ def login():
 
         # Meminta input dari user berupa username dan password
         username = input("| Username: ")
-        password = input("| Password: ")
+        password = getpass.getpass(prompt="| Password: ")
         # Validasi input username dan password terhadap database
         for user in data_admin:
             # Kondisi benar jika input sesuai dengan database

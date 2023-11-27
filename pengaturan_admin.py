@@ -201,8 +201,18 @@ def aksi_pengaturan():
             print(settings_admin.read())
         pilihan = input('| Masukkan pilihan: ')
         if pilihan == '1':
-            core.clear()
-            register()
+            sesi = login.superlogin()
+            if sesi:
+                core.clear()
+                register()
+            elif not sesi:
+                print('+' + '='*40 + '+')
+                print('|' + '[ AKUN TIDAK ADA ]'.center(40) + '|')
+                print('|' + 'ATAU'.center(40) + '|')
+                print('|' + '[ BUKAN AKUN SUPER ADMIN! ]'.center(40) + '|')
+                print('|' + 'Klik ENTER untuk melanjutkan!'.center(40) + '|')
+                print('+' + '='*40 + '+')
+                enter = input()
         elif pilihan == '2':
             while True:
                 core.clear()
