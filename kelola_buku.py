@@ -5,6 +5,7 @@ import pandas  as pd
 
 db_buku = 'database/buku.csv'
 db_kategori   = "database/kategori.csv"
+ui_bk = "ui/kelola_buku.txt"
 
 def list_buku():
     '''fungsi read data buku'''
@@ -127,11 +128,7 @@ def tambah_buku():
         if nomor == len(data_buku):
             nama_file = db_buku
             new_baris = [id_bk,list_kategori[input_kategori][0],input_judul,input_penulis,input_penerbit,input_isbn,input_jumlah, input_harga]
-            # data.append(new_baris)
             core.tambah_ke_csv(nama_file, new_baris)
-            # with open(db_buku, mode='a', newline='') as tambah_data:
-            #     writ = csv.writer(tambah_data)
-            #     writ.writerow([id_bk,list_kategori[input_kategori][0],input_judul,input_penulis,input_penerbit,input_isbn,input_jumlah])
             ulangi = input('| Ingin menambahkan buku lagi(y/n) ? : ')
     print('+' + '='*60 + '+')
     print('|' + '[ DATA BERHASIL DITAMBAHKAN ]'.center(60) + '|')
@@ -143,12 +140,22 @@ def update_buku():
     '''fungsi update data buku'''
     display_kategori, list_kategori = kategori_buku()
     baca_buku = list_buku()
-    kondisi = True
-    while kondisi == True:
+    cek = ''
+    nilai = 0
+    data_buku,halaman_sekarang,halaman_total = dtframe_buku()
+    input_no = input('| Masukkan nomor urut : ').strip()
+    for i in data_buku:
+        if str(i[0]) == (input_no):
+            cek = i[1]
+        else :
+            nilai += 1
+    
+    # kondisi = True
+    while True:
         nilai = 0
-        input_judul = input('| Masukkan judul buku : ').strip().title()
+        # input_judul = input('| Masukkan judul buku : ').strip().title()
         for i in baca_buku:
-            if i[2]==input_judul:
+            if i[2]== cek :
                 print('rincian :')
                 print('judul :',i[2])
                 print('id buku :',i[0])
@@ -157,6 +164,7 @@ def update_buku():
                     print('pilih data yang akan diubah :')
                     print('[1] kategori [2] judul [3] penulis [4] penerbit [5] ISBN [6] jumlah [7] harga [99] semua')
                     pilihan = input('masukkan pilihan : ')
+                    # if pilihan
                     match pilihan :
                         case '1':
                             print('pilihan kategori :')
@@ -174,7 +182,7 @@ def update_buku():
                         case '6':
                             i[6] = input('masukkan jumlah baru : ')   
                         case '7':
-                            i[6] = input('masukkan harga baru : ')    
+                            i[7] = input('masukkan harga baru : ')    
                         case '99':
                             print('| Pilihan kategori :')
                             print(display_kategori)
@@ -185,32 +193,37 @@ def update_buku():
                             i[4] = input('masukkan penerbit baru :')
                             i[5] = input('masukkan ISBN baru : ')
                             i[6] = input('masukkan jumlah baru : ')
-                    with open(db_buku, mode='w', newline='', encoding='cp1252') as data_kembali:
-                        masukkan_data = csv.writer(data_kembali)
-                        masukkan_data.writerows(baca_buku)
-                        print('+' + '='*60 + '+')
-                        print('|' + '[ DATA BERHASIL DIPERBARUI ]'.center(60) + '|')
-                        print('|' + 'Klik ENTER untuk melanjutkan!'.center(60) + '|')
-                        print('+' + '='*60 + '+')
-                        kondisi = False
-                        enter  = input()
-                else :
+                            i[7] = input('masukkan harga baru : ') 
+                        # if i[1]=='' or i[2]=='' or i[3]=='' or i[4]=='' or i[5]=='' or i[6]=='' or i[7]=='' :
+                
+                with open(db_buku, mode='w', newline='', encoding='cp1252') as data_kembali:
+                    masukkan_data = csv.writer(data_kembali)
+                    masukkan_data.writerows(baca_buku)
                     print('+' + '='*60 + '+')
-                    print('|' + '[ DATA BATAL DIPERBARUI ]'.center(60) + '|')
+                    print('|' + '[ DATA BERHASIL DIPERBARUI ]'.center(60) + '|')
                     print('|' + 'Klik ENTER untuk melanjutkan!'.center(60) + '|')
                     print('+' + '='*60 + '+')
-                    kondisi = False
-                    enter = input()
-            else:
-                nilai += 1
-
-            if nilai == len(baca_buku):
+                    # kondisi = False
+                    return False
+                    enter  = input()
+            else :
                 print('+' + '='*60 + '+')
-                print('|' + '[ DATA NOT FOUND ]'.center(60) + '|')
+                print('|' + '[ DATA BATAL DIPERBARUI ]'.center(60) + '|')
                 print('|' + 'Klik ENTER untuk melanjutkan!'.center(60) + '|')
                 print('+' + '='*60 + '+')
-                input()
-                kondisi = False
+                # kondisi = False
+                return False
+                enter = input()
+        else:
+            nilai += 1
+
+            # if nilai == len(baca_buku):
+            #     print('+' + '='*60 + '+')
+            #     print('|' + '[ DATA NOT FOUND ]'.center(60) + '|')
+            #     print('|' + 'Klik ENTER untuk melanjutkan!'.center(60) + '|')
+            #     print('+' + '='*60 + '+')
+            #     input()
+            #     kondisi = False
 
 
 def hapus_buku():
@@ -263,7 +276,7 @@ def aksi_buku():
         halaman_total=1
         while True:
             core.clear()
-            with open('ui/kelola_buku.txt','r') as buku:
+            with open(ui_bk,'r') as buku:
                 display = buku.read() 
                 print(display)
                 pilihan = input("| Pilihan : ")
@@ -278,6 +291,7 @@ def aksi_buku():
                             print('|' + '[ DAFTAR BUKU ]'.center(120) + '|')
                             print('+' + '='*120 + '+')
                             data_buku,halaman_sekarang,halaman_total = dtframe_buku(cari_keyword,halaman_sekarang,halaman_total)
+                            print(data_buku)
                             if len(data_buku) < 1:
                                 print('+' + '='*120 + '+')
                                 print('|' + '[ DATA NOT FOUND ]'.center(120) + '|')
@@ -304,7 +318,7 @@ def aksi_buku():
                             # enter  = input()
                     case '3':
                         while True:
-                            core.clear()
+                            # core.clear()
                             print('+' + '='*120 + '+')
                             print('|' + '[ DAFTAR BUKU ]'.center(120) + '|')
                             print('+' + '='*120 + '+')
