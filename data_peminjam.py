@@ -142,7 +142,6 @@ def aksi_peminjam():
                     print(" "*12 + '|' + '[ DAFTAR DATA PEMINJAM ]'.center(60) + '|')
                     print(" "*12 + '+' + '='*60 + '+')
                     data_peminjam,halaman_sekarang,halaman_total = baca_baris_peminjam(cari_keyword,halaman_sekarang,halaman_total)
-
                     if len(data_peminjam) < 1:
                         print('+' + '='*60 + '+')
                         print('|' + '[ DATA NOT FOUND ]'.center(60) + '|')
@@ -157,16 +156,58 @@ def aksi_peminjam():
                             halaman_sekarang -= 1
                         elif pilihan == "2" and halaman_sekarang < halaman_total:
                             halaman_sekarang += 1
+                        elif pilihan == "3":
+                            read_data = core.baca_csv(nama_file)
+                            nomor_urut = 0
+                            nomor = []
+                            for baris in read_data:
+                                if baris[0] != 'ID':
+                                    nomor.append(baris)
+                                    nomor_urut += 1
+
+                            update = input("| Masukkan Nomor urut data yang akan diperbarui: ")
+                            if update.isdigit():
+                                update = int(update)
+                                if 1 <= update <= len(nomor):
+                                    id = nomor[update - 1][0]
+                                    data = core.cari_id_list(core.baca_csv(nama_file),id)
+                                    print("Nama lama :", data[0][1])
+                                    nama_baru = input("Masukkan Nama yang baru : ").strip().title()
+                                    nama = nama_baru if nama_baru else data[0][1]
+                                    
+                                    print("NIM lama :", data[0][2])
+                                    nim_baru = input("Masukkan NIM yang baru : ")
+                                    nim = nim_baru if nim_baru else data[0][2]
+                                    
+                                    print("Nomor Telepon lama :", data[0][3])
+                                    telp_baru = input("Masukkan Nomor Telepon yang baru : ")
+                                    telp = telp_baru if telp_baru else data[0][3]
+                                    perbarui_baris_peminjam(id, nama, nim, telp)
+                                    print('+' + '='*60 + '+') 
+                                    print('|' + '[ NOTICE ]'.center(60) + '|')
+                                    print('|' + 'Data Berhasil diperbaharui'.center(60) + '|')
+                                    print('|' + 'Klik ENTER untuk meneruskan'.center(60) + '|')
+                                    print('+' + '='*60 + '+')
+                                    enter  = input()
+
+                                else:
+                                    print('+' + '='*60 + '+')
+                                    print('|' + '[ DATA NOT FOUND ]'.center(60) + '|')
+                                    print('|' + 'Klik ENTER untuk melanjutkan!'.center(60) + '|')
+                                    print('+' + '='*60 + '+')
+                                    enter  = input()
+                            else:
+                                print('+' + '='*60 + '+')
+                                print('|' + '[ DATA NOT FOUND ]'.center(60) + '|')
+                                print('|' + 'Klik ENTER untuk melanjutkan!'.center(60) + '|')
+                                print('+' + '='*60 + '+')
+                                enter  = input()
                         elif pilihan == "9":
                             break
-                        elif pilihan == "0":
-                            exit()
+                        elif pilihan == '0':
+                            exit
                         else:
                             continue
-                    # print('+' + '='*60 + '+')
-                    # print('|' + 'Klik ENTER untuk melanjutkan!'.center(60) + '|')
-                    # print('+' + '='*60 + '+')
-                    # enter  = input()
             case '3':
                 while True:
                     core.clear()
@@ -174,97 +215,38 @@ def aksi_peminjam():
                     print(" "*12 + '|' + '[ DAFTAR DATA PEMINJAM ]'.center(60) + '|')
                     print(" "*12 + '+' + '='*60 + '+')
                     data_peminjam,halaman_sekarang,halaman_total = baca_baris_peminjam(cari_keyword,halaman_sekarang,halaman_total)
-                    with open('ui/page.txt','r') as page:
-                        print(page.read())
-                    pilihan = input('| Pilihlah sesuai nomor diatas: ')
-                    if pilihan == "1" and halaman_sekarang > 1:
-                        halaman_sekarang -= 1
-                    elif pilihan == "2" and halaman_sekarang < halaman_total:
-                        halaman_sekarang += 1
-                    elif pilihan == "3":
-                        read_data = core.baca_csv(nama_file)
-                        nomor_urut = 0
-                        nomor = []
-                        for baris in read_data:
-                            if baris[0] != 'ID':
-                                nomor.append(baris)
-                                nomor_urut += 1
-
-                        update = input("| Masukkan Nomor urut data yang akan diperbarui: ")
-                        if update.isdigit():
-                            update = int(update)
-                            if 1 <= update <= len(nomor):
-                                id = nomor[update - 1][0]
-                                data = core.cari_id_list(core.baca_csv(nama_file),id)
-                                print("Nama lama :", data[0][1])
-                                nama_baru = input("Masukkan Nama yang baru : ").strip().title()
-                                nama = nama_baru if nama_baru else data[0][1]
-                                
-                                print("NIM lama :", data[0][2])
-                                nim_baru = input("Masukkan NIM yang baru : ")
-                                nim = nim_baru if nim_baru else data[0][2]
-                                
-                                print("Nomor Telepon lama :", data[0][3])
-                                telp_baru = input("Masukkan Nomor Telepon yang baru : ")
-                                telp = telp_baru if telp_baru else data[0][3]
-                                perbarui_baris_peminjam(id, nama, nim, telp)
-                                print('+' + '='*60 + '+') 
-                                print('|' + '[ NOTICE ]'.center(60) + '|')
-                                print('|' + 'Data Berhasil diperbaharui'.center(60) + '|')
-                                print('|' + 'Klik ENTER untuk meneruskan'.center(60) + '|')
-                                print('+' + '='*60 + '+')
-                                enter  = input()
-
+                    if len(data_peminjam) < 1:
+                        print('+' + '='*60 + '+')
+                        print('|' + '[ DATA NOT FOUND ]'.center(60) + '|')
+                        print('|' + 'Klik ENTER untuk melanjutkan!'.center(60) + '|')
+                        print('+' + '='*60 + '+')
+                        enter  = input()
+                    else:
+                        with open('ui/page.txt','r') as page:
+                            print(page.read())
+                        pilihan = input('| Pilihlah sesuai nomor diatas: ')
+                        if pilihan == '1' and halaman_sekarang > 1:
+                            halaman_sekarang -= 1
+                        elif pilihan == '2' and halaman_sekarang < halaman_total:
+                            halaman_sekarang += 1
+                        elif pilihan == '3':
+                            user = input("| Masukkan Nomor urut data yang akan dihapus: ")
+                            if user.isdigit():
+                                hapus_baris_peminjam(int(user))
+                                continue
                             else:
                                 print('+' + '='*60 + '+')
                                 print('|' + '[ DATA NOT FOUND ]'.center(60) + '|')
                                 print('|' + 'Klik ENTER untuk melanjutkan!'.center(60) + '|')
                                 print('+' + '='*60 + '+')
                                 enter  = input()
+                                continue
+                        elif pilihan == '9':
+                            break
+                        elif pilihan == '0':
+                            exit()
                         else:
-                            print('+' + '='*60 + '+')
-                            print('|' + '[ DATA NOT FOUND ]'.center(60) + '|')
-                            print('|' + 'Klik ENTER untuk melanjutkan!'.center(60) + '|')
-                            print('+' + '='*60 + '+')
-                            enter  = input()
-                    elif pilihan == "9":
-                        break
-                    elif pilihan == '0':
-                        exit
-                    else:
-                        continue
-            case '4':
-                while True:
-                    core.clear()
-                    print(" "*12 + '+' + '='*60 + '+')
-                    print(" "*12 + '|' + '[ DAFTAR DATA PEMINJAM ]'.center(60) + '|')
-                    print(" "*12 + '+' + '='*60 + '+')
-                    data_peminjam,halaman_sekarang,halaman_total = baca_baris_peminjam(cari_keyword,halaman_sekarang,halaman_total)
-                    with open('ui/page.txt','r') as page:
-                        print(page.read())
-                    pilihan = input('| Pilihlah sesuai nomor diatas: ')
-                    if pilihan == '1' and halaman_sekarang > 1:
-                        halaman_sekarang -= 1
-                    elif pilihan == '2' and halaman_sekarang < halaman_total:
-                        halaman_sekarang += 1
-                    elif pilihan == '3':
-                        user = input("| Masukkan Nomor urut data yang akan dihapus: ")
-                        if user.isdigit():
-                            hapus_baris_peminjam(int(user))
                             continue
-                        else:
-                            print('+' + '='*60 + '+')
-                            print('|' + '[ DATA NOT FOUND ]'.center(60) + '|')
-                            print('|' + 'Klik ENTER untuk melanjutkan!'.center(60) + '|')
-                            print('+' + '='*60 + '+')
-                            enter  = input()
-                            continue
-                    elif pilihan == '9':
-                        break
-                    elif pilihan == '0':
-                        exit()
-                    else:
-                        continue
             case '9':
                 break
             case '0':

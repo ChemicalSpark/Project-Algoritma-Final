@@ -2,7 +2,7 @@
 ._______________________________/  KELOLA HALAMAN  \_______________________________.
 |/                              [1] Halaman Sebelumnya                            \|
 |                               [2] Halaman Selanjutnya                            |
-|                               [3] Aksi Perbarui / Hapus (Jika Ada)               |
+|                               [3] Aksi Perbarui / Hapus                          |
 |                               [9] Kembali                                        |
 |\                              [0] Keluar                                        /|
 +----------------------------------------------------------------------------------+
