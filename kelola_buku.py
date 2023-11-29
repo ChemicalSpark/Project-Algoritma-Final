@@ -136,86 +136,99 @@ def tambah_buku():
     print('+' + '='*60 + '+')
     enter  = input()
 
-def update_buku():
+def update_buku(data_buku):
     '''fungsi update data buku'''
     display_kategori, list_kategori = kategori_buku()
     baca_buku = list_buku()
     cek = ''
     nilai = 0
-    data_buku,halaman_sekarang,halaman_total = dtframe_buku()
+    # data_buku,halaman_sekarang,halaman_total = dtframe_buku()
     input_no = input('| Masukkan nomor urut : ').strip()
-    for i in data_buku:
-        if str(i[0]) == (input_no):
-            cek = i[1]
-        else :
-            nilai += 1
+    # core.dd(data_buku)
     
-    # kondisi = True
-    while True:
-        nilai = 0
-        # input_judul = input('| Masukkan judul buku : ').strip().title()
-        for i in baca_buku:
-            if i[2]== cek :
-                print('rincian :')
-                print('judul :',i[2])
-                print('id buku :',i[0])
-                confirm = input('yakin ingin update data ? y/n :')
-                if confirm == 'y':
-                    print('pilih data yang akan diubah :')
-                    print('[1] kategori [2] judul [3] penulis [4] penerbit [5] ISBN [6] jumlah [7] harga [99] semua')
-                    pilihan = input('masukkan pilihan : ')
-                    # if pilihan
-                    match pilihan :
-                        case '1':
-                            print('pilihan kategori :')
-                            print(display_kategori)
-                            input_kategori = int(input('| Masukkan kategori baru : '))
-                            i[1] = list_kategori[input_kategori - 1][0]
-                        case '2':
-                            i[2] = input('masukkan judul baru : ')
-                        case '3':
-                            i[3] = input('masukkan penulis baru : ')
-                        case '4':
-                            i[4] = input('masukkan penerbit baru :')       
-                        case '5':
-                            i[5] = input('masukkan ISBN baru : ')      
-                        case '6':
-                            i[6] = input('masukkan jumlah baru : ')   
-                        case '7':
-                            i[7] = input('masukkan harga baru : ')    
-                        case '99':
-                            print('| Pilihan kategori :')
-                            print(display_kategori)
-                            input_kategori = int(input('\n| Masukkan kategori baru : '))
-                            i[1] = list_kategori[input_kategori - 1][0]
-                            i[2] = input('masukkan judul baru : ')
-                            i[3] = input('masukkan penulis baru : ')
-                            i[4] = input('masukkan penerbit baru :')
-                            i[5] = input('masukkan ISBN baru : ')
-                            i[6] = input('masukkan jumlah baru : ')
-                            i[7] = input('masukkan harga baru : ') 
-                        # if i[1]=='' or i[2]=='' or i[3]=='' or i[4]=='' or i[5]=='' or i[6]=='' or i[7]=='' :
-                
-                with open(db_buku, mode='w', newline='', encoding='cp1252') as data_kembali:
-                    masukkan_data = csv.writer(data_kembali)
-                    masukkan_data.writerows(baca_buku)
-                    print('+' + '='*60 + '+')
-                    print('|' + '[ DATA BERHASIL DIPERBARUI ]'.center(60) + '|')
-                    print('|' + 'Klik ENTER untuk melanjutkan!'.center(60) + '|')
-                    print('+' + '='*60 + '+')
-                    # kondisi = False
-                    return False
-                    enter  = input()
-            else :
+    # cek jika input berupa digit
+    if not input_no.isdigit():
+        input("input harus berupa angka!\ntekan enter untuk kembali...")
+        return
+
+    buku = core.cari_list(data_buku, int(input_no), 0, True)
+    
+    # jika hasil pencarian buku 0
+    if len(buku) < 1:
+        input(f"buku dengan no urut {input_no} tidak ada\ntekan enter untuk kembali...")
+        return
+
+    buku = buku[0]
+
+
+    print(buku)
+    
+    
+    # while True:
+    nilai = 0
+    # input_judul = input('| Masukkan judul buku : ').strip().title()
+    for i in baca_buku:
+        if i[2]== cek :
+            print('rincian :')
+            print('judul :',i[2])
+            print('id buku :',i[0])
+            confirm = input('yakin ingin update data ? y/n :')
+            if confirm == 'y':
+                print('pilih data yang akan diubah :')
+                print('[1] kategori [2] judul [3] penulis [4] penerbit [5] ISBN [6] jumlah [7] harga [99] semua')
+                pilihan = input('masukkan pilihan : ')
+                # if pilihan
+                match pilihan :
+                    case '1':
+                        print('pilihan kategori :')
+                        print(display_kategori)
+                        input_kategori = int(input('| Masukkan kategori baru : '))
+                        i[1] = list_kategori[input_kategori - 1][0]
+                    case '2':
+                        i[2] = input('masukkan judul baru : ')
+                    case '3':
+                        i[3] = input('masukkan penulis baru : ')
+                    case '4':
+                        i[4] = input('masukkan penerbit baru :')       
+                    case '5':
+                        i[5] = input('masukkan ISBN baru : ')      
+                    case '6':
+                        i[6] = input('masukkan jumlah baru : ')   
+                    case '7':
+                        i[7] = input('masukkan harga baru : ')    
+                    case '99':
+                        print('| Pilihan kategori :')
+                        print(display_kategori)
+                        input_kategori = int(input('\n| Masukkan kategori baru : '))
+                        i[1] = list_kategori[input_kategori - 1][0]
+                        i[2] = input('masukkan judul baru : ')
+                        i[3] = input('masukkan penulis baru : ')
+                        i[4] = input('masukkan penerbit baru :')
+                        i[5] = input('masukkan ISBN baru : ')
+                        i[6] = input('masukkan jumlah baru : ')
+                        i[7] = input('masukkan harga baru : ') 
+                    # if i[1]=='' or i[2]=='' or i[3]=='' or i[4]=='' or i[5]=='' or i[6]=='' or i[7]=='' :
+            
+            with open(db_buku, mode='w', newline='', encoding='cp1252') as data_kembali:
+                masukkan_data = csv.writer(data_kembali)
+                masukkan_data.writerows(baca_buku)
                 print('+' + '='*60 + '+')
-                print('|' + '[ DATA BATAL DIPERBARUI ]'.center(60) + '|')
+                print('|' + '[ DATA BERHASIL DIPERBARUI ]'.center(60) + '|')
                 print('|' + 'Klik ENTER untuk melanjutkan!'.center(60) + '|')
                 print('+' + '='*60 + '+')
-                # kondisi = False
-                return False
-                enter = input()
-        else:
-            nilai += 1
+                kondisi = False
+                # return False
+                enter  = input()
+        else :
+            print('+' + '='*60 + '+')
+            print('|' + '[ DATA BATAL DIPERBARUI ]'.center(60) + '|')
+            print('|' + 'Klik ENTER untuk melanjutkan!'.center(60) + '|')
+            print('+' + '='*60 + '+')
+            kondisi = False
+            # return False
+            enter = input()
+    else:
+        nilai += 1
 
 def hapus_buku(delete):
     data = list_buku()
@@ -352,7 +365,7 @@ def aksi_buku():
                                 elif pilihan == '2' and halaman_sekarang < halaman_total:
                                     halaman_sekarang += 1
                                 elif pilihan == '3':
-                                    update_buku()
+                                    update_buku(data_buku)
                                 elif pilihan == '9':
                                     break
                                 elif pilihan == '0':
