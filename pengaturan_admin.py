@@ -227,7 +227,7 @@ def aksi_pengaturan():
                     print('+' + '='*60 + '+')
                     enter  = input()
                 else:
-                    with open('ui/page.txt','r') as page :
+                    with open('ui/page_daftar.txt','r') as page :
                         display = page.read()
                         print(display)
                     pilihan = input('| Pilihlah sesuai nomor diatas: ')
@@ -250,31 +250,38 @@ def aksi_pengaturan():
                     print(" "*23 + '|' + '[ DAFTAR AKUN ADMIN ]'.center(38) + '|')
                     print(" "*23 + '+' + '='*38 + '+')
                     data_admin,halaman_sekarang,halaman_total = list_data(cari_keyword,halaman_sekarang,halaman_total)
-                    with open('ui/page.txt','r') as page :
-                            print(page.read())
-                    pilihan = input('| Pilihlah sesuai nomor diatas: ')
-                    if pilihan == '1' and halaman_sekarang > 1:
-                        halaman_sekarang -= 1
-                    elif pilihan == '2' and halaman_sekarang < halaman_total:
-                        halaman_sekarang += 1
-                    elif pilihan == '3':
-                            user = input("| Pilih Nomor urut data yang akan dihapus: ")
-                            if user.isdigit():
-                                hapus_akun(int(user))
-                                continue
-                            else:
-                                print('+' + '='*38 + '+')
-                                print('|' + '[ DATA NOT FOUND ]'.center(38) + '|')
-                                print('|' + 'Klik ENTER untuk melanjutkan!'.center(38) + '|')
-                                print('+' + '='*38 + '+')
-                                enter  = input()
-                                continue
-                    elif pilihan == '9':
-                        break
-                    elif pilihan == '0':
-                        exit()
+                    if len(data_admin) < 1:
+                        print('+' + '='*60 + '+')
+                        print('|' + '[ DATA NOT FOUND ]'.center(60) + '|')
+                        print('|' + 'Klik ENTER untuk melanjutkan!'.center(60) + '|')
+                        print('+' + '='*60 + '+')
+                        enter  = input()
                     else:
-                        continue
+                        with open('ui/page.txt','r') as page :
+                                print(page.read())
+                        pilihan = input('| Pilihlah sesuai nomor diatas: ')
+                        if pilihan == '1' and halaman_sekarang > 1:
+                            halaman_sekarang -= 1
+                        elif pilihan == '2' and halaman_sekarang < halaman_total:
+                            halaman_sekarang += 1
+                        elif pilihan == '3':
+                                user = input("| Pilih Nomor urut data yang akan dihapus: ")
+                                if user.isdigit():
+                                    hapus_akun(int(user))
+                                    continue
+                                else:
+                                    print('+' + '='*38 + '+')
+                                    print('|' + '[ DATA NOT FOUND ]'.center(38) + '|')
+                                    print('|' + 'Klik ENTER untuk melanjutkan!'.center(38) + '|')
+                                    print('+' + '='*38 + '+')
+                                    enter  = input()
+                                    continue
+                        elif pilihan == '9':
+                            break
+                        elif pilihan == '0':
+                            exit()
+                        else:
+                            continue
             elif not sesi:
                 print('+' + '='*40 + '+')
                 print('|' + '[ AKUN TIDAK ADA ]'.center(40) + '|')

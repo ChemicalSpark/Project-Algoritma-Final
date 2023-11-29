@@ -226,49 +226,77 @@ def update_buku():
             #     kondisi = False
 
 
-def hapus_buku():
-    '''fungsi hapus buku'''
-    data_buku = list_buku()
-    kondisi = True
+def hapus_buku(delete):
+    data = list_buku()
+    nomor_urut = 0
+    array = []
+    for baris in data:
+        if baris[0] != 'ID':
+            array.append(baris)
+            nomor_urut += 1
 
-    while kondisi == True :
-        nilai = 0
-        index_hapus = 0
-        input_judul = input('| Masukkan judul : ').strip().title()
-        for i in data_buku:
-            if i[2] == input_judul:
-                print('rincian :')
-                print('judul : ',i[2])
-                print('ID : ',i[0])
-                confirm = input('| Yakin ingin menghapus(y/n)? : ')
-                if confirm == 'y':
-                    data_buku.pop(index_hapus)
-                    with open(db_buku, mode='w', newline='', encoding='cp1252') as return_data:
-                        masukkan_data = csv.writer(return_data)
-                        masukkan_data.writerows(data_buku)
-                        print('+' + '='*60 + '+')
-                        print('|' + '[ DATA BERHASIL DIHAPUS ]'.center(60) + '|')
-                        print('|' + 'Klik ENTER untuk melanjutkan!'.center(60) + '|')
-                        print('+' + '='*60 + '+')
-                        kondisi = False
-                        enter  = input()
-                else:
-                    print('+' + '='*60 + '+')
-                    print('|' + '[ DATA BATAL DIHAPUS ]'.center(60) + '|')
-                    print('|' + 'Klik ENTER untuk melanjutkan!'.center(60) + '|')
-                    print('+' + '='*60 + '+')
-                    enter  = input()
-                    kondisi = False
-            else:
-                nilai += 1   
-            if nilai == len(data_buku):
+    if len(array) >= delete >= 1:
+        print(f'| ID: {array[delete - 1][0]}')
+        print(f'| Judul: {array[delete - 1][2]}') 
+        user = input('| Apakah anda ingin menghapus data diatas?(y/n) ')
+        if user.lower() == 'y':
+            data.remove(array[delete - 1])
+            with open(db_buku, 'w', newline="") as file:
+                write = csv.writer(file)
+                write.writerows(data)
                 print('+' + '='*60 + '+')
-                print('|' + '[ DATA BATAL DIHAPUS ]'.center(60) + '|')
+                print('|' + '[ DATA BERHASIL DIHAPUS ]'.center(60) + '|')
                 print('|' + 'Klik ENTER untuk melanjutkan!'.center(60) + '|')
                 print('+' + '='*60 + '+')
                 enter  = input()
-                kondisi = False
-            index_hapus += 1
+        else:
+            print('+' + '='*60 + '+')
+            print('|' + '[ DATA BATAL DIHAPUS ]'.center(60) + '|')
+            print('|' + 'Klik ENTER untuk melanjutkan!'.center(60) + '|')
+            print('+' + '='*60 + '+')
+            enter  = input()
+    # '''fungsi hapus buku'''
+    # data_buku = list_buku()
+    # kondisi = True
+
+    # while kondisi == True :
+    #     nilai = 0
+    #     index_hapus = 0
+    #     input_judul = input('| Masukkan judul : ').strip().title()
+    #     for i in data_buku:
+    #         if i[2] == input_judul:
+    #             print('rincian :')
+    #             print('judul : ',i[2])
+    #             print('ID : ',i[0])
+    #             confirm = input('| Yakin ingin menghapus(y/n)? : ')
+    #             if confirm == 'y':
+    #                 data_buku.pop(index_hapus)
+    #                 with open(db_buku, mode='w', newline='', encoding='cp1252') as return_data:
+    #                     masukkan_data = csv.writer(return_data)
+    #                     masukkan_data.writerows(data_buku)
+    #                     print('+' + '='*60 + '+')
+    #                     print('|' + '[ DATA BERHASIL DIHAPUS ]'.center(60) + '|')
+    #                     print('|' + 'Klik ENTER untuk melanjutkan!'.center(60) + '|')
+    #                     print('+' + '='*60 + '+')
+    #                     kondisi = False
+    #                     enter  = input()
+    #             else:
+    #                 print('+' + '='*60 + '+')
+    #                 print('|' + '[ DATA BATAL DIHAPUS ]'.center(60) + '|')
+    #                 print('|' + 'Klik ENTER untuk melanjutkan!'.center(60) + '|')
+    #                 print('+' + '='*60 + '+')
+    #                 enter  = input()
+    #                 kondisi = False
+    #         else:
+    #             nilai += 1   
+    #         if nilai == len(data_buku):
+    #             print('+' + '='*60 + '+')
+    #             print('|' + '[ DATA BATAL DIHAPUS ]'.center(60) + '|')
+    #             print('|' + 'Klik ENTER untuk melanjutkan!'.center(60) + '|')
+    #             print('+' + '='*60 + '+')
+    #             enter  = input()
+    #             kondisi = False
+    #         index_hapus += 1
             
 def aksi_buku():
         cari_keyword=''
@@ -291,7 +319,6 @@ def aksi_buku():
                             print('|' + '[ DAFTAR BUKU ]'.center(120) + '|')
                             print('+' + '='*120 + '+')
                             data_buku,halaman_sekarang,halaman_total = dtframe_buku(cari_keyword,halaman_sekarang,halaman_total)
-                            print(data_buku)
                             if len(data_buku) < 1:
                                 print('+' + '='*120 + '+')
                                 print('|' + '[ DATA NOT FOUND ]'.center(120) + '|')
@@ -299,7 +326,7 @@ def aksi_buku():
                                 print('+' + '='*120 + '+')
                                 enter  = input()
                             else:
-                                with open('ui/page.txt','r') as page :
+                                with open('ui/page_daftar.txt','r') as page :
                                     print(page.read())
                                 pilihan = input('| Pilihlah sesuai nomor diatas: ')
                                 if pilihan == '1' and halaman_sekarang > 1:
@@ -312,13 +339,9 @@ def aksi_buku():
                                     exit()
                                 else:
                                     continue 
-                            # print('+' + '='*120 + '+')
-                            # print('|' + 'Klik ENTER untuk melanjutkan!'.center(120) + '|')
-                            # print('+' + '='*120 + '+')
-                            # enter  = input()
                     case '3':
                         while True:
-                            # core.clear()
+                            core.clear()
                             print('+' + '='*120 + '+')
                             print('|' + '[ DAFTAR BUKU ]'.center(120) + '|')
                             print('+' + '='*120 + '+')
@@ -367,7 +390,17 @@ def aksi_buku():
                                 elif pilihan == '2' and halaman_sekarang < halaman_total:
                                     halaman_sekarang += 1
                                 elif pilihan == '3':
-                                    hapus_buku()
+                                    user = input("| Masukkan Nomor urut data yang akan dihapus: ")
+                                    if user.isdigit():
+                                            hapus_buku(int(user))
+                                            continue
+                                    else:
+                                        print('+' + '='*120 + '+')
+                                        print('|' + '[ DATA NOT FOUND ]'.center(120) + '|')
+                                        print('|' + 'Klik ENTER untuk melanjutkan!'.center(120) + '|')
+                                        print('+' + '='*120 + '+')
+                                        enter  = input()
+                                        continue
                                 elif pilihan == '9':
                                     break
                                 elif pilihan == '0':
