@@ -217,21 +217,12 @@ def update_buku():
         else:
             nilai += 1
 
-            # if nilai == len(baca_buku):
-            #     print('+' + '='*60 + '+')
-            #     print('|' + '[ DATA NOT FOUND ]'.center(60) + '|')
-            #     print('|' + 'Klik ENTER untuk melanjutkan!'.center(60) + '|')
-            #     print('+' + '='*60 + '+')
-            #     input()
-            #     kondisi = False
-
-
 def hapus_buku(delete):
     data = list_buku()
     nomor_urut = 0
     array = []
     for baris in data:
-        if baris[0] != 'ID':
+        if baris[0] != 'id':
             array.append(baris)
             nomor_urut += 1
 
