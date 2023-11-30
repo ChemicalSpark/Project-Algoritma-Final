@@ -32,7 +32,7 @@ def tambah_baris_peminjam(nama, nim, telp):
 #fungsi untuk membaca data_peminjam dan memberikan pagination 
 def baca_baris_peminjam(cari_keyword='',halaman_sekarang=1,halaman_total=1):
     peminjam = core.baca_csv(nama_file)[1:]
-    halaman_limit = 7
+    halaman_limit = 10
     
     data_peminjam = [['No','Nama','NIM','Nomor Telepon']]
     if len(cari_keyword) > 0:
@@ -52,6 +52,7 @@ def baca_baris_peminjam(cari_keyword='',halaman_sekarang=1,halaman_total=1):
     # output = print(df.to_string(index=False))
     if len(data_peminjam) < 1:
         output = "* Data Kosong *"
+        aksi_peminjam()
     else:
         output = df.to_string(index=False)
 

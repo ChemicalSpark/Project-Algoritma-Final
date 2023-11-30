@@ -53,6 +53,7 @@ def dtframe_buku(cari_keyword='',halaman_sekarang=1,halaman_total=1):
     # untuk mengabaikan index bawaan pandas
     if len(data_buku) < 1:
         output = "* Data Kosong *"
+        aksi_buku()
     else:
         output = df.to_string(index=False)
 

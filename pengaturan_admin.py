@@ -124,7 +124,7 @@ Masukkan password yang berisi:
 
 def list_data(cari_keyword="",halaman_sekarang=1,halaman_total=1):
     admin = core.baca_csv(user_file)
-    halaman_limit = 5
+    halaman_limit = 10
     #masih belum digunakan karena search belum ada
     if len(cari_keyword) > 0:
         admin = core.cari_list(admin,cari_keyword,1)
@@ -144,6 +144,7 @@ def list_data(cari_keyword="",halaman_sekarang=1,halaman_total=1):
     output = df.to_string(index=False)
     if len(data_admin) < 1:
         output = "* Data Kosong *"
+        aksi_pengaturan()
         
     hasil = ""
     for i in output.split("\n"):
