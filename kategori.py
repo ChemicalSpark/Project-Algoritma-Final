@@ -105,15 +105,11 @@ def hapus_kategori(delete):
                 index_id = [array[len(array)-1][0],""]
                 data.remove(array[delete - 1])
                 data.append(index_id)
-                with open(nama_file, 'w', newline="") as file:
-                    write = csv.writer(file)
-                    write.writerows(data)
+                tulis_csv(data)
 
             else:
                 data.remove(array[delete - 1])
-                with open(nama_file, 'w', newline="") as file:
-                    write = csv.writer(file)
-                    write.writerows(data)
+                tulis_csv(data)
             print('+' + '='*40 + '+')
             print('|' + '[ DATA BERHASIL DIHAPUS ]'.center(40) + '|')
             print('|' + 'Klik ENTER untuk melanjutkan!'.center(40) + '|')
