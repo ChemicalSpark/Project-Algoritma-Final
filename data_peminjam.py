@@ -3,9 +3,6 @@ import core
 import pandas as pd
 
 nama_file = 'database/data_peminjam.csv'
-#fungsi untuk meng-write data di database
-def tulis_csv(data):
-    core.tulis_csv(nama_file, data)
 
 #fungsi untuk menambahkan data peminjam
 def tambah_baris_peminjam(nama, nim, telp):
@@ -18,6 +15,7 @@ def tambah_baris_peminjam(nama, nim, telp):
             print('|' + '[ NIM INI SUDAH ADA ]'.center(40) + '|')
             print('|' + 'Klik ENTER untuk melanjutkan!'.center(40) + '|')
             print('+' + '='*40 + '+')
+            enter = input()
             return False
         if len(data) <= 1:
             new_id = 1
@@ -29,7 +27,7 @@ def tambah_baris_peminjam(nama, nim, telp):
 
     new_baris = [new_id, nama, nim, telp]
     data.append(new_baris)
-    tulis_csv(data)
+    core.tulis_csv(nama_file,data)
     print('+' + '='*40 + '+')
     print('|' + '[ DATA TELAH DITAMBAHKAN ]'.center(40) + '|')
     print('|' + 'Klik ENTER untuk melanjutkan!'.center(40) + '|')
@@ -80,7 +78,7 @@ def perbarui_baris_peminjam(id, nama, nim, telp):
             baris[2] = nim
             baris[3] = telp
             break
-    tulis_csv(data)
+    core.tulis_csv(nama_file,data)
 
 #fungsi untuk menghapus 1 baris data peminjam
 def hapus_baris_peminjam(delete):
@@ -103,10 +101,10 @@ def hapus_baris_peminjam(delete):
                 index_id = [array[len(array) - 1][0],"","",""]
                 data.remove(array[delete - 1])
                 data.append(index_id)
-                tulis_csv(data)
+                core.tulis_csv(nama_file,data)
             else:
                 data.remove(array[delete - 1])
-                tulis_csv(data)
+                core.tulis_csv(nama_file,data)
             print('+' + '='*60 + '+')
             print('|' + '[ DATA BERHASIL DIHAPUS ]'.center(60) + '|')
             print('|' + 'Klik ENTER untuk melanjutkan!'.center(60) + '|')

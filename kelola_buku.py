@@ -7,6 +7,7 @@ db_buku = 'database/buku.csv'
 db_kategori   = "database/kategori.csv"
 ui_bk = "ui/kelola_buku.txt"
 
+
 def list_buku():
     '''fungsi read data buku'''
     with open(db_buku, mode='r', encoding='cp1252') as list_data:
@@ -20,19 +21,19 @@ def dtframe_buku(cari_keyword='',halaman_sekarang=1,halaman_total=1):
     daftar_kategori = core.baca_csv(db_kategori)[1:]
     halaman_limit = 10
         
+    data_buku = [["No", "Judul", "Kategori", "Penulis", "Penerbit", "ISBN", "Jumlah" , "id"]]
     if len(cari_keyword) > 1:
         daftar_buku = core.cari_list(daftar_buku,cari_keyword,1)
         halaman_sekarang = 1
-    data_buku = [["No", "Judul", "Kategori", "Penulis", "Penerbit", "ISBN", "Jumlah" , "id"]]
     
     i = 1
     for baris in daftar_buku:
         # me skip baris kolom / header
-        if baris[0] == "id":
-            continue
+        # if baris[0] == "id":
+        #     continue
         
         nama_kategori = ""
-        nama = baris[2]
+        judul = baris[2]
         kategori = core.cari_id_list(daftar_kategori, baris[1])
         if (len(kategori) > 0):
             nama_kategori = kategori[0][1]
@@ -43,28 +44,27 @@ def dtframe_buku(cari_keyword='',halaman_sekarang=1,halaman_total=1):
         jumlah = baris[6]
         harga = baris[7]
         
-        data_buku.append([i, nama, nama_kategori, penulis, penerbit, jumlah, harga])
+        data_buku.append([i, judul.title(), nama_kategori.title(), penulis.title(), penerbit.title(), jumlah, harga])
         i += 1
-    # if len(data_buku) == 11:
     # membuat data frame dengan data buku dimulai dari index (me skip header)
     data_buku,halaman_total = core.pagination(data_buku[1:],halaman_limit,halaman_sekarang)
-    df = pd.DataFrame(data_buku, columns=["No", "Nama", "Kategori", "Penulis", "Penerbit", "Jumlah", "Harga"])
 
     # untuk mengabaikan index bawaan pandas
     if len(data_buku) < 1:
         output = "* Data Kosong *"
         aksi_buku()
+    elif "" in daftar_buku[len(daftar_buku) - 1]:
+        df = pd.DataFrame(data_buku[:len(data_buku) - 1], columns=["No", "Nama", "Kategori", "Penulis", "Penerbit", "Jumlah", "Harga"])
+        output = df.to_string(index=False)
     else:
+        df = pd.DataFrame(data_buku, columns=["No", "Nama", "Kategori", "Penulis", "Penerbit", "Jumlah", "Harga"])
         output = df.to_string(index=False)
 
     hasil = ""
-    if "\n" in output:
-        lines = output.split("\n")
-        for i in lines:
-            hasil += i + "\n"
-    else:
-        hasil += output + "\n"
+    for i in output.split("\n"):
+        hasil += i + "\n" 
     print(hasil)
+
     print(" "*36 + f'page {halaman_sekarang} to {halaman_total}')
     return data_buku,halaman_sekarang,halaman_total
     
@@ -86,51 +86,57 @@ def tambah_buku():
     '''fungsi tambah buku'''
     data_buku = list_buku()
     display_kategori, list_kategori = kategori_buku()
-    ulangi = 'y'
-    while ulangi == 'y':
-        nomor = 0
-        print('| Pilihan kategori :')
-        print(display_kategori)
-        input_kategori = input('\n| Pilih kategori buku\t: ')
-        input_judul = input('| Masukkan judul\t: ')
-        input_penulis = input('| Masukkan penulis\t: ')
-        input_penerbit = input('| Masukkan penerbit\t: ')
-        input_isbn = input('| Masukkan ISBN\t\t: ')
-        input_jumlah = input('| Masukkan jumlah buku\t: ')
-        input_harga = input('| Masukkan harga buku\t: ')
-        
-        if input_kategori and input_judul and input_penulis and input_penerbit and input_isbn and input_jumlah:
-            input_kategori = int(input_kategori)
-            input_jumlah = int(input_jumlah)
-            print('+' + '='*60 + '+')
-            print('|' + '[ PROSES ]'.center(60) + '|')
-            print('+' + '='*60 + '+')
-            enter  = input()
-        else:
-            print('+' + '='*60 + '+')
-            print('|' + '[ DATA TIDAK LENGKAP ]'.center(60) + '|')
-            print('|' + 'Klik ENTER untuk melanjutkan!'.center(60) + '|')
-            print('+' + '='*60 + '+')
-            enter  = input()
-            return False
+    # ulangi = 'y'
+    # while ulangi == 'y':
+    #     nomor = 0
+    print('| Pilihan kategori :')
+    print(display_kategori)
+    input_kategori = input('\n| Pilih kategori buku\t: ')
+    input_judul = input('| Masukkan judul\t: ').lower()
+    input_penulis = input('| Masukkan penulis\t: ').lower()
+    input_penerbit = input('| Masukkan penerbit\t: ').lower()
+    input_isbn = input('| Masukkan ISBN\t\t: ')
+    input_jumlah = input('| Masukkan jumlah buku\t: ')
+    input_harga = input('| Masukkan harga buku\t: ')
+    
+    if input_kategori and input_judul and input_penulis and input_penerbit and input_isbn and input_jumlah:
+        input_kategori = int(input_kategori)
+        input_jumlah = int(input_jumlah)
+        # print('+' + '='*60 + '+')
+        # print('|' + '[ PROSES ]'.center(60) + '|')
+        # print('+' + '='*60 + '+')
+        # enter  = input()
+    else:
+        print('+' + '='*60 + '+')
+        print('|' + '[ DATA TIDAK LENGKAP ]'.center(60) + '|')
+        print('|' + 'Klik ENTER untuk melanjutkan!'.center(60) + '|')
+        print('+' + '='*60 + '+')
+        enter  = input()
+        return False
 
-        if len(data_buku) <= 1:
-            id_bk = 1
-        else :
-            id_bk = int(data_buku[len(data_buku) - 1][0]) + 1
-        for i in data_buku:
-            if i[2] == input_judul:
-                print('+' + '='*60 + '+')
-                print('|' + '[ DATA ALREADY EXIST ]'.center(60) + '|')
-                print('|' + 'Silahkan masukkan data lain!'.center(60) + '|')
-                print('+' + '='*60 + '+')
-            else:
-                nomor += 1
-        if nomor == len(data_buku):
-            nama_file = db_buku
-            new_baris = [id_bk,list_kategori[input_kategori][0],input_judul,input_penulis,input_penerbit,input_isbn,input_jumlah, input_harga]
-            core.tambah_ke_csv(nama_file, new_baris)
-            ulangi = input('| Ingin menambahkan buku lagi(y/n) ? : ')
+    for i in data_buku[1:]:
+        if i[2] == input_judul:
+            print('+' + '='*60 + '+')
+            print('|' + '[ JUDUL INI SUDAH ADA ]'.center(60) + '|')
+            print('|' + 'Silahkan masukkan data lain!'.center(60) + '|')
+            print('+' + '='*60 + '+')
+            enter = input()
+            return False
+        # else:
+        #     nomor += 1
+    if len(data_buku) <= 1:
+        id_bk = 1
+    elif "" in data_buku[len(data_buku) - 1]:
+        id_bk = int(data_buku[len(data_buku) - 1][0]) + 1
+        data_buku.remove(data_buku[len(data_buku) - 1])
+    else :
+        id_bk = int(data_buku[len(data_buku) - 1][0]) + 1
+    # if nomor == len(data_buku):
+    new_baris = [id_bk,list_kategori[input_kategori][0],input_judul,input_penulis,input_penerbit,input_isbn,input_jumlah, input_harga]
+    data_buku.append(new_baris)
+    # core.tambah_ke_csv(nama_file, new_baris)
+    core.tulis_csv(db_buku,data_buku)
+        # ulangi = input('| Ingin menambahkan buku lagi(y/n) ? : ')
     print('+' + '='*60 + '+')
     print('|' + '[ DATA BERHASIL DITAMBAHKAN ]'.center(60) + '|')
     print('|' + 'Klik ENTER untuk melanjutkan!'.center(60) + '|')
@@ -164,10 +170,11 @@ def update_buku(data_buku):
     index_urut = core.cari_index_dengan_id_list(baca_buku, buku[0])
     
     print('rincian :')
-    print('judul :',buku[2])
-    print('id buku :',buku[0])
+    print('judul :',buku[1])
+    print('no buku :',buku[0])
     confirm = input('yakin ingin update data ? y/n :')
     if confirm == 'y':
+        core.clear()
         print('pilih data yang akan diubah :')
         print('[1] kategori [2] judul [3] penulis [4] penerbit [5] ISBN [6] jumlah [7] harga [99] semua')
         pilihan = input('masukkan pilihan : ')
@@ -202,19 +209,24 @@ def update_buku(data_buku):
                 buku[6] = input('masukkan jumlah baru : ')
                 buku[7] = input('masukkan harga baru : ') 
             # if i[1]=='' or i[2]=='' or i[3]=='' or i[4]=='' or i[5]=='' or i[6]=='' or i[7]=='' :
+            case _:
+                aksi_buku()
+                
     
         with open(db_buku, mode='w', newline='', encoding='cp1252') as data_kembali:
             masukkan_data = csv.writer(data_kembali)
             masukkan_data.writerows(baca_buku)
-            print('+' + '='*60 + '+')
-            print('|' + '[ DATA BERHASIL DIPERBARUI ]'.center(60) + '|')
-            print('|' + 'Klik ENTER untuk melanjutkan!'.center(60) + '|')
-            print('+' + '='*60 + '+')
-            kondisi = False
-            # return False
-            enter  = input()
+        # core.tulis_csv(db_buku, baca_buku)
+        print('+' + '='*60 + '+')
+        print('|' + '[ DATA BERHASIL DIPERBARUI ]'.center(60) + '|')
+        print('|' + 'Klik ENTER untuk melanjutkan!'.center(60) + '|')
+        print('+' + '='*60 + '+')
+        enter  = input()
+        kondisi = False
+        # return False
 
 
+'''fungsi hapus buku'''
 def hapus_buku(delete):
     data = list_buku()
     nomor_urut = 0
@@ -229,22 +241,25 @@ def hapus_buku(delete):
         print(f'| Judul: {array[delete - 1][2]}') 
         user = input('| Apakah anda ingin menghapus data diatas?(y/n) ')
         if user.lower() == 'y':
-            data.remove(array[delete - 1])
-            with open(db_buku, 'w', newline="") as file:
-                write = csv.writer(file)
-                write.writerows(data)
-                print('+' + '='*60 + '+')
-                print('|' + '[ DATA BERHASIL DIHAPUS ]'.center(60) + '|')
-                print('|' + 'Klik ENTER untuk melanjutkan!'.center(60) + '|')
-                print('+' + '='*60 + '+')
-                enter  = input()
+            if delete == len(array):
+                index_id = [array[len(array) - 1][0],"","","","","","",""]
+                data.remove(array[delete - 1])
+                data.append(index_id)
+                core.tulis_csv(db_buku, data)
+            else:
+                data.remove(array[delete - 1])
+                core.tulis_csv(db_buku, data)
+            print('+' + '='*60 + '+')
+            print('|' + '[ DATA BERHASIL DIHAPUS ]'.center(60) + '|')
+            print('|' + 'Klik ENTER untuk melanjutkan!'.center(60) + '|')
+            print('+' + '='*60 + '+')
+            enter  = input()
         else:
             print('+' + '='*60 + '+')
             print('|' + '[ DATA BATAL DIHAPUS ]'.center(60) + '|')
             print('|' + 'Klik ENTER untuk melanjutkan!'.center(60) + '|')
             print('+' + '='*60 + '+')
             enter  = input()
-    # '''fungsi hapus buku'''
     # data_buku = list_buku()
     # kondisi = True
 

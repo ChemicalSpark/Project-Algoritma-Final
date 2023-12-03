@@ -13,9 +13,6 @@ user_file = "database/data_admin.csv"
 #             data.append(row)
 #     return data
 
-def tulis_csv(data):
-    core.tulis_csv(user_file, data)
-
 def tambah_csv(username, password, role):
     data = core.baca_csv(user_file)
     # if data:
@@ -38,6 +35,7 @@ def tambah_csv(username, password, role):
             print('|' + '[ USERNAME INI SUDAH ADA ]'.center(40) + '|')
             print('|' + 'Klik ENTER untuk melanjutkan!'.center(40) + '|')
             print('+' + '='*40 + '+')
+            enter = input()
             return False
         if len(data) <= 1:
             id_baru = 1
@@ -50,7 +48,7 @@ def tambah_csv(username, password, role):
     data_baru = [id_baru, username, password, role]
     data.append(data_baru)
 
-    tulis_csv(data)
+    core.tulis_csv(user_file,data)
     return id_baru
 
 def kriteria_password(password):
@@ -177,7 +175,7 @@ def perbarui_baris_peminjam(id, username, password):
             baris[1] = username
             baris[2] = password
             break
-    tulis_csv(data)
+    core.tulis_csv(user_file,data)
 
 def hapus_akun(id_to_delete):
     data = core.baca_csv(user_file)
@@ -198,10 +196,10 @@ def hapus_akun(id_to_delete):
                 index_id = [array[len(array) - 1][0],"","",""]
                 data.remove(array[id_to_delete - 1])
                 data.append(index_id)
-                tulis_csv(data)
+                core.tulis_csv(user_file,data)
             else:
                 data.remove(array[id_to_delete - 1])
-                tulis_csv(data)
+                core.tulis_csv(user_file,data)
             print('+' + '='*45 + '+')
             print('|' + '[ DATA BERHASIL DIHAPUS ]'.center(45) + '|')
             print('|' + 'Klik ENTER untuk melanjutkan!'.center(45) + '|')

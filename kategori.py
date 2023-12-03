@@ -4,9 +4,6 @@ import pandas as pd
 import core
 # path file database kategori
 nama_file = 'database/kategori.csv'
-# function untuk menulis data ke database
-def tulis_csv(data):
-    core.tulis_csv(nama_file, data)
 
 # function untuk menampilkan daftar kategori
 def list_kategori(cari_keyword='',halaman_sekarang=1,halaman_total=1):
@@ -40,7 +37,7 @@ def list_kategori(cari_keyword='',halaman_sekarang=1,halaman_total=1):
 
     hasil = ""
     for i in output.split("\n"):
-        hasil += " "*35 + i + "\n"
+        hasil += " "*31 + i + "\n"
     
     print(hasil)
 
@@ -58,6 +55,7 @@ def tambah_kategori(kat):
             print('|' + '[ DATA ALREADY EXIST ]'.center(83) + '|')
             print('|' + 'Klik ENTER untuk melanjutkan!'.center(83) + '|')
             print('+' + '='*83 + '+')
+            enter = input()
             return False
 
     if len(data) <= 1:
@@ -70,7 +68,7 @@ def tambah_kategori(kat):
 
     new_baris = [new_id, kat]
     data.append(new_baris)
-    tulis_csv(data)
+    core.tulis_csv(nama_file,data)
     print('+' + '='*83 + '+')
     print('|' + '[ NOTICE ]'.center(83) + '|')
     print('|' + 'Kategori berhasil ditambahkan'.center(83) + '|')
@@ -84,7 +82,7 @@ def perbarui_baris_kategori(id, kat):
         if  baris[0] == id:
             baris[1] = kat
             break
-    tulis_csv(data)
+    core.tulis_csv(nama_file,data)
         
 # funciton untuk menghapus kategori 
 def hapus_kategori(delete):
@@ -105,11 +103,11 @@ def hapus_kategori(delete):
                 index_id = [array[len(array)-1][0],""]
                 data.remove(array[delete - 1])
                 data.append(index_id)
-                tulis_csv(data)
+                core.tulis_csv(nama_file,data)
 
             else:
                 data.remove(array[delete - 1])
-                tulis_csv(data)
+                core.tulis_csv(nama_file,data)
             print('+' + '='*40 + '+')
             print('|' + '[ DATA BERHASIL DIHAPUS ]'.center(40) + '|')
             print('|' + 'Klik ENTER untuk melanjutkan!'.center(40) + '|')
