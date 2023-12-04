@@ -229,7 +229,8 @@ def aksi_pengaturan():
             print(settings_admin.read())
         pilihan = input('| Masukkan pilihan: ')
         if pilihan == '1':
-            sesi = login.superlogin()
+
+            sesi = login.SESSION_GLOBAL["role"] == "super admin"
             if sesi:
                 core.clear()
                 register()
@@ -270,7 +271,7 @@ def aksi_pengaturan():
                     else:
                         continue 
         elif pilihan == '3':
-            sesi = login.superlogin()
+            sesi = login.SESSION_GLOBAL["role"] == "super admin"
             if sesi:
                 while True:
                     core.clear()
@@ -362,7 +363,7 @@ Masukkan password baru yang berisi:
                 print('+' + '='*40 + '+')
                 enter = input()
         elif pilihan == '4':
-            sesi = login.superlogin()
+            sesi = login.SESSION_GLOBAL["role"] == "super admin"
             if sesi:
                 while True:
                     core.clear()

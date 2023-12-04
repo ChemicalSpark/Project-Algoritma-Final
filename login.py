@@ -12,6 +12,8 @@ def superlogin():
                 if row[2] == password and row[3] == "super admin":
                     return row
             return None
+
+SESSION_GLOBAL = {}
         
         
 def login():
@@ -52,7 +54,8 @@ def login():
                 print('+' + '='*83 + '+')
                 # setelah masuk, sesi login true
                 login_session = True
-                
+                global SESSION_GLOBAL
+                SESSION_GLOBAL = user
                 # Pause sebelum di clear
                 req = input("| Klik ENTER untuk melanjutkan... ")
                 core.clear()
