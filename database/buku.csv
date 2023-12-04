@@ -1,5 +1,5 @@
 id,id_kategori,judul,penulis,penerbit,isbn,jumlah,harga
-5,6,sapi terbang,fauzan,unej media,08560668,4,800000
+5,1,sapi terbang,fauzan,unej media,08560668,4,800000
 6,1,dongeng bakso ikan,ozi s.pdf,pt. kunci ilmu,085606689642,7,800000
 7,4,fakta luar angkasa,prof. thobiq,thobiq media,38393829999,9,800000
 8,1,one piece,eiichiro oda,elex media,094245435352,100,800000
@@ -9,5 +9,5 @@ id,id_kategori,judul,penulis,penerbit,isbn,jumlah,harga
 14,3,bulan,tere liye,gramedia pustaka utama,983032319,5,800000
 15,6,kamus besar bahasa arab jepang,gus mulet,anomaly media,17701821212,1,800000
 16,8,sebuah seni untuk bersikap bodo amat,mark mason,grasindo,0323043425,10,800000
-21,1,native isekai,noxindocraft,facebook,0878823422,5,9999999
+21,13,native isekai,noxindocraft,facebook,0878823422,5,10000000000
 24,3,tokyo ghoul,sui ishida,m&c,097834345432,20,60000

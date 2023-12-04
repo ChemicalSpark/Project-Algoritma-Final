@@ -5,28 +5,8 @@ import login
 
 user_file = "database/data_admin.csv"
 
-# def load_data():
-#     data = []
-#     with open(user_file, 'r') as file:
-#         csvr = csv.reader(file, delimiter=",")
-#         for row in csvr:
-#             data.append(row)
-#     return data
-
 def tambah_csv(username, password, role):
     data = core.baca_csv(user_file)
-    # if data:
-    #     last_id = int(data[-1][0])
-    # else:
-    #     last_id = 0
-
-    # id_baru = last_id + 1
-
-    # for row in data:
-    #     ada_username = row[1]
-    #     if username == ada_username:
-    #         print('Username ini sudah ada!')
-    #         return False
     data_ada = []
     for cek in data[1:]:
         data_ada.append(cek[1])
@@ -229,7 +209,6 @@ def aksi_pengaturan():
             print(settings_admin.read())
         pilihan = input('| Masukkan pilihan: ')
         if pilihan == '1':
-
             sesi = login.SESSION_GLOBAL["role"] == "super admin"
             if sesi:
                 core.clear()
@@ -323,10 +302,6 @@ Masukkan password baru yang berisi:
                                     if pengecekan != True:
                                         print(pengecekan)
                                         return pilihan
-    
-                                    # print("Nomor Telepon lama :", data[0][3])
-                                    # role_baru = input("Masukkan Role yang baru : ")
-                                    # role = role_baru if role_baru else data[0][3]
 
                                     perbarui_baris_peminjam(id, username, password)
                                     print('+' + '='*60 + '+') 

@@ -3,15 +3,6 @@ import csv
 import core
 import getpass
     
-def superlogin():
-        password = getpass.getpass(prompt='| Password Super Admin: ')
-        # hidden_password = '*' * len(password)
-        with open('database/data_admin.csv', 'r') as data:
-            csvr = csv.reader(data, delimiter=',')
-            for row in csvr:
-                if row[2] == password and row[3] == "super admin":
-                    return row
-            return None
 
 SESSION_GLOBAL = {}
         
@@ -86,4 +77,3 @@ def login():
 # -
 if __name__ == "__main__":
     login()
-    superlogin()

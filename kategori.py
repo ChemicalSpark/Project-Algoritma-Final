@@ -20,7 +20,7 @@ def list_kategori(cari_keyword='',halaman_sekarang=1,halaman_total=1):
         # if baris[0] == 'ID':
         #     continue
         kategori = baris[1]
-        data_kategori.append([i,kategori])
+        data_kategori.append([i,kategori.title()])
         i += 1
 
     data_kategori, halaman_total = core.pagination(data_kategori[1:],halaman_limit,halaman_sekarang)
@@ -141,7 +141,7 @@ def aksi_kategori():
                 print('+' + '='*83 + '+')
                 user = input("| Kategori: ")
                 if user:
-                    tambah_kategori(user.strip().title())
+                    tambah_kategori(user.lower())
                     enter = input()
                 else:
                     print('+' + '='*83 + '+')
@@ -200,16 +200,16 @@ def aksi_kategori():
                         elif pilihan == '3':
                             read_data = core.baca_csv(nama_file)
                             nomor_urut = 0
-                            nomor = []
+                            array = []
                             for baris in read_data:
                                 if baris[0] != 'ID':
-                                    nomor.append(baris)
+                                    array.append(baris)
                                     nomor_urut += 1
                             update = input("| Masukkan Nomor urut data yang akan diperbarui: ")
                             if update.isdigit():
                                 update = int(update)
-                                if 1 <= update <= len(nomor):
-                                    id = nomor[update - 1][0]
+                                if len(array) >= update >= 1:
+                                    id = array[update - 1][0]
                                     data = core.cari_id_list(core.baca_csv('database/kategori.csv'), id)
                                     if data:
                                         print('-'*57)
@@ -217,7 +217,7 @@ def aksi_kategori():
                                         kat_baru = input("| Masukkan Kategori yang baru : ")
                                         print('-'*57)
                                         if kat_baru:
-                                            kat = kat_baru 
+                                            kat = kat_baru.lower() 
                                         else:
                                             kat = data[0][1]
                                             print('+' + '='*55 + '+')
