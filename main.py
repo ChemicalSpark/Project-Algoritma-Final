@@ -33,7 +33,6 @@ def mainmenu():
                     core.clear()
                     login.login()
                 case '0':
-
                     print('+' + '='*83 + '+')
                     print('|' + '[ NOTICE ]'.center(83) + '|')
                     print('|' + 'Apakah Anda yakin untuk keluar? (y/n)'.center(83) + '|')
