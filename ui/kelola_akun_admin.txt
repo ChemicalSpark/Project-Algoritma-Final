@@ -2,7 +2,8 @@
 ._______________________________/ KELOLA AKUN ADMIN \_______________________________.
 |/                               [1] Register                                      \|
 |                                [2] Daftar Admin                                   |
-|                                [3] Hapus Akun Admin                               |
+|                                [3] Perbarui Akun Admin                            |
+|                                [4] Hapus Akun Admin                               |
 |                                [9] Kembali                                        |
 |\                               [0] Keluar                                        /|
 +-----------------------------------------------------------------------------------+

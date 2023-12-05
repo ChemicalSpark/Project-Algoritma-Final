@@ -5,40 +5,30 @@ import login
 
 user_file = "database/data_admin.csv"
 
-def load_data():
-    data = []
-    with open(user_file, 'r') as file:
-        csvr = csv.reader(file, delimiter=",")
-        for row in csvr:
-            data.append(row)
-    return data
-
-def save_data(data):
-    with open(user_file, 'w', newline='') as file:
-        writer = csv.writer(file)
-        writer.writerows(data)
-
 def tambah_csv(username, password, role):
-    data = load_data()
-    
-    if data:
-        last_id = int(data[-1][0])
-    else:
-        last_id = 0
-
-    id_baru = last_id + 1
-
-    for row in data:
-        ada_username = row[1]
-        if username == ada_username:
-            print('Username ini sudah ada!')
+    data = core.baca_csv(user_file)
+    data_ada = []
+    for cek in data[1:]:
+        data_ada.append(cek[1])
+        if username in data_ada:
+            print('+' + '='*40 + '+')
+            print('|' + '[ USERNAME INI SUDAH ADA ]'.center(40) + '|')
+            print('|' + 'Klik ENTER untuk melanjutkan!'.center(40) + '|')
+            print('+' + '='*40 + '+')
+            enter = input()
             return False
+        if len(data) <= 1:
+            id_baru = 1
+        elif "" in data[len(data) - 1]:
+            id_baru = int(data[len(data) - 1][0]) + 1
+            data.remove(data[len(data) - 1])
+        else:
+            id_baru = int(data[len(data) - 1][0]) + 1
 
-    data_baru = [str(id_baru), username, password, role]
+    data_baru = [id_baru, username, password, role]
     data.append(data_baru)
 
-    save_data(data)
-
+    core.tulis_csv(user_file,data)
     return id_baru
 
 def kriteria_password(password):
@@ -72,7 +62,7 @@ def kriteria_password(password):
         return False
 
 def register():
-    username = input('| Masukkan username baru: ')
+    username = input('| Masukkan username baru: ').lower()
     if not username:
         print("| Username tidak boleh kosong!")
         enter = input('| Klik ENTER untuk melanjutkan') 
@@ -123,8 +113,8 @@ Masukkan password yang berisi:
     enter = input()  
 
 def list_data(cari_keyword="",halaman_sekarang=1,halaman_total=1):
-    admin = core.baca_csv(user_file)
-    halaman_limit = 5
+    admin = core.baca_csv(user_file)[1:]
+    halaman_limit = 10
     #masih belum digunakan karena search belum ada
     if len(cari_keyword) > 0:
         admin = core.cari_list(admin,cari_keyword,1)
@@ -140,11 +130,15 @@ def list_data(cari_keyword="",halaman_sekarang=1,halaman_total=1):
         data_admin.append([i,username.title(),role.title()])
         i += 1
     data_admin,halaman_total = core.pagination(data_admin[1:],halaman_limit,halaman_sekarang)
-    df = pd.DataFrame(data_admin, columns=['No','Username','Role'])
-    output = df.to_string(index=False)
     if len(data_admin) < 1:
         output = "* Data Kosong *"
-        
+        aksi_pengaturan()
+    elif "" in admin[len(admin) - 1]:
+        df = pd.DataFrame(data_admin[:len(data_admin) - 1], columns=['No','Username','Role'])
+        output = df.to_string(index=False)
+    else:
+        df = pd.DataFrame(data_admin, columns=['No','Username','Role'])
+        output = df.to_string(index=False)
     hasil = ""
     for i in output.split("\n"):
         hasil += " "*30 + i + "\n"
@@ -152,6 +146,16 @@ def list_data(cari_keyword="",halaman_sekarang=1,halaman_total=1):
     print(hasil)
     print(" "*36 + f'page {halaman_sekarang} to {halaman_total}')
     return data_admin,halaman_sekarang,halaman_total
+
+#fungsi untuk memperbarui 1 baris data peminjam
+def perbarui_baris_peminjam(id, username, password):
+    data = core.baca_csv(user_file)
+    for baris in data:
+        if baris[0] == id:
+            baris[1] = username
+            baris[2] = password
+            break
+    core.tulis_csv(user_file,data)
 
 def hapus_akun(id_to_delete):
     data = core.baca_csv(user_file)
@@ -168,15 +172,19 @@ def hapus_akun(id_to_delete):
         print(f'| Role: {array[id_to_delete - 1][3]}')
         user = input('| Apakah anda ingin menghapus akun diatas?(y/n): ')
         if user.lower() == 'y' and array[id_to_delete - 1][3] != "super admin":
-            data.remove(array[id_to_delete - 1])
-            with open(user_file, 'w', newline="") as file:
-                write = csv.writer(file)
-                write.writerows(data)
-                print('+' + '='*45 + '+')
-                print('|' + '[ DATA BERHASIL DIHAPUS ]'.center(45) + '|')
-                print('|' + 'Klik ENTER untuk melanjutkan!'.center(45) + '|')
-                print('+' + '='*45 + '+')
-                enter  = input()
+            if id_to_delete == len(array):
+                index_id = [array[len(array) - 1][0],"","",""]
+                data.remove(array[id_to_delete - 1])
+                data.append(index_id)
+                core.tulis_csv(user_file,data)
+            else:
+                data.remove(array[id_to_delete - 1])
+                core.tulis_csv(user_file,data)
+            print('+' + '='*45 + '+')
+            print('|' + '[ DATA BERHASIL DIHAPUS ]'.center(45) + '|')
+            print('|' + 'Klik ENTER untuk melanjutkan!'.center(45) + '|')
+            print('+' + '='*45 + '+')
+            enter  = input()
         elif user.lower() == 'y' and array[id_to_delete - 1][3] == "super admin":
             print('+' + '='*45 + '+')
             print('|' + '[ AKUN SUPER ADMIN TIDAK BISA DIHAPUS! ]'.center(45) + '|')
@@ -201,7 +209,7 @@ def aksi_pengaturan():
             print(settings_admin.read())
         pilihan = input('| Masukkan pilihan: ')
         if pilihan == '1':
-            sesi = login.superlogin()
+            sesi = login.SESSION_GLOBAL["role"] == "super admin"
             if sesi:
                 core.clear()
                 register()
@@ -242,7 +250,95 @@ def aksi_pengaturan():
                     else:
                         continue 
         elif pilihan == '3':
-            sesi = login.superlogin()
+            sesi = login.SESSION_GLOBAL["role"] == "super admin"
+            if sesi:
+                while True:
+                    core.clear()
+                    data_admin,halaman_sekarang,halaman_total = list_data(cari_keyword,halaman_sekarang,halaman_total)
+                    if len(data_admin) < 1:
+                        print('+' + '='*60 + '+')
+                        print('|' + '[ DATA NOT FOUND ]'.center(60) + '|')
+                        print('|' + 'Klik ENTER untuk melanjutkan!'.center(60) + '|')
+                        print('+' + '='*60 + '+')
+                        enter  = input()
+                    else:
+                        with open('ui/page.txt','r') as page:
+                            print(page.read())
+                        pilihan = input('| Pilihlah sesuai nomor diatas: ')
+                        if pilihan == "1" and halaman_sekarang > 1:
+                            halaman_sekarang -= 1
+                        elif pilihan == "2" and halaman_sekarang < halaman_total:
+                            halaman_sekarang += 1
+                        elif pilihan == "3":
+                            read_data = core.baca_csv(user_file)
+                            nomor_urut = 0
+                            array = []
+                            for baris in read_data:
+                                if baris[0] != 'ID':
+                                    array.append(baris)
+                                    nomor_urut += 1
+
+                            update = input("| Masukkan Nomor urut data yang akan diperbarui: ")
+                            if update.isdigit():
+                                update = int(update)
+                                if len(array) >= update >= 1:
+                                    id = array[update - 1][0]
+                                    data = core.cari_id_list(core.baca_csv(user_file),id)
+                                    print("Username lama :", data[0][1])
+                                    username_baru = input("Masukkan Username yang baru : ").lower()
+                                    username = username_baru if username_baru else data[0][1]
+                                    
+                                    print("password lama :", data[0][2])
+                                    print('''
+Masukkan password baru yang berisi:
+- Minimal 8 karakter
+- Setidaknya satu huruf kecil
+- Setidaknya satu huruf besar
+- Setidaknya satu angka
+                                    ''')
+                                    password_baru = input("Masukkan Password yang baru : ")
+                                    password = password_baru if password_baru else data[0][2]
+                                    pengecekan = kriteria_password(password)
+                                    if pengecekan != True:
+                                        print(pengecekan)
+                                        return pilihan
+
+                                    perbarui_baris_peminjam(id, username, password)
+                                    print('+' + '='*60 + '+') 
+                                    print('|' + '[ NOTICE ]'.center(60) + '|')
+                                    print('|' + 'Data Berhasil diperbaharui'.center(60) + '|')
+                                    print('|' + 'Klik ENTER untuk meneruskan'.center(60) + '|')
+                                    print('+' + '='*60 + '+')
+                                    enter  = input()
+
+                                else:
+                                    print('+' + '='*60 + '+')
+                                    print('|' + '[ DATA NOT FOUND ]'.center(60) + '|')
+                                    print('|' + 'Klik ENTER untuk melanjutkan!'.center(60) + '|')
+                                    print('+' + '='*60 + '+')
+                                    enter  = input()
+                            else:
+                                print('+' + '='*60 + '+')
+                                print('|' + '[ DATA NOT FOUND ]'.center(60) + '|')
+                                print('|' + 'Klik ENTER untuk melanjutkan!'.center(60) + '|')
+                                print('+' + '='*60 + '+')
+                                enter  = input()
+                        elif pilihan == "9":
+                            break
+                        elif pilihan == '0':
+                            exit
+                        else:
+                            continue
+            elif not sesi:
+                print('+' + '='*40 + '+')
+                print('|' + '[ AKUN TIDAK ADA ]'.center(40) + '|')
+                print('|' + 'ATAU'.center(40) + '|')
+                print('|' + '[ BUKAN AKUN SUPER ADMIN! ]'.center(40) + '|')
+                print('|' + 'Klik ENTER untuk melanjutkan!'.center(40) + '|')
+                print('+' + '='*40 + '+')
+                enter = input()
+        elif pilihan == '4':
+            sesi = login.SESSION_GLOBAL["role"] == "super admin"
             if sesi:
                 while True:
                     core.clear()

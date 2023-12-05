@@ -1,12 +1,13 @@
 id,id_kategori,judul,penulis,penerbit,isbn,jumlah,harga
-5,6,Sapi Terbang,fauzan,unej media,0856-0668,4,800000
-6,1,Dongeng Bakso Sapi,ozi S.Pdf,PT. Kunci Ilmu,0856-0668-9642,7,800000
-7,4,Fakta Luar Angkasa,prof. thobiq,thobiq media,3839382-999-9,9,800000
-8,1,One Piece,Eiichiro Oda,Elex Media,0942454-35352,100,800000
-9,3,Hyouka,Yonezawa Honobu,Haru Group,078952-35255,7,800000
-10,1,The Promised Neverland,Kaiu Shirai / Posuka Demizu,Elex Media,05454-67886,30,800000
-13,3,Bumi,Tere Liye,Gramedia Pustaka Utama,983042-42242,10,800000
-14,3,Bulan,Tere Liye,Gramedia Pustaka Utama,98303-2319,5,800000
-15,6,Kamus Besar Bahasa Arab Jepang,Gus Mullet,Anomaly Media,177018-21212,0,800000
-16,8,Sebuah Seni Untuk Bersikap Bodo Amat,Mark Mason,Grasindo,03230-43425,10,800000
-17,2,Testing aja si,Rangga-kun,UNEJ,1212,2,800000
+5,1,sapi terbang,fauzan,unej media,08560668,4,800000
+6,1,dongeng bakso ikan,ozi s.pdf,pt. kunci ilmu,085606689642,7,800000
+7,4,fakta luar angkasa,prof. thobiq,thobiq media,38393829999,9,800000
+8,1,one piece,eiichiro oda,elex media,094245435352,100,800000
+9,3,hyouka,yonezawa honobu,haru group,07895235255,7,800000
+10,1,the promised neverland,kaiu shirai & posuka demizu,elex media,0545467886,30,800000
+13,3,bumi,tere liye,gramedia pustaka utama,98304242242,10,800000
+14,3,bulan,tere liye,gramedia pustaka utama,983032319,5,800000
+15,6,kamus besar bahasa arab jepang,gus mulet,anomaly media,17701821212,1,800000
+16,8,sebuah seni untuk bersikap bodo amat,mark mason,grasindo,0323043425,10,800000
+21,13,native isekai,noxindocraft,facebook,0878823422,5,10000000000
+24,3,tokyo ghoul,sui ishida,m&c,097834345432,20,60000

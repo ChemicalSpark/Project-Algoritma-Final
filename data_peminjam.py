@@ -3,27 +3,31 @@ import core
 import pandas as pd
 
 nama_file = 'database/data_peminjam.csv'
-#fungsi untuk meng-write data di database
-def tulis_csv(data):
-    core.tulis_csv(nama_file, data)
 
 #fungsi untuk menambahkan data peminjam
 def tambah_baris_peminjam(nama, nim, telp):
     data = core.baca_csv(nama_file)
     data_ada = []
-    for cek in data:
+    for cek in data[1:]:
         data_ada.append(cek[2])
         if nim in data_ada:
             print('+' + '='*40 + '+')
             print('|' + '[ NIM INI SUDAH ADA ]'.center(40) + '|')
             print('|' + 'Klik ENTER untuk melanjutkan!'.center(40) + '|')
             print('+' + '='*40 + '+')
+            enter = input()
             return False
-        
-    new_id = len(data) + 1
+        if len(data) <= 1:
+            new_id = 1
+        elif "" in data[len(data) - 1]:
+            new_id = int(data[len(data) - 1][0]) + 1
+            data.remove(data[len(data) - 1])
+        else:
+            new_id = int(data[len(data) - 1][0]) + 1
+
     new_baris = [new_id, nama, nim, telp]
     data.append(new_baris)
-    tulis_csv(data)
+    core.tulis_csv(nama_file,data)
     print('+' + '='*40 + '+')
     print('|' + '[ DATA TELAH DITAMBAHKAN ]'.center(40) + '|')
     print('|' + 'Klik ENTER untuk melanjutkan!'.center(40) + '|')
@@ -32,7 +36,7 @@ def tambah_baris_peminjam(nama, nim, telp):
 #fungsi untuk membaca data_peminjam dan memberikan pagination 
 def baca_baris_peminjam(cari_keyword='',halaman_sekarang=1,halaman_total=1):
     peminjam = core.baca_csv(nama_file)[1:]
-    halaman_limit = 7
+    halaman_limit = 10
     
     data_peminjam = [['No','Nama','NIM','Nomor Telepon']]
     if len(cari_keyword) > 0:
@@ -40,19 +44,21 @@ def baca_baris_peminjam(cari_keyword='',halaman_sekarang=1,halaman_total=1):
         halaman_sekarang = 1
     i = 1
     for baris in peminjam:
-        if baris[0] == 'ID':
-            continue
         nama = baris[1]
         nim = baris[2]
         telp = baris[3]
-        data_peminjam.append([i,nama,nim,telp])
+        data_peminjam.append([i,nama.title(),nim,telp])
         i += 1 
     data_peminjam,halaman_total = core.pagination(data_peminjam[1:],halaman_limit,halaman_sekarang)
-    df = pd.DataFrame(data_peminjam, columns=['No','Nama','NIM','Nomor Telepon'])
     # output = print(df.to_string(index=False))
     if len(data_peminjam) < 1:
         output = "* Data Kosong *"
+        aksi_peminjam()
+    elif "" in peminjam[len(peminjam) - 1]:
+        df = pd.DataFrame(data_peminjam[:len(data_peminjam) - 1], columns=['No','Nama','NIM','Nomor Telepon'])
+        output = df.to_string(index=False) 
     else:
+        df = pd.DataFrame(data_peminjam, columns=['No','Nama','NIM','Nomor Telepon'])
         output = df.to_string(index=False)
 
     hasil = ""
@@ -72,7 +78,7 @@ def perbarui_baris_peminjam(id, nama, nim, telp):
             baris[2] = nim
             baris[3] = telp
             break
-    tulis_csv(data)
+    core.tulis_csv(nama_file,data)
 
 #fungsi untuk menghapus 1 baris data peminjam
 def hapus_baris_peminjam(delete):
@@ -91,15 +97,19 @@ def hapus_baris_peminjam(delete):
         print(f'| Nomor Telepon: {array[delete - 1][3]}')     
         user = input('| Apakah anda ingin menghapus data diatas?(y/n) ')
         if user.lower() == 'y':
-            data.remove(array[delete - 1])
-            with open(nama_file, 'w', newline="") as file:
-                write = csv.writer(file)
-                write.writerows(data)
-                print('+' + '='*60 + '+')
-                print('|' + '[ DATA BERHASIL DIHAPUS ]'.center(60) + '|')
-                print('|' + 'Klik ENTER untuk melanjutkan!'.center(60) + '|')
-                print('+' + '='*60 + '+')
-                enter  = input()
+            if delete == len(array):
+                index_id = [array[len(array) - 1][0],"","",""]
+                data.remove(array[delete - 1])
+                data.append(index_id)
+                core.tulis_csv(nama_file,data)
+            else:
+                data.remove(array[delete - 1])
+                core.tulis_csv(nama_file,data)
+            print('+' + '='*60 + '+')
+            print('|' + '[ DATA BERHASIL DIHAPUS ]'.center(60) + '|')
+            print('|' + 'Klik ENTER untuk melanjutkan!'.center(60) + '|')
+            print('+' + '='*60 + '+')
+            enter  = input()
         else:
             print('+' + '='*60 + '+')
             print('|' + '[ DATA BATAL DIHAPUS ]'.center(60) + '|')
@@ -121,11 +131,11 @@ def aksi_peminjam():
         match pilih:
             case '1':
                 core.clear()
-                nama = input("| Masukkan Nama: ")
+                nama = input("| Masukkan Nama: ").lower()
                 nim = input("| Masukkan NIM: ")
                 telp = input("| Masukkan Nomor Telepon: ")
                 if nama and nim and telp:
-                    tambah_baris_peminjam(nama.strip().title(), nim, telp) 
+                    tambah_baris_peminjam(nama, nim, telp) 
                     enter  = input() 
                     continue
                 else:
@@ -196,7 +206,7 @@ def aksi_peminjam():
                                     id = array[update - 1][0]
                                     data = core.cari_id_list(core.baca_csv(nama_file),id)
                                     print("Nama lama :", data[0][1])
-                                    nama_baru = input("Masukkan Nama yang baru : ").strip().title()
+                                    nama_baru = input("Masukkan Nama yang baru : ")
                                     nama = nama_baru if nama_baru else data[0][1]
                                     
                                     print("NIM lama :", data[0][2])
@@ -206,6 +216,7 @@ def aksi_peminjam():
                                     print("Nomor Telepon lama :", data[0][3])
                                     telp_baru = input("Masukkan Nomor Telepon yang baru : ")
                                     telp = telp_baru if telp_baru else data[0][3]
+
                                     perbarui_baris_peminjam(id, nama, nim, telp)
                                     print('+' + '='*60 + '+') 
                                     print('|' + '[ NOTICE ]'.center(60) + '|')

@@ -4,9 +4,6 @@ import pandas as pd
 import core
 # path file database kategori
 nama_file = 'database/kategori.csv'
-# function untuk menulis data ke database
-def tulis_csv(data):
-    core.tulis_csv(nama_file, data)
 
 # function untuk menampilkan daftar kategori
 def list_kategori(cari_keyword='',halaman_sekarang=1,halaman_total=1):
@@ -23,13 +20,14 @@ def list_kategori(cari_keyword='',halaman_sekarang=1,halaman_total=1):
         # if baris[0] == 'ID':
         #     continue
         kategori = baris[1]
-        data_kategori.append([i,kategori])
+        data_kategori.append([i,kategori.title()])
         i += 1
 
     data_kategori, halaman_total = core.pagination(data_kategori[1:],halaman_limit,halaman_sekarang)
     
     if len(data_kategori) < 1:
         output = "* Data Kosong *"
+        aksi_kategori()
     elif "" in kategori_file[len(kategori_file) - 1]:
         df = pd.DataFrame(data_kategori[:len(data_kategori) - 1],columns=['No','Kategori'])
         output = df.to_string(index=False)
@@ -39,7 +37,7 @@ def list_kategori(cari_keyword='',halaman_sekarang=1,halaman_total=1):
 
     hasil = ""
     for i in output.split("\n"):
-        hasil += " "*35 + i + "\n"
+        hasil += " "*31 + i + "\n"
     
     print(hasil)
 
@@ -57,6 +55,7 @@ def tambah_kategori(kat):
             print('|' + '[ DATA ALREADY EXIST ]'.center(83) + '|')
             print('|' + 'Klik ENTER untuk melanjutkan!'.center(83) + '|')
             print('+' + '='*83 + '+')
+            enter = input()
             return False
 
     if len(data) <= 1:
@@ -69,7 +68,7 @@ def tambah_kategori(kat):
 
     new_baris = [new_id, kat]
     data.append(new_baris)
-    tulis_csv(data)
+    core.tulis_csv(nama_file,data)
     print('+' + '='*83 + '+')
     print('|' + '[ NOTICE ]'.center(83) + '|')
     print('|' + 'Kategori berhasil ditambahkan'.center(83) + '|')
@@ -83,7 +82,7 @@ def perbarui_baris_kategori(id, kat):
         if  baris[0] == id:
             baris[1] = kat
             break
-    tulis_csv(data)
+    core.tulis_csv(nama_file,data)
         
 # funciton untuk menghapus kategori 
 def hapus_kategori(delete):
@@ -104,15 +103,11 @@ def hapus_kategori(delete):
                 index_id = [array[len(array)-1][0],""]
                 data.remove(array[delete - 1])
                 data.append(index_id)
-                with open(nama_file, 'w', newline="") as file:
-                    write = csv.writer(file)
-                    write.writerows(data)
+                core.tulis_csv(nama_file,data)
 
             else:
                 data.remove(array[delete - 1])
-                with open(nama_file, 'w', newline="") as file:
-                    write = csv.writer(file)
-                    write.writerows(data)
+                core.tulis_csv(nama_file,data)
             print('+' + '='*40 + '+')
             print('|' + '[ DATA BERHASIL DIHAPUS ]'.center(40) + '|')
             print('|' + 'Klik ENTER untuk melanjutkan!'.center(40) + '|')
@@ -146,7 +141,7 @@ def aksi_kategori():
                 print('+' + '='*83 + '+')
                 user = input("| Kategori: ")
                 if user:
-                    tambah_kategori(user.strip().title())
+                    tambah_kategori(user.lower())
                     enter = input()
                 else:
                     print('+' + '='*83 + '+')
@@ -205,16 +200,16 @@ def aksi_kategori():
                         elif pilihan == '3':
                             read_data = core.baca_csv(nama_file)
                             nomor_urut = 0
-                            nomor = []
+                            array = []
                             for baris in read_data:
                                 if baris[0] != 'ID':
-                                    nomor.append(baris)
+                                    array.append(baris)
                                     nomor_urut += 1
                             update = input("| Masukkan Nomor urut data yang akan diperbarui: ")
                             if update.isdigit():
                                 update = int(update)
-                                if 1 <= update <= len(nomor):
-                                    id = nomor[update - 1][0]
+                                if len(array) >= update >= 1:
+                                    id = array[update - 1][0]
                                     data = core.cari_id_list(core.baca_csv('database/kategori.csv'), id)
                                     if data:
                                         print('-'*57)
@@ -222,7 +217,7 @@ def aksi_kategori():
                                         kat_baru = input("| Masukkan Kategori yang baru : ")
                                         print('-'*57)
                                         if kat_baru:
-                                            kat = kat_baru 
+                                            kat = kat_baru.lower() 
                                         else:
                                             kat = data[0][1]
                                             print('+' + '='*55 + '+')
