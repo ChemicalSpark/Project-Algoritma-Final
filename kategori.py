@@ -22,16 +22,10 @@ def list_kategori(cari_keyword='',halaman_sekarang=1,halaman_total=1):
 
     data_kategori, halaman_total = core.pagination(data_kategori[1:],halaman_limit,halaman_sekarang)
     
-<<<<<<< HEAD
     if len(data_kategori) <= 1:
         output = "* Data Kosong *"
         # aksi_kategori()
     elif "." in kategori_file[len(kategori_file) - 1]:
-=======
-    if len(data_kategori[1:]) < 1:
-        output = "* Data Kosong *"
-    elif "" in kategori_file[len(kategori_file) - 1]:
->>>>>>> 54cb1ba2b10df6f5ecce978c02bfdd5e5cabba0c
         df = pd.DataFrame(data_kategori[:len(data_kategori) - 1],columns=['No','Kategori'])
         output = df.to_string(index=False)
     else:
