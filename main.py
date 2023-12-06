@@ -30,8 +30,17 @@ def mainmenu():
                 case '5':
                     pengaturan_admin.aksi_pengaturan()
                 case '9':
-                    core.clear()
-                    login.login()
+                    print('+' + '='*83 + '+')
+                    print('|' + '[ NOTICE ]'.center(83) + '|')
+                    print('|' + 'Apakah Anda yakin untuk kembali ke menu login? (y/n)'.center(83) + '|')
+                    print('+' + '='*83 + '+')
+                    user = input(f"| > ")
+                    if user.lower() == 'y' or user.lower() == 'yes':
+                        core.clear()
+                        login.login()
+                    else:
+                        core.clear()
+                        mainmenu()
                 case '0':
                     print('+' + '='*83 + '+')
                     print('|' + '[ NOTICE ]'.center(83) + '|')

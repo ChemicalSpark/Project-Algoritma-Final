@@ -21,6 +21,6 @@
 |                                [3] Kelola Data Peminjam                           |
 |                                [4] Kelola Peminjaman                              |
 |                                [5] Kelola Akun Admin                              |
-|                                [9] Kembali Ke Menu Login                          |
+|                                [9] Logout                                         |
 |\                               [0] Keluar                                        /|
 +-----------------------------------------------------------------------------------+
