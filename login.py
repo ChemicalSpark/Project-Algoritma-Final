@@ -1,22 +1,20 @@
 #Sesi import
-import csv
 import core
 import getpass
     
 
 SESSION_GLOBAL = {}
-        
+   
+user_file = 'database/data_admin.csv'
         
 def login():
     #Temp variabel
     data_admin = []
-    
     # Membaca database data_admin
-    with open('database/data_admin.csv', 'r') as data:
-        csvr = csv.reader(data, delimiter=',')
-        # Convert database csv ke dictionary
-        for row in csvr:
-            data_admin.append({"id": row[0], "username": row[1], "password": row[2], "role": row[3]})
+    data = core.baca_csv(user_file)
+    # Convert database csv ke dictionary
+    for i in data:
+        data_admin.append({"id": i[0], "username": i[1], "password": i[2], "role": i[3]})
 
     #Count kesempatan untuk login
     percobaan = 3

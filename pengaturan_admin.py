@@ -1,4 +1,3 @@
-import csv
 import core
 import pandas as pd
 import login
@@ -88,11 +87,9 @@ Masukkan password yang berisi:
     role = "admin"
     
     data_admin = []
-
-    with open(user_file, "r") as data:
-        csvr = csv.reader(data, delimiter=",")
-        for i in csvr:
-            data_admin.append({"id": i[0], "username": i[1], "password": i[2], "role": i[3]})
+    data = core.baca_csv(user_file)
+    for i in data:
+        data_admin.append({"id": i[0], "username": i[1], "password": i[2], "role": i[3]})
 
     for admin in data_admin:
         if username == admin['username']:
@@ -130,9 +127,8 @@ def list_data(cari_keyword="",halaman_sekarang=1,halaman_total=1):
         data_admin.append([i,username.title(),role.title()])
         i += 1
     data_admin,halaman_total = core.pagination(data_admin[1:],halaman_limit,halaman_sekarang)
-    if len(data_admin) < 1:
+    if len(data_admin[1:]) < 1:
         output = "* Data Kosong *"
-        aksi_pengaturan()
     elif "" in admin[len(admin) - 1]:
         df = pd.DataFrame(data_admin[:len(data_admin) - 1], columns=['No','Username','Role'])
         output = df.to_string(index=False)

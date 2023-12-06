@@ -1,4 +1,3 @@
-import os
 import csv
 import core
 import pandas  as pd
@@ -8,11 +7,11 @@ db_kategori   = "database/kategori.csv"
 ui_bk = "ui/kelola_buku.txt"
 
 
-def list_buku():
-    '''fungsi read data buku'''
-    with open(db_buku, mode='r', encoding='cp1252') as list_data:
-        baca_buku = list(csv.reader(list_data))
-        return baca_buku
+# def list_buku():
+#     '''fungsi read data buku'''
+#     with open(db_buku, mode='r', encoding='cp1252') as list_data:
+#         baca_buku = list(csv.reader(list_data))
+#         return baca_buku
     
 def dtframe_buku(cari_keyword='',halaman_sekarang=1,halaman_total=1):
     '''fungsi menampilkan data frame buku'''
@@ -49,9 +48,8 @@ def dtframe_buku(cari_keyword='',halaman_sekarang=1,halaman_total=1):
     data_buku,halaman_total = core.pagination(data_buku[1:],halaman_limit,halaman_sekarang)
 
     # untuk mengabaikan index bawaan pandas
-    if len(data_buku) < 1:
+    if len(data_buku[1:]) < 1:
         output = "* Data Kosong *"
-        aksi_buku()
     elif "" in daftar_buku[len(daftar_buku) - 1]:
         df = pd.DataFrame(data_buku[:len(data_buku) - 1], columns=["No", "Judul", "Kategori", "Penulis", "Penerbit", "Jumlah", "Harga"])
         output = df.to_string(index=False)
@@ -70,20 +68,19 @@ def dtframe_buku(cari_keyword='',halaman_sekarang=1,halaman_total=1):
 
 def kategori_buku():
     '''fungsi menampilakn kategori buku'''
-    with open(db_kategori, mode='r', encoding='cp1252') as kategori:
-        list_kategori = list(csv.reader(kategori))
+    list_kategori = core.baca_csv(db_kategori)
         # nomor = 0
-        tampil_kategori = ''
-        for i in list_kategori:
-            if i[0] == 'ID':
-                continue
-            # nomor += 1
-            tampil_kategori += f'[{i[0]}] {i[1]} '
-        return tampil_kategori, list_kategori
+    tampil_kategori = ''
+    for i in list_kategori:
+        if i[0] == 'ID':
+            continue
+        # nomor += 1
+        tampil_kategori += f'[{i[0]}] {i[1]} '
+    return tampil_kategori, list_kategori
 
 def tambah_buku():
     '''fungsi tambah buku'''
-    data_buku = list_buku()
+    data_buku = core.baca_csv(db_buku)
     display_kategori, list_kategori = kategori_buku()
     print('| Pilihan kategori :')
     print(display_kategori)
@@ -170,20 +167,20 @@ def perbarui_baris_buku():
                 penulis_baru = input("|Masukkan Penulis yang baru : ").lower()
                 penulis = penulis_baru if penulis_baru else data[0][3]
                 
-                print("Penerbit lama :", data[0][4])
-                penerbit_baru = input("Masukkan Penerbit yang baru : ").lower()
+                print("| Penerbit lama :", data[0][4])
+                penerbit_baru = input("| Masukkan Penerbit yang baru : ").lower()
                 penerbit = penerbit_baru if penerbit_baru else data[0][4]
 
-                print("ISBN lama :", data[0][5])
-                isbn_baru = input("Masukkan ISBN yang baru : ")
+                print("| ISBN lama :", data[0][5])
+                isbn_baru = input("| Masukkan ISBN yang baru : ")
                 isbn = isbn_baru if isbn_baru else data[0][5]
 
-                print("Jumlah lama :", data[0][6])
-                jumlah_baru = input("Masukkan Jumlah yang baru : ")
+                print("| Jumlah lama :", data[0][6])
+                jumlah_baru = input("| Masukkan Jumlah yang baru : ")
                 jumlah = jumlah_baru if jumlah_baru else data[0][6]
 
-                print("Harga lama :", data[0][7])
-                harga_baru = input("Masukkan Harga yang baru : ")
+                print("| Harga lama :", data[0][7])
+                harga_baru = input("| Masukkan Harga yang baru : ")
                 harga = harga_baru if harga_baru else data[0][7]
         else:
             print('+' + '='*60 + '+')
@@ -219,7 +216,7 @@ def perbarui_baris_buku():
 
 def hapus_buku(delete):
     '''fungsi hapus buku'''
-    data = list_buku()
+    data = core.baca_csv(db_buku)
     nomor_urut = 0
     array = []
     for baris in data:
