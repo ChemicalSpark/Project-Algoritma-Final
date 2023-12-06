@@ -98,10 +98,6 @@ def tambah_buku():
     if input_kategori and input_judul and input_penulis and input_penerbit and input_isbn and input_jumlah:
         input_kategori = int(input_kategori)
         input_jumlah = int(input_jumlah)
-        # print('+' + '='*60 + '+')
-        # print('|' + '[ PROSES ]'.center(60) + '|')
-        # print('+' + '='*60 + '+')
-        # enter  = input()
     else:
         print('+' + '='*60 + '+')
         print('|' + '[ DATA TIDAK LENGKAP ]'.center(60) + '|')
@@ -264,8 +260,7 @@ def aksi_buku():
         while True:
             core.clear()
             with open(ui_bk,'r') as buku:
-                display = buku.read() 
-                print(display)
+                print(buku.read())
                 pilihan = input("| Pilihan : ")
                 match pilihan:
                     case '1':

@@ -125,8 +125,7 @@ def aksi_peminjam():
     while True:
         core.clear()
         with open('ui/data_peminjam.txt','r') as datpnjm:
-            display = datpnjm.read()
-            print(display)
+            print(datpnjm.read())
         pilih = input("| Pilihan: ")
         match pilih:
             case '1':

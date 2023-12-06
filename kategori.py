@@ -127,8 +127,7 @@ def aksi_kategori():
     while True:
         core.clear()
         with open('ui/kategori.txt','r') as kat:
-            display = kat.read()
-            print(display)
+            print(display = kat.read())
         user = input("| Pilihan: ")
         match user:
             case '1':

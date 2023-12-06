@@ -215,9 +215,7 @@ def aksi_pengaturan():
                 register()
             elif not sesi:
                 print('+' + '='*40 + '+')
-                print('|' + '[ AKUN TIDAK ADA ]'.center(40) + '|')
-                print('|' + 'ATAU'.center(40) + '|')
-                print('|' + '[ BUKAN AKUN SUPER ADMIN! ]'.center(40) + '|')
+                print('|' + '[ AKUN INI BUKAN SUPER ADMIN! ]'.center(40) + '|')
                 print('|' + 'Klik ENTER untuk melanjutkan!'.center(40) + '|')
                 print('+' + '='*40 + '+')
                 enter = input()
@@ -331,9 +329,7 @@ Masukkan password baru yang berisi:
                             continue
             elif not sesi:
                 print('+' + '='*40 + '+')
-                print('|' + '[ AKUN TIDAK ADA ]'.center(40) + '|')
-                print('|' + 'ATAU'.center(40) + '|')
-                print('|' + '[ BUKAN AKUN SUPER ADMIN! ]'.center(40) + '|')
+                print('|' + '[ AKUN INI BUKAN SUPER ADMIN! ]'.center(40) + '|')
                 print('|' + 'Klik ENTER untuk melanjutkan!'.center(40) + '|')
                 print('+' + '='*40 + '+')
                 enter = input()
@@ -380,9 +376,7 @@ Masukkan password baru yang berisi:
                             continue
             elif not sesi:
                 print('+' + '='*40 + '+')
-                print('|' + '[ AKUN TIDAK ADA ]'.center(40) + '|')
-                print('|' + 'ATAU'.center(40) + '|')
-                print('|' + '[ BUKAN AKUN SUPER ADMIN! ]'.center(40) + '|')
+                print('|' + '[ AKUN INI BUKAN SUPER ADMIN! ]'.center(40) + '|')
                 print('|' + 'Klik ENTER untuk melanjutkan!'.center(40) + '|')
                 print('+' + '='*40 + '+')
                 enter = input()
