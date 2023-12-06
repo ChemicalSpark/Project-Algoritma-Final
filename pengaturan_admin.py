@@ -127,7 +127,7 @@ def list_data(cari_keyword="",halaman_sekarang=1,halaman_total=1):
         data_admin.append([i,username.title(),role.title()])
         i += 1
     data_admin,halaman_total = core.pagination(data_admin[1:],halaman_limit,halaman_sekarang)
-    if len(data_admin[1:]) < 1:
+    if len(data_admin[1:]) <= 1:
         output = "* Data Kosong *"
     elif "" in admin[len(admin) - 1]:
         df = pd.DataFrame(data_admin[:len(data_admin) - 1], columns=['No','Username','Role'])

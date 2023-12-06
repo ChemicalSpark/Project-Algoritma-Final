@@ -48,7 +48,7 @@ def dtframe_buku(cari_keyword='',halaman_sekarang=1,halaman_total=1):
     data_buku,halaman_total = core.pagination(data_buku[1:],halaman_limit,halaman_sekarang)
 
     # untuk mengabaikan index bawaan pandas
-    if len(data_buku[1:]) < 1:
+    if len(data_buku[1:]) <= 1:
         output = "* Data Kosong *"
     elif "" in daftar_buku[len(daftar_buku) - 1]:
         df = pd.DataFrame(data_buku[:len(data_buku) - 1], columns=["No", "Judul", "Kategori", "Penulis", "Penerbit", "Jumlah", "Harga"])

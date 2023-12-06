@@ -24,7 +24,6 @@ def list_kategori(cari_keyword='',halaman_sekarang=1,halaman_total=1):
     
     if len(data_kategori) <= 1:
         output = "* Data Kosong *"
-        # aksi_kategori()
     elif "." in kategori_file[len(kategori_file) - 1]:
         df = pd.DataFrame(data_kategori[:len(data_kategori) - 1],columns=['No','Kategori'])
         output = df.to_string(index=False)
