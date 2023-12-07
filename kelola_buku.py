@@ -6,12 +6,7 @@ db_buku = 'database/buku.csv'
 db_kategori   = "database/kategori.csv"
 ui_bk = "ui/kelola_buku.txt"
 
-def list_buku():
-    '''fungsi read data buku'''
-    with open(db_buku, mode='r') as list_data:
-        baca_buku = list(csv.reader(list_data))
-        return baca_buku
-    
+
 def dtframe_buku(cari_keyword='',halaman_sekarang=1,halaman_total=1):
     '''fungsi menampilkan data frame buku'''
     
