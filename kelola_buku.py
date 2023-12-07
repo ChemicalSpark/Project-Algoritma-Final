@@ -7,10 +7,9 @@ db_buku = 'database/buku.csv'
 db_kategori   = "database/kategori.csv"
 ui_bk = "ui/kelola_buku.txt"
 
-
 def list_buku():
     '''fungsi read data buku'''
-    with open(db_buku, mode='r', encoding='cp1252') as list_data:
+    with open(db_buku, mode='r') as list_data:
         baca_buku = list(csv.reader(list_data))
         return baca_buku
     
@@ -19,18 +18,16 @@ def dtframe_buku(cari_keyword='',halaman_sekarang=1,halaman_total=1):
     
     daftar_buku = core.baca_csv(db_buku)[1:]
     daftar_kategori = core.baca_csv(db_kategori)[1:]
+
     halaman_limit = 10
-        
     data_buku = [["No", "Judul", "Kategori", "Penulis", "Penerbit", "ISBN", "Jumlah" , "id"]]
+
     if len(cari_keyword) > 1:
         daftar_buku = core.cari_list(daftar_buku,cari_keyword,1)
         halaman_sekarang = 1
+
     i = 1
     for baris in daftar_buku:
-        # me skip baris kolom / header
-        # if baris[0] == "id":
-        #     continue
-        
         nama_kategori = ""
         judul = baris[2]
         kategori = core.cari_id_list(daftar_kategori, baris[1])
@@ -39,7 +36,6 @@ def dtframe_buku(cari_keyword='',halaman_sekarang=1,halaman_total=1):
             
         penulis = baris[3]
         penerbit = baris[4]
-        # isbn = baris[5]
         jumlah = baris[6]
         harga = baris[7]
         
@@ -70,14 +66,12 @@ def dtframe_buku(cari_keyword='',halaman_sekarang=1,halaman_total=1):
 
 def kategori_buku():
     '''fungsi menampilakn kategori buku'''
-    with open(db_kategori, mode='r', encoding='cp1252') as kategori:
+    with open(db_kategori, mode='r') as kategori:
         list_kategori = list(csv.reader(kategori))
-        # nomor = 0
         tampil_kategori = ''
         for i in list_kategori:
             if i[0] == 'ID':
                 continue
-            # nomor += 1
             tampil_kategori += f'[{i[0]}] {i[1]} '
         return tampil_kategori, list_kategori
 
@@ -98,10 +92,7 @@ def tambah_buku():
     if input_kategori and input_judul and input_penulis and input_penerbit and input_isbn and input_jumlah:
         input_kategori = int(input_kategori)
         input_jumlah = int(input_jumlah)
-        # print('+' + '='*60 + '+')
-        # print('|' + '[ PROSES ]'.center(60) + '|')
-        # print('+' + '='*60 + '+')
-        # enter  = input()
+      
     else:
         print('+' + '='*60 + '+')
         print('|' + '[ DATA TIDAK LENGKAP ]'.center(60) + '|')
@@ -118,21 +109,17 @@ def tambah_buku():
             print('+' + '='*60 + '+')
             enter = input()
             return False
-        # else:
-        #     nomor += 1
+      
     if len(data_buku) <= 1:
         id_bk = 1
     elif "" in data_buku[len(data_buku) - 1]:
         id_bk = int(data_buku[len(data_buku) - 1][0]) + 1
         data_buku.remove(data_buku[len(data_buku) - 1])
-    else :
+    else : 
         id_bk = int(data_buku[len(data_buku) - 1][0]) + 1
-    # if nomor == len(data_buku):
     new_baris = [id_bk,list_kategori[input_kategori][0],input_judul,input_penulis,input_penerbit,input_isbn,input_jumlah, input_harga]
     data_buku.append(new_baris)
-    # core.tambah_ke_csv(nama_file, new_baris)
     core.tulis_csv(db_buku,data_buku)
-        # ulangi = input('| Ingin menambahkan buku lagi(y/n) ? : ')
     print('+' + '='*60 + '+')
     print('|' + '[ DATA BERHASIL DITAMBAHKAN ]'.center(60) + '|')
     print('|' + 'Klik ENTER untuk melanjutkan!'.center(60) + '|')
@@ -140,6 +127,7 @@ def tambah_buku():
     enter  = input()
 
 def perbarui_baris_buku():
+    '''fungsi memperbarui data buku'''
     baca_data = core.baca_csv(db_buku)
     display_kategori, list_kategori = kategori_buku()
     nomor_urut = 0
@@ -148,7 +136,7 @@ def perbarui_baris_buku():
         if baris[0] != 'id':
             array.append(baris)
             nomor_urut += 1
-
+    
     update = input("| Masukkan Nomor urut data yang akan diperbarui: ")
     core.clear()
     if update.isdigit():
@@ -156,6 +144,7 @@ def perbarui_baris_buku():
         if len(array) >= update >= 1:
             id = array[update - 1][0]
             data = core.cari_id_list(core.baca_csv(db_buku),id)
+
             if data:
                 print("Kategori lama :", data[0][1])
                 print(display_kategori)
@@ -163,7 +152,6 @@ def perbarui_baris_buku():
                 if kategori_baru.isdigit():
                     kategori_baru = int(kategori_baru)
                     data[0][1] = list_kategori[kategori_baru - 1][0]
-                # kategori_baru = input("Masukkan Judul yang baru : ")
                 id_kategori = kategori_baru if kategori_baru else data[0][1]
 
                 print("|Judul lama :", data[0][2])
