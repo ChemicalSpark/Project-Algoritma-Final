@@ -44,11 +44,8 @@ def dtframe_buku(cari_keyword='',halaman_sekarang=1,halaman_total=1):
     data_buku,halaman_total = core.pagination(data_buku[1:],halaman_limit,halaman_sekarang)
 
     # untuk mengabaikan index bawaan pandas
-    if len(data_buku[1:]) <= 1:
+    if len(data_buku) < 1:
         output = "* Data Kosong *"
-    elif "" in daftar_buku[len(daftar_buku) - 1]:
-        df = pd.DataFrame(data_buku[:len(data_buku) - 1], columns=["No", "Judul", "Kategori", "Penulis", "Penerbit", "Jumlah", "Harga"])
-        output = df.to_string(index=False)
     else:
         df = pd.DataFrame(data_buku, columns=["No", "Judul", "Kategori", "Penulis", "Penerbit", "Jumlah", "Harga"])
         output = df.to_string(index=False)
@@ -110,9 +107,6 @@ def tambah_buku():
       
     if len(data_buku) <= 1:
         id_bk = 1
-    elif "" in data_buku[len(data_buku) - 1]:
-        id_bk = int(data_buku[len(data_buku) - 1][0]) + 1
-        data_buku.remove(data_buku[len(data_buku) - 1])
     else : 
         id_bk = int(data_buku[len(data_buku) - 1][0]) + 1
     new_baris = [id_bk,list_kategori[input_kategori][0],input_judul,input_penulis,input_penerbit,input_isbn,input_jumlah, input_harga]
@@ -221,26 +215,19 @@ def hapus_buku(delete):
         print(f'| ID: {array[delete - 1][0]}')
         print(f'| Judul: {array[delete - 1][2]}') 
         user = input('| Apakah anda ingin menghapus data diatas?(y/n) ')
-        if user.lower() == 'y':
-            if delete == len(array):
-                index_id = [array[len(array) - 1][0],"","","","","","",""]
-                data.remove(array[delete - 1])
-                data.append(index_id)
-                core.tulis_csv(db_buku, data)
-            else:
-                data.remove(array[delete - 1])
-                core.tulis_csv(db_buku, data)
-            print('+' + '='*60 + '+')
-            print('|' + '[ DATA BERHASIL DIHAPUS ]'.center(60) + '|')
-            print('|' + 'Klik ENTER untuk melanjutkan!'.center(60) + '|')
-            print('+' + '='*60 + '+')
-            enter  = input()
-        else:
-            print('+' + '='*60 + '+')
-            print('|' + '[ DATA BATAL DIHAPUS ]'.center(60) + '|')
-            print('|' + 'Klik ENTER untuk melanjutkan!'.center(60) + '|')
-            print('+' + '='*60 + '+')
-            enter  = input()
+        data.remove(array[delete - 1])
+        core.tulis_csv(db_buku, data)
+        print('+' + '='*60 + '+')
+        print('|' + '[ DATA BERHASIL DIHAPUS ]'.center(60) + '|')
+        print('|' + 'Klik ENTER untuk melanjutkan!'.center(60) + '|')
+        print('+' + '='*60 + '+')
+        enter  = input()
+    else:
+        print('+' + '='*60 + '+')
+        print('|' + '[ DATA BATAL DIHAPUS ]'.center(60) + '|')
+        print('|' + 'Klik ENTER untuk melanjutkan!'.center(60) + '|')
+        print('+' + '='*60 + '+')
+        enter  = input()
 
             
 def aksi_buku():

@@ -18,9 +18,6 @@ def tambah_csv(username, password, role):
             return False
         if len(data) <= 1:
             id_baru = 1
-        elif "" in data[len(data) - 1]:
-            id_baru = int(data[len(data) - 1][0]) + 1
-            data.remove(data[len(data) - 1])
         else:
             id_baru = int(data[len(data) - 1][0]) + 1
 
@@ -120,18 +117,13 @@ def list_data(cari_keyword="",halaman_sekarang=1,halaman_total=1):
     data_admin = [['No','Username','Role']]
     i = 1
     for baris in admin:
-        if baris[0] == 'ID':
-            continue
         username = baris[1]
         role = baris[3]
         data_admin.append([i,username.title(),role.title()])
         i += 1
     data_admin,halaman_total = core.pagination(data_admin[1:],halaman_limit,halaman_sekarang)
-    if len(data_admin[1:]) <= 1:
+    if len(data_admin) < 1:
         output = "* Data Kosong *"
-    elif "" in admin[len(admin) - 1]:
-        df = pd.DataFrame(data_admin[:len(data_admin) - 1], columns=['No','Username','Role'])
-        output = df.to_string(index=False)
     else:
         df = pd.DataFrame(data_admin, columns=['No','Username','Role'])
         output = df.to_string(index=False)
@@ -168,14 +160,8 @@ def hapus_akun(id_to_delete):
         print(f'| Role: {array[id_to_delete - 1][3]}')
         user = input('| Apakah anda ingin menghapus akun diatas?(y/n): ')
         if user.lower() == 'y' and array[id_to_delete - 1][3] != "super admin":
-            if id_to_delete == len(array):
-                index_id = [array[len(array) - 1][0],"","",""]
-                data.remove(array[id_to_delete - 1])
-                data.append(index_id)
-                core.tulis_csv(user_file,data)
-            else:
-                data.remove(array[id_to_delete - 1])
-                core.tulis_csv(user_file,data)
+            data.remove(array[id_to_delete - 1])
+            core.tulis_csv(user_file,data)
             print('+' + '='*45 + '+')
             print('|' + '[ DATA BERHASIL DIHAPUS ]'.center(45) + '|')
             print('|' + 'Klik ENTER untuk melanjutkan!'.center(45) + '|')

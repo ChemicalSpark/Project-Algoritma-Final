@@ -1,6 +1,6 @@
 ID,Kategori
-1,fiksi
-2,non fiksi
+1,almanak
+2,biografi
 3,manga
 4,novel
 5,ensiklopedia
@@ -9,4 +9,6 @@ ID,Kategori
 8,dokumen
 9,koleksi rujukan
 10,bibliografi
-13,
+11,kamus
+12,buku pegangan
+13,rujukan
