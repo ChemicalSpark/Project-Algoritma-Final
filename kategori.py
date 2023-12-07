@@ -1,5 +1,4 @@
 # import session
-import csv
 import pandas as pd
 import core
 # path file database kategori
@@ -23,10 +22,9 @@ def list_kategori(cari_keyword='',halaman_sekarang=1,halaman_total=1):
 
     data_kategori, halaman_total = core.pagination(data_kategori[1:],halaman_limit,halaman_sekarang)
     
-    if len(data_kategori) < 1:
+    if len(data_kategori) <= 1:
         output = "* Data Kosong *"
-        aksi_kategori()
-    elif "" in kategori_file[len(kategori_file) - 1]:
+    elif "." in kategori_file[len(kategori_file) - 1]:
         df = pd.DataFrame(data_kategori[:len(data_kategori) - 1],columns=['No','Kategori'])
         output = df.to_string(index=False)
     else:
@@ -58,7 +56,7 @@ def tambah_kategori(kat):
 
     if len(data) <= 1:
         new_id = 1
-    elif "" in data[len(data) - 1]:
+    elif "." in data[len(data) - 1]:
         new_id = int(data[len(data) - 1][0]) + 1
         data.remove(data[len(data) - 1])
     else:
@@ -98,7 +96,7 @@ def hapus_kategori(delete):
         user = input('| Apakah anda ingin menghapus data diatas?(y/n) ')
         if user.lower() == 'y':
             if delete == len(array):
-                index_id = [array[len(array)-1][0],""]
+                index_id = [array[len(array)-1][0],"."]
                 data.remove(array[delete - 1])
                 data.append(index_id)
                 core.tulis_csv(nama_file,data)
@@ -127,8 +125,7 @@ def aksi_kategori():
     while True:
         core.clear()
         with open('ui/kategori.txt','r') as kat:
-            display = kat.read()
-            print(display)
+            print(kat.read())
         user = input("| Pilihan: ")
         match user:
             case '1':
