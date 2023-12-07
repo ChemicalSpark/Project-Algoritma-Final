@@ -6,20 +6,11 @@ db_buku = 'database/buku.csv'
 db_kategori   = "database/kategori.csv"
 ui_bk = "ui/kelola_buku.txt"
 
-<<<<<<< HEAD
 def list_buku():
     '''fungsi read data buku'''
     with open(db_buku, mode='r') as list_data:
         baca_buku = list(csv.reader(list_data))
         return baca_buku
-=======
-
-# def list_buku():
-#     '''fungsi read data buku'''
-#     with open(db_buku, mode='r', encoding='cp1252') as list_data:
-#         baca_buku = list(csv.reader(list_data))
-#         return baca_buku
->>>>>>> 70ede18f7063f6e96da9af769035d1a756b0e2c9
     
 def dtframe_buku(cari_keyword='',halaman_sekarang=1,halaman_total=1):
     '''fungsi menampilkan data frame buku'''
@@ -73,7 +64,6 @@ def dtframe_buku(cari_keyword='',halaman_sekarang=1,halaman_total=1):
 
 def kategori_buku():
     '''fungsi menampilakn kategori buku'''
-<<<<<<< HEAD
     with open(db_kategori, mode='r') as kategori:
         list_kategori = list(csv.reader(kategori))
         tampil_kategori = ''
@@ -82,17 +72,6 @@ def kategori_buku():
                 continue
             tampil_kategori += f'[{i[0]}] {i[1]} '
         return tampil_kategori, list_kategori
-=======
-    list_kategori = core.baca_csv(db_kategori)
-        # nomor = 0
-    tampil_kategori = ''
-    for i in list_kategori:
-        if i[0] == 'ID':
-            continue
-        # nomor += 1
-        tampil_kategori += f'[{i[0]}] {i[1]} '
-    return tampil_kategori, list_kategori
->>>>>>> 70ede18f7063f6e96da9af769035d1a756b0e2c9
 
 def tambah_buku():
     '''fungsi tambah buku'''
@@ -111,10 +90,7 @@ def tambah_buku():
     if input_kategori and input_judul and input_penulis and input_penerbit and input_isbn and input_jumlah:
         input_kategori = int(input_kategori)
         input_jumlah = int(input_jumlah)
-<<<<<<< HEAD
       
-=======
->>>>>>> 70ede18f7063f6e96da9af769035d1a756b0e2c9
     else:
         print('+' + '='*60 + '+')
         print('|' + '[ DATA TIDAK LENGKAP ]'.center(60) + '|')
